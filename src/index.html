@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ancient Greek Syntax Analyzer</title>
-    <!-- Ancient Greek Syntax Analyzer v0.0.8, June 12, 2025: Fixed Import CEX, added Token 0: Sentence Root, top-down graph -->
-    <!-- vis.js CDN  -->
+    <!-- Ancient Greek Syntax Analyzer v0.0.10, June 13, 2025: Fixed CEX import (verbal units, token assignments), fixed relationship bug -->
+    <!-- vis.js CDN -->
     <script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
     <style>
         body {
@@ -35,7 +35,7 @@
             color: #4a4a4a;
             margin-bottom: 10px;
         }
-        #input-section, #stage1-section, #stage2-section, #stage3-section, #stage4-section {
+        #input-section, #stage1-section, #stage2-section {
             width: 80%;
             max-width: 700px;
             margin-bottom: 20px;
@@ -64,9 +64,6 @@
         #controls {
             margin: 10px 0;
         }
-        #asyndeton-checkbox {
-            margin-right: 8px;
-        }
         #token-output {
             background: #fff;
             padding: 15px;
@@ -87,11 +84,6 @@
         }
         .token-lexical:hover {
             background: #cce4f7;
-        }
-        .token-lexical.sentence-adverbial, .token-lexical.root-token {
-            background: #fff9c4;
-            border-color: #fbc02d;
-            cursor: default;
         }
         .token-lexical.assigned-vu1 {
             border-color: #005ea2;
@@ -121,14 +113,6 @@
         }
         .token-punctuation {
             display: inline;
-        }
-        #status {
-            font-size: 0.9em;
-            color: #1a1a1a;
-            margin-bottom: 20px;
-        }
-        #stage2-section, #stage3-section, #stage4-section {
-            display: none;
         }
         #verbal-unit-form {
             background: #fff;
@@ -292,18 +276,9 @@
         <input type="file" id="import-cex" accept=".cex">
     </div>
     <div id="stage1-section">
-        <h2>Stage 1: Sentence Adverbial Identification</h2>
-        <p class="instructions">Click a token to select a sentence adverbial (e.g., γὰρ), or check asyndeton if none exists, to unlock Stage 2. The adverbial or notional root (for asyndeton) will link to '0: Sentence Root' in the syntax graph. Use 'Import CEX' to load a saved analysis.</p>
-        <div id="controls">
-            <input type="checkbox" id="asyndeton-checkbox">
-            <label for="asyndeton-checkbox">This sentence illustrates <i>asyndeton</i>.</label>
-        </div>
+        <h2>Stage 1: Verbal Units and Token Assignment</h2>
+        <p class="instructions">Define verbal units by selecting Syntactic Type, Semantic Type, and Level (1–5), then click Confirm. Assign tokens to units using the dropdown; tokens can belong to multiple units for nested structures. Edit or delete units as needed. Token 0 (Sentence Root) is reserved for Stage 2.</p>
         <div id="token-output"></div>
-        <div id="status"></div>
-    </div>
-    <div id="stage2-section">
-        <h2>Stage 2: Clause/Phrase Analysis</h2>
-        <p class="instructions">Define verbal units by selecting their Syntactic Type, Semantic Type, and Level (1–5), then click Confirm. Edit or delete units as needed before assigning tokens in Stage 3.</p>
         <div id="verbal-unit-form">
             <label for="verbal-unit-id">Verbal Unit ID:</label>
             <span id="verbal-unit-id"></span>
@@ -344,21 +319,17 @@
             </thead>
             <tbody id="verbal-unit-table-body"></tbody>
         </table>
-    </div>
-    <div id="stage3-section">
-        <h2>Stage 3: Token Assignment</h2>
-        <p class="instructions">Select a verbal unit from the dropdown, then click tokens in the Unassigned Tokens list to assign them; assigned tokens move to the verbal unit’s list in sentence order and disappear from Unassigned Tokens. All verbal units and their tokens are shown below, sorted by the first token’s sentence order, with distinct border colors per unit and the current unit’s tokens highlighted (green background). Switch verbal units to reset lists: new units start empty; prior units restore their state. Click assigned tokens to unassign. The sentence adverbial or root token cannot be assigned.</p>
         <div id="assignment-form">
             <label for="verbal-unit-select">Assign to Verbal Unit:</label>
             <select id="verbal-unit-select"></select>
         </div>
         <div id="assignment-display"></div>
     </div>
-    <div id="stage4-section">
-        <h2>Stage 4: Syntactic Relationship Analysis</h2>
+    <div id="stage2-section">
+        <h2>Stage 2: Syntactic Relationship Analysis</h2>
         <div id="urn-display">CITE2-URN: <span id="cite2-urn"></span></div>
         <button id="export-cex">Export CEX</button>
-        <p class="instructions">The graph above shows a top-down view of the syntax, rooted at '0: Sentence Root' at the top, with edges labeled by relations (e.g., 'Linking Word' for γὰρ). Tokens appear only after assigning at least one relation below. In the table, assign relationships for each lexical token by selecting linked tokens (Node 1, Node 2, including '0: Sentence Root') and defining the relation (e.g., 'verb', 'conjunction'). Tokens can link to one or two other tokens (e.g., a relative pronoun to its antecedent and clause role). Export the analysis as a CEX file to save progress.</p>
+        <p class="instructions">Define syntactic relationships to build a top-down graph rooted at '0: Sentence Root'. For each token, select linked tokens (Node 1, Node 2, including '0: Sentence Root') and enter relations (e.g., 'sentence adverbial' for γὰρ, 'Unit Verb' for the main verb). A main verb linking to '0: Sentence Root' indicates asyndeton; a linking word (e.g., γὰρ) indicates none. Export as CEX to save.</p>
         <div id="graph-container"></div>
         <table id="analysis-table">
             <thead>
@@ -389,12 +360,9 @@
         const input = document.getElementById('sentence-input');
         const ctsUrnDisplay = document.getElementById('cts-urn');
         const cite2UrnDisplay = document.getElementById('cite2-urn');
-        const asyndetonCheckbox = document.getElementById('asyndeton-checkbox');
         const tokenOutput = document.getElementById('token-output');
-        const status = document.getElementById('status');
+        const stage1Section = document.getElementById('stage1-section');
         const stage2Section = document.getElementById('stage2-section');
-        const stage3Section = document.getElementById('stage3-section');
-        const stage4Section = document.getElementById('stage4-section');
         const verbalUnitForm = document.getElementById('verbal-unit-form');
         const verbalUnitIdDisplay = document.getElementById('verbal-unit-id');
         const syntacticType = document.getElementById('syntactic-type');
@@ -412,8 +380,6 @@
 
         // State management
         let tokens = [];
-        let sentenceAdverbialId = null; // ID of sentence adverbial or 0 for asyndeton
-        let stage1Complete = false;
         let verbalUnits = [];
         let verbalUnitIdCounter = 1;
         let sentenceId = generateUUID();
@@ -422,15 +388,15 @@
         let tokenAnalyses = []; // { tokenId: number, node1Id: number, node1Relation: string, node2Id: number, node2Relation: string }
         let graphNetwork = null;
         let ctsUrn = 'urn:cts:greekLit:tlg0054.tlg001.perseus-grc1:1.1.1';
-        let cite2Urn = `urn:cite2:analyzer:analysis:2025-06-12-${sentenceId}`;
+        let cite2Urn = `urn:cite2:analyzer:analysis:2025-06-13-${sentenceId}`;
 
         // Default sentence from Lysias
         const defaultSentence = "περὶ τούτου γὰρ μόνου τοῦ ἀδικήματος καὶ ἐν δημοκρατίᾳ καὶ ὀλιγαρχίᾳ ἡ αὐτὴ τιμωρία τοῖς ἀσθενεστάτοις πρὸς τοὺς τὰ μέγιστα δυναμένους ἀποδέδοται, ὥστε τὸν χείριστον τῶν αὐτῶν τυγχάνειν τῷ βελτίστῳ";
         input.value = defaultSentence;
 
-        // Tokenize the input sentence
+        // Tokenize the input sentence, adding Token 0 (Sentence Root)
         function tokenize(sentence) {
-            const tokens = [];
+            const tokens = [{ text: "Sentence Root", type: 'lexical', id: 0 }]; // Add Token 0
             let currentToken = '';
             let lexicalId = 1;
             const punctuation = [',', '.', ';', ':'];
@@ -459,20 +425,16 @@
             return tokens;
         }
 
-        // Update inline token display (Stage 1)
+        // Update inline token display for Stage 1 (exclude Token 0)
         function updateTokenDisplay() {
             tokenOutput.innerHTML = '';
             tokens.forEach((token, index) => {
+                if (token.id === 0) return; // Skip Token 0
                 const span = document.createElement('span');
                 if (token.type === 'lexical') {
-                    const isAdverbial = token.id === sentenceAdverbialId;
-                    const isRoot = token.id === 0;
-                    span.className = `token-lexical${isAdverbial ? ' sentence-adverbial' : ''}${isRoot ? ' root-token' : ''}`;
+                    span.className = 'token-lexical';
                     span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
                     span.dataset.index = index;
-                    if (!stage1Complete && !asyndetonCheckbox.checked && !isRoot) {
-                        span.addEventListener('click', () => selectSentenceAdverbial(index));
-                    }
                 } else if (token.type === 'white-space') {
                     span.className = 'token-white-space';
                     span.textContent = token.text;
@@ -482,54 +444,7 @@
                 }
                 tokenOutput.appendChild(span);
             });
-            updateStatus();
             ctsUrnDisplay.textContent = ctsUrn;
-        }
-
-        // Handle sentence adverbial selection for Stage 1
-        function selectSentenceAdverbial(index) {
-            if (asyndetonCheckbox.checked || stage1Complete) return;
-            if (tokens[index].type !== 'lexical') return;
-            sentenceAdverbialId = tokens[index].id;
-            stage1Complete = true;
-            // New: Link adverbial to Sentence Root
-            const analysis = tokenAnalyses.find(a => a.tokenId === sentenceAdverbialId) || { tokenId: sentenceAdverbialId };
-            analysis.node1Id = 0;
-            analysis.node1Relation = 'Linking Word';
-            if (!tokenAnalyses.includes(analysis)) tokenAnalyses.push(analysis);
-            updateTokenDisplay();
-            updateStage2Visibility();
-            updateAnalysisTable();
-        }
-
-        // Update status message and stage visibility
-        function updateStatus() {
-            if (asyndetonCheckbox.checked) {
-                stage1Complete = true;
-                status.textContent = 'Stage 1 complete (asyndeton selected, root token added). Stage 2 unlocked.';
-            } else if (sentenceAdverbialId !== null) {
-                stage1Complete = true;
-                status.textContent = 'Stage 1 complete (sentence adverbial selected). Stage 2 unlocked.';
-            } else {
-                stage1Complete = false;
-                status.textContent = 'Stage 1: Select a sentence adverbial or check asyndeton.';
-            }
-            updateStage2Visibility();
-        }
-
-        // Show/hide Stage 2, 3, and 4 sections
-        function updateStage2Visibility() {
-            stage2Section.style.display = stage1Complete ? 'block' : 'none';
-            updateStage3Visibility();
-            updateVerbalUnitForm();
-        }
-
-        function updateStage3Visibility() {
-            stage3Section.style.display = verbalUnits.length > 0 ? 'block' : 'none';
-            stage4Section.style.display = stage1Complete ? 'block' : 'none';
-            updateVerbalUnitSelect();
-            updateAssignmentDisplay();
-            updateAnalysisTable();
         }
 
         // Update verbal unit form ID display
@@ -539,7 +454,6 @@
 
         // Handle verbal unit confirmation or editing
         confirmBtn.addEventListener('click', () => {
-            if (!stage1Complete) return;
             let unitId;
             if (editingUnitId) {
                 const unitIndex = verbalUnits.findIndex(u => u.id === editingUnitId);
@@ -568,7 +482,8 @@
             semanticType.selectedIndex = 0;
             level.selectedIndex = 0;
             updateVerbalUnitForm();
-            updateStage3Visibility();
+            updateVerbalUnitSelect();
+            updateAssignmentDisplay();
         });
 
         // Handle verbal unit editing
@@ -593,8 +508,8 @@
             tokenAssignments = tokenAssignments.filter(a => a.verbalUnitIds.length > 0);
             updateVerbalUnitTable();
             updateTokenDisplay();
+            updateVerbalUnitSelect();
             updateAssignmentDisplay();
-            updateStage3Visibility();
         }
 
         // Update verbal unit table
@@ -631,7 +546,14 @@
                 option.textContent = `${unit.id} (${unit.syntacticType})`;
                 verbalUnitSelect.appendChild(option);
             });
+            // Reattach change event listener (Fixed CEX import bug)
+            verbalUnitSelect.removeEventListener('change', updateAssignmentDisplay);
             verbalUnitSelect.addEventListener('change', updateAssignmentDisplay);
+            // Select first unit if available
+            if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
+                verbalUnitSelect.value = verbalUnits[0].id;
+                updateAssignmentDisplay();
+            }
         }
 
         // Toggle token assignment
@@ -697,9 +619,7 @@
 
             if (selectedUnitId) {
                 const unassignedTokens = tokens.filter(t => 
-                    t.type === 'lexical' && 
-                    t.id !== sentenceAdverbialId && 
-                    t.id !== 0 && 
+                    t.type === 'lexical' && t.id !== 0 && 
                     !tokenAssignments.some(a => a.tokenId === t.id && a.verbalUnitIds.includes(selectedUnitId))
                 );
                 const unassignedDiv = document.createElement('div');
@@ -718,25 +638,14 @@
             }
         }
 
-        // New: Initialize default state with Sentence Root
-        function initializeDefaultState() {
-            if (sentenceAdverbialId) {
-                const analysis = tokenAnalyses.find(a => a.tokenId === sentenceAdverbialId) || { tokenId: sentenceAdverbialId };
-                analysis.node1Id = 0;
-                analysis.node1Relation = 'Linking Word';
-                if (!tokenAnalyses.includes(analysis)) tokenAnalyses.push(analysis);
-            }
-        }
-
-        // Updated: Update analysis table
+        // Update analysis table
         function updateAnalysisTable() {
             analysisTableBody.innerHTML = '';
-            // New: Add Sentence Root row
-            const rootText = asyndetonCheckbox.checked ? 'Sentence Root' : tokens.find(t => t.id === sentenceAdverbialId)?.text || 'Root';
+            // Add Sentence Root row
             const rootRow = document.createElement('tr');
             rootRow.innerHTML = `
                 <td>0</td>
-                <td>${rootText}</td>
+                <td>Sentence Root</td>
                 <td><select id="node1-0" disabled><option value="">N/A</option></select></td>
                 <td><input type="text" id="node1-relation-0" disabled></td>
                 <td><select id="node2-0" disabled><option value="">N/A</option></select></td>
@@ -744,22 +653,21 @@
             `;
             analysisTableBody.appendChild(rootRow);
 
-            tokens.filter(t => t.type === 'lexical').forEach(token => {
+            tokens.filter(t => t.type === 'lexical' && t.id !== 0).forEach(token => {
                 const analysis = tokenAnalyses.find(a => a.tokenId === token.id) || {};
-                const rootLabel = asyndetonCheckbox.checked ? '0: Sentence Root' : `0: ${tokens.find(t => t.id === sentenceAdverbialId)?.text || 'Root'}`;
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${token.id}</td>
                     <td>${token.text}</td>
                     <td><select id="node1-${token.id}" onchange="updateAnalysis(${token.id}, 'node1Id', this.value)">
                         <option value="">Select...</option>
-                        <option value="0" ${analysis.node1Id === 0 ? 'selected' : ''}>${rootLabel}</option>
+                        <option value="0" ${analysis.node1Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
                         ${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0).map(u => `<option value="${u.id}" ${analysis.node1Id === u.id ? 'selected' : ''}>${u.id}: ${u.text}</option>`).join('')}
                     </select></td>
                     <td><input type="text" id="node1-relation-${token.id}" value="${analysis.node1Relation || ''}" oninput="updateAnalysis(${token.id}, 'node1Relation', this.value)" autocomplete="on"></td>
                     <td><select id="node2-${token.id}" onchange="updateAnalysis(${token.id}, 'node2Id', this.value)">
                         <option value="">Select...</option>
-                        <option value="0" ${analysis.node2Id === 0 ? 'selected' : ''}>${rootLabel}</option>
+                        <option value="0" ${analysis.node2Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
                         ${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0).map(u => `<option value="${u.id}" ${analysis.node2Id === u.id ? 'selected' : ''}>${u.id}: ${u.text}</option>`).join('')}
                     </select></td>
                     <td><input type="text" id="node2-relation-${token.id}" value="${analysis.node2Relation || ''}" oninput="updateAnalysis(${token.id}, 'node2Relation', this.value)" autocomplete="on"></td>
@@ -770,29 +678,31 @@
             cite2UrnDisplay.textContent = cite2Urn;
         }
 
-        // Update token relationship
+        // Update token relationship (Fixed relationship bug)
         function updateAnalysis(tokenId, field, value) {
             let analysis = tokenAnalyses.find(a => a.tokenId === tokenId);
             if (!analysis) {
                 analysis = { tokenId };
                 tokenAnalyses.push(analysis);
             }
-            analysis[field] = value === '' ? null : (field.includes('Id') ? parseInt(value) : value);
+            // Parse node IDs as numbers to avoid undefined (Fixed relationship bug)
+            analysis[field] = value === '' ? null : (field.includes('Id') ? parseInt(value, 10) : value);
+            // Clean up empty analyses
             if (!analysis.node1Id && !analysis.node1Relation && !analysis.node2Id && !analysis.node2Relation) {
                 tokenAnalyses = tokenAnalyses.filter(a => a.tokenId !== tokenId);
             }
             updateGraph();
         }
 
-        // Updated: Graph visualization
+        // Graph visualization
         function updateGraph() {
             const activeTokenIds = new Set([0]); // Always include Sentence Root
             tokenAnalyses.forEach(analysis => {
-                if (analysis.node1Id && analysis.node1Relation) {
+                if (analysis.node1Id !== null && analysis.node1Relation) {
                     activeTokenIds.add(analysis.tokenId);
                     activeTokenIds.add(analysis.node1Id);
                 }
-                if (analysis.node2Id && analysis.node2Relation) {
+                if (analysis.node2Id !== null && analysis.node2Relation) {
                     activeTokenIds.add(analysis.tokenId);
                     activeTokenIds.add(analysis.node2Id);
                 }
@@ -800,7 +710,7 @@
 
             const nodes = [{
                 id: '0',
-                label: asyndetonCheckbox.checked ? '0: Sentence Root' : `0: ${tokens.find(t => t.id === sentenceAdverbialId)?.text || 'Root'}`,
+                label: '0: Sentence Root',
                 color: '#fff9c4',
                 font: { size: 14, bold: true }
             }].concat(tokens.filter(t => t.type === 'lexical' && activeTokenIds.has(t.id) && t.id !== 0).map(t => ({
@@ -812,7 +722,7 @@
 
             const edges = [];
             tokenAnalyses.forEach(analysis => {
-                if (analysis.node1Id && analysis.node1Relation && activeTokenIds.has(analysis.tokenId)) {
+                if (analysis.node1Id !== null && analysis.node1Relation && activeTokenIds.has(analysis.tokenId)) {
                     edges.push({
                         from: analysis.tokenId,
                         to: analysis.node1Id,
@@ -820,7 +730,7 @@
                         arrows: 'to'
                     });
                 }
-                if (analysis.node2Id && analysis.node2Relation && activeTokenIds.has(analysis.tokenId)) {
+                if (analysis.node2Id !== null && analysis.node2Relation && activeTokenIds.has(analysis.tokenId)) {
                     edges.push({
                         from: analysis.tokenId,
                         to: analysis.node2Id,
@@ -835,7 +745,7 @@
                 layout: {
                     hierarchical: {
                         direction: 'UD', // Top-down
-                        sortMethod: 'hubsize', // Fix: Root at top
+                        sortMethod: 'hubsize',
                         parentCentralization: true,
                         levelSeparation: 150,
                         nodeSpacing: 200
@@ -868,8 +778,7 @@
 
             cex += '#!citedata\n';
             cex += 'tokenId#text#verbalUnitIds\n';
-            const allTokens = asyndetonCheckbox.checked ? [{ id: 0, text: 'ROOT', type: 'lexical' }, ...tokens] : tokens;
-            allTokens.filter(t => t.type === 'lexical').forEach(t => {
+            tokens.filter(t => t.type === 'lexical').forEach(t => {
                 const units = tokenAssignments.find(a => a.tokenId === t.id)?.verbalUnitIds.join(',') || '';
                 cex += `${t.id}#${t.text.replace(/#/g, '\\#')}#${units}\n`;
             });
@@ -885,10 +794,10 @@
             cex += '#!citerelations\n';
             cex += 'source#target#relation\n';
             tokenAnalyses.forEach(a => {
-                if (a.node1Id !== null && a.node1Relation) {
+                if (a.node1Id !== null && a.node1Relation && a.node1Id !== undefined) {
                     cex += `${a.tokenId}#${a.node1Id}#${a.node1Relation.replace(/#/g, '\\#')}\n`;
                 }
-                if (a.node2Id !== null && a.node2Relation) {
+                if (a.node2Id !== null && a.node2Relation && a.node2Id !== undefined) {
                     cex += `${a.tokenId}#${a.node2Id}#${a.node2Relation.replace(/#/g, '\\#')}\n`;
                 }
             });
@@ -902,7 +811,7 @@
             URL.revokeObjectURL(url);
         }
 
-        // Fixed: Import state from CEX
+        // Import state from CEX (Fixed CEX import bug)
         function importCex(fileContent) {
             const lines = fileContent.split('\n');
             let currentBlock = '';
@@ -945,38 +854,12 @@
             // Update state
             sentenceId = sentenceData.id || generateUUID();
             input.value = sentenceData.text || defaultSentence;
-            tokens = tokenize(input.value);
-
-            // Handle asyndeton and sentence adverbial
-            asyndetonCheckbox.checked = tokenData.some(t => t.id === 0 && t.text === 'ROOT');
-            if (asyndetonCheckbox.checked) {
-                if (!tokens.some(t => t.id === 0)) {
-                    tokens.unshift({ text: "ROOT", type: 'lexical', id: 0 });
-                }
-                sentenceAdverbialId = 0;
-                stage1Complete = true;
-            } else {
-                const adverbialToken = tokenData.find(t => t.text === 'γὰρ');
-                sentenceAdverbialId = adverbialToken ? adverbialToken.id : null;
-                stage1Complete = !!sentenceAdverbialId;
-                if (sentenceAdverbialId) {
-                    const analysis = tokenAnalyses.find(a => a.tokenId === sentenceAdverbialId) || { tokenId: sentenceAdverbialId };
-                    analysis.node1Id = 0;
-                    analysis.node1Relation = 'Linking Word';
-                    if (!tokenAnalyses.includes(analysis)) tokenAnalyses.push(analysis);
-                }
-            }
-
-            // Restore verbal units
+            tokens = tokenize(input.value); // Includes Token 0
             verbalUnits = unitData;
             verbalUnitIdCounter = Math.max(...verbalUnits.map(u => parseInt(u.id.replace('VU', '')) || 0)) + 1 || 1;
-
-            // Restore token assignments
             tokenAssignments = tokenData
                 .filter(t => tokens.some(tok => tok.id === t.id))
                 .map(t => ({ tokenId: t.id, verbalUnitIds: t.verbalUnitIds.filter(id => verbalUnits.some(u => u.id === id)) }));
-
-            // Restore relationships
             tokenAnalyses = [];
             relationData.forEach(r => {
                 if (tokens.some(t => t.id === r.source) || r.source === 0) {
@@ -995,12 +878,14 @@
                 }
             });
 
-            // Refresh UI
+            // Refresh UI (Fixed CEX import bug)
+            stage1Section.style.display = 'block';
+            stage2Section.style.display = 'block';
             updateTokenDisplay();
             updateVerbalUnitTable();
+            updateVerbalUnitSelect();
             updateAssignmentDisplay();
             updateAnalysisTable();
-            updateStatus();
         }
 
         // Event listeners for export/import
@@ -1020,48 +905,28 @@
         input.addEventListener('input', () => {
             const sentence = input.value.trim();
             tokens = tokenize(sentence);
-            sentenceAdverbialId = null;
-            stage1Complete = false;
             verbalUnits = [];
             verbalUnitIdCounter = 1;
             sentenceId = generateUUID();
             tokenAssignments = [];
             tokenAnalyses = [];
             ctsUrn = '';
-            cite2Urn = `urn:cite2:analyzer:analysis:2025-06-12-${sentenceId}`;
+            cite2Urn = `urn:cite2:analyzer:analysis:2025-06-13-${sentenceId}`;
             updateTokenDisplay();
             updateVerbalUnitTable();
+            updateVerbalUnitSelect();
             updateAssignmentDisplay();
-            updateAnalysisTable();
-            updateStatus();
-        });
-
-        // Handle asyndeton checkbox changes
-        asyndetonCheckbox.addEventListener('change', () => {
-            sentenceAdverbialId = asyndetonCheckbox.checked ? 0 : null;
-            if (asyndetonCheckbox.checked) {
-                tokens = tokens.filter(t => t.id !== 0);
-                tokens.unshift({ text: "ROOT", type: 'lexical', id: 0 });
-                stage1Complete = true;
-            } else {
-                tokens = tokens.filter(t => t.id !== 0);
-                stage1Complete = false;
-                // Reset adverbial linkage
-                const analysis = tokenAnalyses.find(a => a.tokenId === sentenceAdverbialId);
-                if (analysis) {
-                    analysis.node1Id = null;
-                    analysis.node1Relation = null;
-                }
-            }
-            updateTokenDisplay();
-            updateStage2Visibility();
             updateAnalysisTable();
         });
 
         // Initialize with default sentence
         tokens = tokenize(defaultSentence);
-        initializeDefaultState();
         updateTokenDisplay();
+        updateVerbalUnitForm();
+        updateVerbalUnitTable();
+        updateVerbalUnitSelect();
+        updateAssignmentDisplay();
+        updateAnalysisTable();
     </script>
 </body>
 </html>

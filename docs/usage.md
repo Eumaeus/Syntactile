@@ -9,62 +9,46 @@ This guide explains how to use the Ancient Greek Syntax Analyzer, a web applicat
 4. Edit the sentence, load a new one by CTS-URN (in future versions), or import a CEX file to restore an analysis.
 
 ## Stages
-### Stage 1: Sentence Adverbial Identification
-- **Goal**: Identify a sentence adverbial (e.g., γὰρ) or mark the sentence as asyndeton.
+### Stage 1: Verbal Units and Token Assignment
+- **Goal**: Define verbal units (clauses or phrases) and assign tokens to them.
 - **Steps**:
-  - View tokenized sentence (lexical tokens in boxes with superscripted IDs, e.g., `περὶ¹`).
-  - Click a lexical token to select it as the adverbial (highlights yellow, links to '0: Sentence Root' as 'Linking Word').
-  - Or check the “This sentence illustrates *asyndeton*” box to add a notional `ROOT⁰` token.
-  - Click “Import CEX” to load a saved analysis, instantly restoring the full UI state (sentence, units, assignments, relationships, graph).
-- **Result**: The adverbial or `ROOT⁰` links to '0: Sentence Root'. Stage 2 unlocks.
-
-### Stage 2: Clause/Phrase Analysis
-- **Goal**: Define verbal units (clauses or phrases).
-- **Steps**:
-  - In the form, select:
+  - View the tokenized sentence (lexical tokens in boxes with superscripted IDs, e.g., `περὶ¹`).
+  - In the form, define a verbal unit by selecting:
     - **Syntactic Type**: Independent Clause, Subordinate Clause, etc.
     - **Semantic Type**: Transitive, Intransitive, Linking.
     - **Level**: 1–5 (for indentation, e.g., 1 for top-level, 2 for subordinate).
-  - The form shows the proposed ID (e.g., `VU1`) or editing ID.
   - Click “Confirm Verbal Unit” to add or “Save Changes” to edit.
   - Edit or delete units using the table’s buttons.
-- **Result**: Unlocks Stage 3 after defining one unit.
-
-### Stage 3: Token Assignment
-- **Goal**: Assign lexical tokens to verbal units, allowing tokens to belong to multiple units for nested structures (e.g., an attributive participle within a clause).
-- **Steps**:
   - Select a verbal unit from the dropdown (e.g., `VU1 (Subordinate Clause)`).
-  - The “Unassigned Tokens” list shows tokens not yet assigned to the selected unit.
-  - Click a token in “Unassigned Tokens” to assign it; it moves to the unit’s assigned list (in sentence order) and disappears from “Unassigned Tokens.”
+  - In the “Unassigned Tokens” list, click a token to assign it; it moves to the unit’s assigned list (in sentence order) and disappears from “Unassigned Tokens.”
   - Click an assigned token under the selected unit to unassign it, returning it to “Unassigned Tokens.”
-  - Switch to a new unit to start with an empty assigned list and all eligible tokens in “Unassigned Tokens.”
-  - Switch to a prior unit to restore its state.
-  - All units and tokens are displayed, sorted by the first token’s sentence order, with distinct border colors per unit and the current unit’s tokens highlighted (green background).
-  - The adverbial or `ROOT⁰` is yellow and non-assignable.
+  - Switch to a new unit to start with an empty assigned list; switch to a prior unit to restore its state.
+  - Tokens can belong to multiple units for nested structures (e.g., an attributive participle within a clause).
+  - Token 0 (“Sentence Root”) is reserved for Stage 2 and not shown.
 - **Display**:
-  - Units show assigned tokens, indented by level.
+  - Units show assigned tokens, indented by level, with distinct border colors per unit and the current unit’s tokens highlighted (green background).
   - “Unassigned Tokens” lists tokens available for the current unit.
-- **Result**: Prepares for Stage 4.
 
-### Stage 4: Syntactic Relationship Analysis
+### Stage 2: Syntactic Relationship Analysis
 - **Goal**: Define syntactic relationships to build a directed graph, identified by a CITE2-URN.
 - **Steps**:
-  - The graph above the table shows a top-down view, rooted at '0: Sentence Root' at the top, with dependent nodes extending downward and edges labeled by relations (e.g., ‘Linking Word’ for γὰρ). Tokens appear only after assigning relations.
-  - In the table below, for each token (including '0: Sentence Root'):
+  - The graph above the table shows a top-down view, rooted at '0: Sentence Root' at the top, with dependent nodes extending downward and edges labeled by relations (e.g., 'sentence adverbial' for γὰρ, 'Unit Verb' for the main verb).
+  - In the table, for each token (starting with '0: Sentence Root'):
     - **Token ID** and **Text**: Shown.
-    - **Node 1**: Select a token ID to link to (e.g., ‘0: Sentence Root’, first option).
-    - **Node 1 Relation**: Enter the relationship (e.g., “verb”).
+    - **Node 1**: Select a token ID to link to (e.g., '0: Sentence Root').
+    - **Node 1 Relation**: Enter the relationship (e.g., “sentence adverbial” for γὰρ, “Unit Verb” for the main verb).
     - **Node 2**: Optionally select another token ID.
-    - **Node 2 Relation**: Enter the second relationship (if applicable).
-  - The adverbial (e.g., γὰρ) is prelinked to ‘0: Sentence Root’ with ‘Linking Word’.
+    - **Node 2 Relation**: Enter the second relationship (if applicable, e.g., for relative pronouns).
+  - A main verb linking to '0: Sentence Root' with 'Unit Verb' indicates asyndeton; a linking word (e.g., γὰρ) with 'sentence adverbial' indicates none.
   - Click “Export CEX” to save the analysis as a `.cex` file, capturing the full state.
   - The graph updates as relations are assigned, remaining zoomable.
 - **Result**: A graph representing the sentence’s syntactic structure, exportable/importable via CEX.
 
 ## Tips
+- Import a CEX file to instantly restore both stages, including verbal units, token assignments, relationships, and the graph.
 - Changing the input resets all stages unless importing a CEX file.
-- Use Edit/Delete in Stage 2 to refine units.
-- Tokens can link to one or two other tokens (e.g., relative pronouns).
+- Use Edit/Delete in Stage 1 to refine units.
+- Tokens can link to one or two other tokens (e.g., relative pronouns to their antecedent and clause role).
 - Export CEX to save progress; import to resume exactly where you left off.
 
 ## Support
