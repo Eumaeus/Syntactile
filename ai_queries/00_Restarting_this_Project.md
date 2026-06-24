@@ -125,6 +125,8 @@ Everything is up to date in the repo. I will give the code my own thorough exami
 
 I have put those `console.log` commands in `scripts.js`, I hope in the places you intended. The latest code is in the repo so you can check.
 
+I also updated the `// Show stages` block with the new code.
+
 I cleared all caches, reloaded the page, and imported `analysis-with-vu.cex`. Below is the report in Chrome's JS Console:
 
 ~~~

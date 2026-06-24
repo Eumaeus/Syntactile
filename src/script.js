@@ -209,7 +209,7 @@ function deleteVerbalUnit(id) {
 function updateVerbalUnitTable() {
 
     console.log('%c[updateVerbalUnitTable] called with', 'color: green', verbalUnits.length, 'units');
-    
+
     verbalUnitTableBody.innerHTML = '';
     verbalUnits.forEach(unit => {
         const row = document.createElement('tr');
@@ -626,16 +626,19 @@ function importCex(fileContent) {
     if (stage1Section) stage1Section.style.display = 'block';
     if (stage2Section) stage2Section.style.display = 'block';
 
-    // Refresh everything
+    // Refresh Stage 1
     updateTokenDisplay();
     updateVerbalUnitTable();
     updateVerbalUnitSelect();
 
-    // Force Stage 1 assignment display with a tiny delay (helps in some cases)
-    setTimeout(() => {
-        updateAssignmentDisplay();
-    }, 0);
+    // Ensure a verbal unit is selected so the assignment display has context
+    if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
+        verbalUnitSelect.value = verbalUnits[0].id;
+    }
 
+    updateAssignmentDisplay();
+
+    // Refresh Stage 2
     updateAnalysisTable();
 }
 
