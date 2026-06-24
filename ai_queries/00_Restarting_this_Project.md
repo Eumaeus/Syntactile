@@ -110,3 +110,13 @@ The repository is updated with the latest files.
 Alas, this still does not update the definitions of verbal units and assignment of tokens to verbal units. I am sorry this is being such a hassle, and I really appreciate your ongoing help!
 
 Everything is up-to-date in the repo. I added a new, better `analysis.cex` that uses the syntax relations from the popup menus that you provided.
+
+---
+
+I have tried CEX import with the file `sample_output/analysis-with-vu.cex`, which has correct data for assignment, but the app did not repopulate the assignments to verbal units.
+
+I also started from scratch with a new analysis that defines and assigns verbal units, and does a partial syntactic analysis. That export is at `sample_output/analysis_6e56df80-1e75-4981-b4bc-c97f27bde13b.cex`.
+
+We are still not updating the page upon CEX import. 
+
+Everything is up to date in the repo. I will give the code my own thorough examination, for what it is worth, and see if I can spot any clues. Thanks for sticking with me on this!
