@@ -1,0 +1,43 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-3925dbe0-3778-4948-a846-2816a8c141fe
+text#urn:cts:greekLit:tlg0054.tlg001.perseus-grc1:1.1.1
+
+#!citedata
+sentence#text
+3925dbe0-3778-4948-a846-2816a8c141fe#μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος οὐλομένην, ἣ μυρί' Ἀχαιοῖς ἄλγε' ἔθηκε.
+
+#!citedata
+tokenId#text#verbalUnitIds
+0#Sentence Root#
+1#μῆνιν#VU1
+2#ἄειδε#VU1
+3#θεὰ#VU1
+4#Πηληϊάδεω#VU1
+5#Ἀχιλῆος#VU1
+6#οὐλομένην#VU1
+7#ἣ#VU2
+8#μυρί'#VU2
+9#Ἀχαιοῖς#VU2
+10#ἄλγε'#VU2
+11#ἔθηκε#VU2
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+VU2#Subordinate Clause#Transitive#2
+
+#!citerelations
+source#target#relation
+3#2#Subject
+1#2#Direct Object
+2#0#Unit Verb
+5#1#Genitive
+4#5#Genitive
+6#1#Attribute
+7#1#Attribute
+7#11#Subject
+11#7#Unit Verb
+10#11#Direct Object
+8#10#Attribute
+9#11#Dative

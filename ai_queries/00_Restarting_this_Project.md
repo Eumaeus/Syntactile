@@ -6,7 +6,7 @@ Syntactile aims to allow a student to document the syntax of an Ancient Greek se
 
 The current code—html, css, js—is all in `src/index.html`.
 
-Sample output is in `docs/analysis.cex`.
+Sample output is in `sample_output/analysis.cex`.
 
 A draft of instructions for the user, which you might find helpful for getting back into this project, is in `docs/usage.md`.
 
