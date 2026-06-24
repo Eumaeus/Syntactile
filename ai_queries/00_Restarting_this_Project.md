@@ -105,3 +105,8 @@ I've updated the function `importCex()` in `src/script.js`, but it is still not 
 
 The repository is updated with the latest files.
 
+---
+
+Alas, this still does not update the definitions of verbal units and assignment of tokens to verbal units. I am sorry this is being such a hassle, and I really appreciate your ongoing help!
+
+Everything is up-to-date in the repo. I added a new, better `analysis.cex` that uses the syntax relations from the popup menus that you provided.

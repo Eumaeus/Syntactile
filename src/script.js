@@ -282,35 +282,32 @@ function updateAssignmentDisplay() {
     assignmentDisplay.innerHTML = '';
     const selectedUnitId = verbalUnitSelect.value;
 
-    const unitDisplayData = verbalUnits.map(unit => {
+    verbalUnits.forEach(unit => {
         const assignedTokens = tokenAssignments
             .filter(a => a.verbalUnitIds.includes(unit.id))
             .map(a => tokens.find(t => t.id === a.tokenId))
             .filter(Boolean)
             .sort((a, b) => a.id - b.id);
 
-        return { unit, assignedTokens };
-    }).sort((a, b) => {
-        const firstA = a.assignedTokens[0]?.id ?? Infinity;
-        const firstB = b.assignedTokens[0]?.id ?? Infinity;
-        return firstA - firstB;
-    });
-
-    unitDisplayData.forEach(({ unit, assignedTokens }) => {
-        if (assignedTokens.length === 0) return;
-
         const row = document.createElement('div');
         row.className = `verbal-unit-row level-${unit.level}`;
+
+        const hasTokens = assignedTokens.length > 0;
         row.innerHTML = `
-            <div class="unit-info">${unit.id} (${unit.syntacticType}, ${unit.semanticType}, Level ${unit.level})</div>
+            <div class="unit-info">
+                ${unit.id} (${unit.syntacticType}, ${unit.semanticType}, Level ${unit.level})
+                ${!hasTokens ? ' — <em>no tokens assigned yet</em>' : ''}
+            </div>
             <div class="tokens"></div>
         `;
+
         const tokensContainer = row.querySelector('.tokens');
 
         assignedTokens.forEach(token => {
             const span = document.createElement('span');
             const vuIndex = verbalUnits.findIndex(u => u.id === unit.id);
             const isCurrent = unit.id === selectedUnitId;
+
             span.className = `token-lexical assigned-vu${Math.min(vuIndex + 1, 5)}${isCurrent ? ' current-unit' : ''}`;
             span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
             span.dataset.tokenId = token.id;
@@ -320,30 +317,36 @@ function updateAssignmentDisplay() {
             }
             tokensContainer.appendChild(span);
         });
+
         assignmentDisplay.appendChild(row);
     });
 
-    // Unassigned tokens section
+    // Unassigned tokens section for the currently selected unit
     if (selectedUnitId) {
         const unassigned = tokens.filter(t =>
             t.type === 'lexical' && t.id !== 0 &&
             !tokenAssignments.some(a => a.tokenId === t.id && a.verbalUnitIds.includes(selectedUnitId))
         );
 
-        const unassignedDiv = document.createElement('div');
-        unassignedDiv.id = 'unassigned-tokens';
-        unassignedDiv.innerHTML = '<div class="unit-info">Unassigned Tokens (click to assign):</div><div class="tokens"></div>';
-        const container = unassignedDiv.querySelector('.tokens');
+        if (unassigned.length > 0) {
+            const unassignedDiv = document.createElement('div');
+            unassignedDiv.id = 'unassigned-tokens';
+            unassignedDiv.innerHTML = `
+                <div class="unit-info">Unassigned Tokens (click to assign):</div>
+                <div class="tokens"></div>
+            `;
+            const container = unassignedDiv.querySelector('.tokens');
 
-        unassigned.forEach(token => {
-            const span = document.createElement('span');
-            span.className = 'token-lexical';
-            span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
-            span.dataset.tokenId = token.id;
-            span.addEventListener('click', () => toggleTokenAssignment(token.id));
-            container.appendChild(span);
-        });
-        assignmentDisplay.appendChild(unassignedDiv);
+            unassigned.forEach(token => {
+                const span = document.createElement('span');
+                span.className = 'token-lexical';
+                span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
+                span.dataset.tokenId = token.id;
+                span.addEventListener('click', () => toggleTokenAssignment(token.id));
+                container.appendChild(span);
+            });
+            assignmentDisplay.appendChild(unassignedDiv);
+        }
     }
 }
 
@@ -548,7 +551,7 @@ function exportCex() {
     URL.revokeObjectURL(url);
 }
 
-// Import from CEX (robust version)
+// Import a CEX file of analysis and update the page to reflect
 function importCex(fileContent) {
     const lines = fileContent.split('\n');
     let currentBlock = '';
@@ -559,17 +562,12 @@ function importCex(fileContent) {
 
     lines.forEach(line => {
         line = line.trim();
-        if (line.startsWith('#!citelibrary')) {
-            currentBlock = 'citelibrary';
-        } else if (line.startsWith('#!citedata') && line.includes('sentence#text')) {
-            currentBlock = 'sentence';
-        } else if (line.startsWith('#!citedata') && line.includes('tokenId#text#verbalUnitIds')) {
-            currentBlock = 'tokens';
-        } else if (line.startsWith('#!citedata') && line.includes('unitId#syntacticType#semanticType#level')) {
-            currentBlock = 'units';
-        } else if (line.startsWith('#!citerelations')) {
-            currentBlock = 'relations';
-        } else if (line && !line.startsWith('#')) {
+        if (line.startsWith('#!citelibrary')) currentBlock = 'citelibrary';
+        else if (line.startsWith('#!citedata') && line.includes('sentence#text')) currentBlock = 'sentence';
+        else if (line.startsWith('#!citedata') && line.includes('tokenId#text#verbalUnitIds')) currentBlock = 'tokens';
+        else if (line.startsWith('#!citedata') && line.includes('unitId#syntacticType#semanticType#level')) currentBlock = 'units';
+        else if (line.startsWith('#!citerelations')) currentBlock = 'relations';
+        else if (line && !line.startsWith('#')) {
             const parts = line.split('#').map(p => p.replace(/\\#/g, '#'));
             if (currentBlock === 'citelibrary') {
                 if (parts[0] === 'urn') cite2Urn = parts[1];
@@ -577,49 +575,29 @@ function importCex(fileContent) {
             } else if (currentBlock === 'sentence' && parts.length >= 2) {
                 sentenceData = { id: parts[0], text: parts[1] };
             } else if (currentBlock === 'tokens' && parts.length >= 3) {
-                tokenData.push({
-                    id: parseInt(parts[0]),
-                    text: parts[1],
-                    verbalUnitIds: parts[2].split(',').filter(Boolean)
-                });
+                tokenData.push({ id: parseInt(parts[0]), text: parts[1], verbalUnitIds: parts[2].split(',').filter(Boolean) });
             } else if (currentBlock === 'units' && parts.length >= 4) {
-                unitData.push({
-                    id: parts[0],
-                    syntacticType: parts[1],
-                    semanticType: parts[2],
-                    level: parseInt(parts[3])
-                });
+                unitData.push({ id: parts[0], syntacticType: parts[1], semanticType: parts[2], level: parseInt(parts[3]) });
             } else if (currentBlock === 'relations' && parts.length >= 3) {
-                relationData.push({
-                    source: parseInt(parts[0]),
-                    target: parseInt(parts[1]),
-                    relation: parts[2]
-                });
+                relationData.push({ source: parseInt(parts[0]), target: parseInt(parts[1]), relation: parts[2] });
             }
         }
     });
 
-    // === Restore state ===
+    // Restore state
     sentenceId = sentenceData.id || generateUUID();
     input.value = sentenceData.text || defaultSentence;
     tokens = tokenize(input.value);
     verbalUnits = unitData;
-    verbalUnitIdCounter = Math.max(
-        1,
-        ...verbalUnits.map(u => parseInt(u.id.replace('VU', '')) || 0)
-    ) + 1;
+    verbalUnitIdCounter = Math.max(1, ...verbalUnits.map(u => parseInt(u.id.replace('VU', '')) || 0)) + 1;
 
-    // Rebuild tokenAssignments
     tokenAssignments = tokenData
         .filter(t => tokens.some(tok => tok.id === t.id))
         .map(t => ({
             tokenId: t.id,
-            verbalUnitIds: t.verbalUnitIds.filter(id =>
-                verbalUnits.some(u => u.id === id)
-            )
+            verbalUnitIds: t.verbalUnitIds.filter(id => verbalUnits.some(u => u.id === id))
         }));
 
-    // Rebuild tokenAnalyses (supports dual relations)
     tokenAnalyses = [];
     relationData.forEach(r => {
         let analysis = tokenAnalyses.find(a => a.tokenId === r.source);
@@ -636,14 +614,20 @@ function importCex(fileContent) {
         }
     });
 
-    // === Force full UI refresh (this is the key fix) ===
+    // Show stages
     if (stage1Section) stage1Section.style.display = 'block';
     if (stage2Section) stage2Section.style.display = 'block';
 
+    // Refresh everything
     updateTokenDisplay();
     updateVerbalUnitTable();
     updateVerbalUnitSelect();
-    updateAssignmentDisplay();
+
+    // Force Stage 1 assignment display with a tiny delay (helps in some cases)
+    setTimeout(() => {
+        updateAssignmentDisplay();
+    }, 0);
+
     updateAnalysisTable();
 }
 
