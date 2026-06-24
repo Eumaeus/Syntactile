@@ -81,3 +81,6 @@ Thank you for your past help getting me this far and for any future help you can
 - Visualizations of syntax graphs, and reuse of them.
 - Graph comparison for scholarship and grading
 
+----
+
+Conversation started on Grok: <https://x.com/i/grok/share/d9f5a6eae6174ad58c467d12eb380180>
