@@ -26,7 +26,11 @@ As a first step, I would like for both of us to review the existing code, improv
 
 As a first step, I would like to confirm that you understand the work we have done and the goals. Since you were instrumental in getting me this far, I doubt we'll have any problem picking up now.
 
+### Step:
+
 I would like the CSS and JS to be pulled out into separate files.
+
+### Step:
 
 Currently, when a user is documenting the syntax, the "Node 1 Relation" and "Node 2 Relation" fields are freeform text-entry fields. I would like those to be menus. 
 
@@ -55,11 +59,19 @@ Initially, I wanted to keep it flexible as I tried different sentences. Now I wo
 
 For the record, the reason there are two possible relations is to account for things like relative pronouns. A relative pronoun might be the direct object of a verb in a main clause, *and* the subject of the relative clause.
 
-In the current code, in the graph-view, it seems that the edges are not appearing.
+### Step:
 
-So this might be enough to start with, as the first concrete step.
+Currently, when a user saves the state of work as an exported CEX, and reimports it into the webapp, the app populates the syntax graph-data and graph visualization perfectly. 
+
+It does not re-populate the section on token assignment to verbal units, although that data is saved very cleanly in the CEX output file.
+
+### Conclusion:
+
+So this might be enough to start with, as the first concrete steps.
 
 What follows is not for right now, but (for my own thinking) a list of next steps to consider is below.
+
+Thank you for your past help getting me this far and for any future help you can offer!
 
 ## Future Steps
 
