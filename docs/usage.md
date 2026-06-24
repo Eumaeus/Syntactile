@@ -36,7 +36,27 @@ This guide explains how to use the Ancient Greek Syntax Analyzer, a web applicat
   - In the table, for each token (starting with '0: Sentence Root'):
     - **Token ID** and **Text**: Shown.
     - **Node 1**: Select a token ID to link to (e.g., '0: Sentence Root').
-    - **Node 1 Relation**: Enter the relationship (e.g., “sentence adverbial” for γὰρ, “Unit Verb” for the main verb).
+    - **Node 1 Relation**: Enter the relationship (e.g., “sentence adverbial” for γάρ, “Unit Verb” for the main verb).
+      - Sentence Adverbial (*e.g.* γάρ, δέ)
+      - Unit Adverbial (*e.g.* ἵνα, ὡς, μέν, δέ)
+      - Conjunction
+      - Apostrophe
+      - Finite Unit Verb
+      - Infinitive Unit Verb
+      - Circumstantial Participle
+      - Attributive Participle
+      - Auxiliary Infinitive
+      - Articular Infinitive
+      - Adverbial
+      - Preposition
+      - Attribute
+      - Article
+      - Subject
+      - Appositive
+      - Direct Object
+      - Dative
+      - Genitive
+      - Accusative
     - **Node 2**: Optionally select another token ID.
     - **Node 2 Relation**: Enter the second relationship (if applicable, e.g., for relative pronouns).
   - A main verb linking to '0: Sentence Root' with 'Unit Verb' indicates asyndeton; a linking word (e.g., γὰρ) with 'sentence adverbial' indicates none.
