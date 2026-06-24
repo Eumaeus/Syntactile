@@ -207,6 +207,9 @@ function deleteVerbalUnit(id) {
 
 // Update verbal unit table
 function updateVerbalUnitTable() {
+
+    console.log('%c[updateVerbalUnitTable] called with', 'color: green', verbalUnits.length, 'units');
+    
     verbalUnitTableBody.innerHTML = '';
     verbalUnits.forEach(unit => {
         const row = document.createElement('tr');
@@ -613,6 +616,11 @@ function importCex(fileContent) {
             analysis.node2Relation = r.relation;
         }
     });
+
+    console.log('%c[IMPORT] verbalUnits loaded:', 'color: blue', verbalUnits);
+    console.log('%c[IMPORT] tokenAssignments loaded:', 'color: blue', tokenAssignments);
+    console.log('%c[IMPORT] verbalUnitTableBody exists?', 'color: blue', !!verbalUnitTableBody);
+    console.log('%c[IMPORT] assignmentDisplay exists?', 'color: blue', !!assignmentDisplay);
 
     // Show stages
     if (stage1Section) stage1Section.style.display = 'block';

@@ -120,3 +120,21 @@ I also started from scratch with a new analysis that defines and assigns verbal 
 We are still not updating the page upon CEX import. 
 
 Everything is up to date in the repo. I will give the code my own thorough examination, for what it is worth, and see if I can spot any clues. Thanks for sticking with me on this!
+
+---
+
+I have put those `console.log` commands in `scripts.js`, I hope in the places you intended. The latest code is in the repo so you can check.
+
+I cleared all caches, reloaded the page, and imported `analysis-with-vu.cex`. Below is the report in Chrome's JS Console:
+
+~~~
+url:  http://localhost:9000/
+wtp.js:52 referrer:  
+script.js:211 [updateVerbalUnitTable] called with 0 units
+script.js:620 [IMPORT] verbalUnits loaded: []
+script.js:621 [IMPORT] tokenAssignments loaded: []
+script.js:622 [IMPORT] verbalUnitTableBody exists? true
+script.js:623 [IMPORT] assignmentDisplay exists? true
+script.js:211 [updateVerbalUnitTable] called with 0 units
+~~~
+
