@@ -565,29 +565,64 @@ function importCex(fileContent) {
 
     lines.forEach(line => {
         line = line.trim();
-        if (line.startsWith('#!citelibrary')) currentBlock = 'citelibrary';
-        else if (line.startsWith('#!citedata') && line.includes('sentence#text')) currentBlock = 'sentence';
-        else if (line.startsWith('#!citedata') && line.includes('tokenId#text#verbalUnitIds')) currentBlock = 'tokens';
-        else if (line.startsWith('#!citedata') && line.includes('unitId#syntacticType#semanticType#level')) currentBlock = 'units';
-        else if (line.startsWith('#!citerelations')) currentBlock = 'relations';
-        else if (line && !line.startsWith('#')) {
+        if (!line) return;
+
+        // === Detect block headers (handles headers on next line) ===
+        if (line.startsWith('#!citelibrary')) {
+            currentBlock = 'citelibrary';
+        } 
+        else if (line.startsWith('#!citedata')) {
+            currentBlock = 'awaitingHeader';
+        } 
+        else if (line === 'sentence#text') {
+            currentBlock = 'sentence';
+        } 
+        else if (line === 'tokenId#text#verbalUnitIds') {
+            currentBlock = 'tokens';
+        } 
+        else if (line === 'unitId#syntacticType#semanticType#level') {
+            currentBlock = 'units';
+        } 
+        else if (line.startsWith('#!citerelations')) {
+            currentBlock = 'relations';
+        } 
+        // === Parse actual data lines ===
+        else if (!line.startsWith('#')) {
             const parts = line.split('#').map(p => p.replace(/\\#/g, '#'));
+
             if (currentBlock === 'citelibrary') {
                 if (parts[0] === 'urn') cite2Urn = parts[1];
                 if (parts[0] === 'text') ctsUrn = parts[1];
-            } else if (currentBlock === 'sentence' && parts.length >= 2) {
+            } 
+            else if (currentBlock === 'sentence' && parts.length >= 2) {
                 sentenceData = { id: parts[0], text: parts[1] };
-            } else if (currentBlock === 'tokens' && parts.length >= 3) {
-                tokenData.push({ id: parseInt(parts[0]), text: parts[1], verbalUnitIds: parts[2].split(',').filter(Boolean) });
-            } else if (currentBlock === 'units' && parts.length >= 4) {
-                unitData.push({ id: parts[0], syntacticType: parts[1], semanticType: parts[2], level: parseInt(parts[3]) });
-            } else if (currentBlock === 'relations' && parts.length >= 3) {
-                relationData.push({ source: parseInt(parts[0]), target: parseInt(parts[1]), relation: parts[2] });
+            } 
+            else if (currentBlock === 'tokens' && parts.length >= 3) {
+                tokenData.push({
+                    id: parseInt(parts[0]),
+                    text: parts[1],
+                    verbalUnitIds: parts[2].split(',').filter(Boolean)
+                });
+            } 
+            else if (currentBlock === 'units' && parts.length >= 4) {
+                unitData.push({
+                    id: parts[0],
+                    syntacticType: parts[1],
+                    semanticType: parts[2],
+                    level: parseInt(parts[3])
+                });
+            } 
+            else if (currentBlock === 'relations' && parts.length >= 3) {
+                relationData.push({
+                    source: parseInt(parts[0]),
+                    target: parseInt(parts[1]),
+                    relation: parts[2]
+                });
             }
         }
     });
 
-    // Restore state
+    // === Restore application state ===
     sentenceId = sentenceData.id || generateUUID();
     input.value = sentenceData.text || defaultSentence;
     tokens = tokenize(input.value);
@@ -617,28 +652,19 @@ function importCex(fileContent) {
         }
     });
 
-    console.log('%c[IMPORT] verbalUnits loaded:', 'color: blue', verbalUnits);
-    console.log('%c[IMPORT] tokenAssignments loaded:', 'color: blue', tokenAssignments);
-    console.log('%c[IMPORT] verbalUnitTableBody exists?', 'color: blue', !!verbalUnitTableBody);
-    console.log('%c[IMPORT] assignmentDisplay exists?', 'color: blue', !!assignmentDisplay);
-
-    // Show stages
+    // === Refresh the entire UI ===
     if (stage1Section) stage1Section.style.display = 'block';
     if (stage2Section) stage2Section.style.display = 'block';
 
-    // Refresh Stage 1
     updateTokenDisplay();
     updateVerbalUnitTable();
     updateVerbalUnitSelect();
 
-    // Ensure a verbal unit is selected so the assignment display has context
     if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
         verbalUnitSelect.value = verbalUnits[0].id;
     }
 
     updateAssignmentDisplay();
-
-    // Refresh Stage 2
     updateAnalysisTable();
 }
 

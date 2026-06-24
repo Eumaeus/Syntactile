@@ -141,3 +141,14 @@ script.js:211 [updateVerbalUnitTable] called with 0 units
 ~~~
 
 Please let me know, though, if I pasted the logging lines incorrectly in the JS.
+
+---
+
+And that works perfectly! Thank you so much!
+
+Okay. Thanks to your help, the first stage of bringing this project forward is nicely complete! I will be back for more help soon.
+
+I cannot express how grateful and excited I am. This tool will be a cornerstone of my teaching, and also a useful tool for my own scholarship down the road. I am amazed that with Grok's help I can realize a complex project like this so quickly and cleanly.
+
+This conversation on Grok: <https://x.com/i/grok/share/d9f5a6eae6174ad58c467d12eb380180>
+
