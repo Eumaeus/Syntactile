@@ -548,7 +548,7 @@ function exportCex() {
     URL.revokeObjectURL(url);
 }
 
-// Import from CEX
+// Import from CEX (robust version)
 function importCex(fileContent) {
     const lines = fileContent.split('\n');
     let currentBlock = '';
@@ -559,12 +559,17 @@ function importCex(fileContent) {
 
     lines.forEach(line => {
         line = line.trim();
-        if (line.startsWith('#!citelibrary')) currentBlock = 'citelibrary';
-        else if (line.startsWith('#!citedata') && line.includes('sentence#text')) currentBlock = 'sentence';
-        else if (line.startsWith('#!citedata') && line.includes('tokenId#text#verbalUnitIds')) currentBlock = 'tokens';
-        else if (line.startsWith('#!citedata') && line.includes('unitId#syntacticType#semanticType#level')) currentBlock = 'units';
-        else if (line.startsWith('#!citerelations')) currentBlock = 'relations';
-        else if (line && !line.startsWith('#')) {
+        if (line.startsWith('#!citelibrary')) {
+            currentBlock = 'citelibrary';
+        } else if (line.startsWith('#!citedata') && line.includes('sentence#text')) {
+            currentBlock = 'sentence';
+        } else if (line.startsWith('#!citedata') && line.includes('tokenId#text#verbalUnitIds')) {
+            currentBlock = 'tokens';
+        } else if (line.startsWith('#!citedata') && line.includes('unitId#syntacticType#semanticType#level')) {
+            currentBlock = 'units';
+        } else if (line.startsWith('#!citerelations')) {
+            currentBlock = 'relations';
+        } else if (line && !line.startsWith('#')) {
             const parts = line.split('#').map(p => p.replace(/\\#/g, '#'));
             if (currentBlock === 'citelibrary') {
                 if (parts[0] === 'urn') cite2Urn = parts[1];
@@ -572,29 +577,49 @@ function importCex(fileContent) {
             } else if (currentBlock === 'sentence' && parts.length >= 2) {
                 sentenceData = { id: parts[0], text: parts[1] };
             } else if (currentBlock === 'tokens' && parts.length >= 3) {
-                tokenData.push({ id: parseInt(parts[0]), text: parts[1], verbalUnitIds: parts[2].split(',').filter(Boolean) });
+                tokenData.push({
+                    id: parseInt(parts[0]),
+                    text: parts[1],
+                    verbalUnitIds: parts[2].split(',').filter(Boolean)
+                });
             } else if (currentBlock === 'units' && parts.length >= 4) {
-                unitData.push({ id: parts[0], syntacticType: parts[1], semanticType: parts[2], level: parseInt(parts[3]) });
+                unitData.push({
+                    id: parts[0],
+                    syntacticType: parts[1],
+                    semanticType: parts[2],
+                    level: parseInt(parts[3])
+                });
             } else if (currentBlock === 'relations' && parts.length >= 3) {
-                relationData.push({ source: parseInt(parts[0]), target: parseInt(parts[1]), relation: parts[2] });
+                relationData.push({
+                    source: parseInt(parts[0]),
+                    target: parseInt(parts[1]),
+                    relation: parts[2]
+                });
             }
         }
     });
 
-    // Restore state
+    // === Restore state ===
     sentenceId = sentenceData.id || generateUUID();
     input.value = sentenceData.text || defaultSentence;
     tokens = tokenize(input.value);
     verbalUnits = unitData;
-    verbalUnitIdCounter = Math.max(1, ...verbalUnits.map(u => parseInt(u.id.replace('VU', '')) || 0)) + 1;
+    verbalUnitIdCounter = Math.max(
+        1,
+        ...verbalUnits.map(u => parseInt(u.id.replace('VU', '')) || 0)
+    ) + 1;
 
+    // Rebuild tokenAssignments
     tokenAssignments = tokenData
         .filter(t => tokens.some(tok => tok.id === t.id))
         .map(t => ({
             tokenId: t.id,
-            verbalUnitIds: t.verbalUnitIds.filter(id => verbalUnits.some(u => u.id === id))
+            verbalUnitIds: t.verbalUnitIds.filter(id =>
+                verbalUnits.some(u => u.id === id)
+            )
         }));
 
+    // Rebuild tokenAnalyses (supports dual relations)
     tokenAnalyses = [];
     relationData.forEach(r => {
         let analysis = tokenAnalyses.find(a => a.tokenId === r.source);
@@ -611,9 +636,9 @@ function importCex(fileContent) {
         }
     });
 
-    // Full UI refresh
-    stage1Section.style.display = 'block';
-    stage2Section.style.display = 'block';
+    // === Force full UI refresh (this is the key fix) ===
+    if (stage1Section) stage1Section.style.display = 'block';
+    if (stage2Section) stage2Section.style.display = 'block';
 
     updateTokenDisplay();
     updateVerbalUnitTable();

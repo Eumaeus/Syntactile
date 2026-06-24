@@ -99,3 +99,9 @@ When importing a CEX file, it is still not updating the page for assignment of t
 
 Everything is up to date in the repo.
 
+---
+
+I've updated the function `importCex()` in `src/script.js`, but it is still not re-populating the HTML for token assignment to verbal units when loading a CEX file. Updating the syntax graph and all associated HTML fields works perfectly.
+
+The repository is updated with the latest files.
+
