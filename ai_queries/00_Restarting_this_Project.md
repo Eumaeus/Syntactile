@@ -138,3 +138,4 @@ script.js:623 [IMPORT] assignmentDisplay exists? true
 script.js:211 [updateVerbalUnitTable] called with 0 units
 ~~~
 
+Please let me know, though, if I pasted the logging lines incorrectly in the JS.
