@@ -1,0 +1,8 @@
+//Herodotus, Histories
+
+label	text	sentence
+Herodotus 1.0.1-1.0.45	texts/Herodotus_tokenized.cex	urn:cts:greekLit:tlg0016.tlg001.grc:1.0.token.1-1.0.token.45
+Herodotus 1.1.1-1.1.12	texts/Herodotus_tokenized.cex	urn:cts:greekLit:tlg0016.tlg001.grc:1.1.token.1-1.1.token.12
+Herodotus 1.1.13-1.1.58	texts/Herodotus_tokenized.cex	urn:cts:greekLit:tlg0016.tlg001.grc:1.1.token.13-1.1.token.58
+Herodotus 1.1.59-1.1.74	texts/Herodotus_tokenized.cex	urn:cts:greekLit:tlg0016.tlg001.grc:1.1.token.59-1.1.token.74
+Herodotus 1.1.75-1.1.87	texts/Herodotus_tokenized.cex	urn:cts:greekLit:tlg0016.tlg001.grc:1.1.token.75-1.1.token.87

@@ -54,15 +54,17 @@ const RELATION_OPTIONS = [
     "Auxiliary Infinitive",
     "Articular Infinitive",
     "Adverbial",
+    "Correlated",
     "Preposition",
     "Attribute",
-    "Article",
+    "Predicative",
     "Subject",
     "Appositive",
     "Direct Object",
     "Dative",
     "Genitive",
-    "Accusative"
+    "Accusative",
+    "Punctuation"
 ];
 
 // Default sentence from Homer

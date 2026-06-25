@@ -1,11 +1,11 @@
 #!citelibrary
 name#Ancient Greek Syntax Analysis
-urn#urn:cite2:analyzer:analysis:2025-06-13-6e56df80-1e75-4981-b4bc-c97f27bde13b
+urn#urn:cite2:analyzer:analysis:2025-06-13-2fcbd8da-4c68-4702-a31d-afc58a973392
 text#urn:cts:greekLit:tlg0054.tlg001.perseus-grc1:1.1.1
 
 #!citedata
 sentence#text
-6e56df80-1e75-4981-b4bc-c97f27bde13b#μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος οὐλομένην, ἣ μυρί' Ἀχαιοῖς ἄλγε' ἔθηκε.
+2fcbd8da-4c68-4702-a31d-afc58a973392#μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος οὐλομένην, ἣ μυρί' Ἀχαιοῖς ἄλγε' ἔθηκε.
 
 #!citedata
 tokenId#text#verbalUnitIds
@@ -16,18 +16,16 @@ tokenId#text#verbalUnitIds
 4#Πηληϊάδεω#VU1
 5#Ἀχιλῆος#VU1
 6#οὐλομένην#VU1
-7#ἣ#VU2
-8#μυρί'#VU2
-9#Ἀχαιοῖς#VU2
-10#ἄλγε'#VU2
-11#ἔθηκε#VU2
+7#ἣ#
+8#μυρί'#
+9#Ἀχαιοῖς#
+10#ἄλγε'#
+11#ἔθηκε#
 
 #!citedata
 unitId#syntacticType#semanticType#level
 VU1#Independent Clause#Transitive#1
-VU2#Subordinate Clause#Transitive#2
+VU2#Independent Clause#Transitive#2
 
 #!citerelations
 source#target#relation
-2#0#Finite Unit Verb
-3#2#Subject

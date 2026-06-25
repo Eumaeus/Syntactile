@@ -1,0 +1,11 @@
+//Homer, Iliad
+
+label	text	sentence
+Iliad 1.1.1-1.7.8	texts/Iliad_tokenized.cex	urn:cts:greekLit:tlg0012.tlg001.allen:1.1.token.1-1.7.token.8
+Iliad 1.8.1-1.8.9	texts/Iliad_tokenized.cex	urn:cts:greekLit:tlg0012.tlg001.allen:1.8.token.1-1.8.token.9
+Iliad 1.9.1-1.9.5	texts/Iliad_tokenized.cex	urn:cts:greekLit:tlg0012.tlg001.allen:1.9.token.1-1.9.token.5
+Iliad 1.9.6-1.12.2	texts/Iliad_tokenized.cex	urn:cts:greekLit:tlg0012.tlg001.allen:1.9.token.6-1.12.token.2
+Iliad 1.12.3-1.16.8	texts/Iliad_tokenized.cex	urn:cts:greekLit:tlg0012.tlg001.allen:1.12.token.3-1.16.token.8
+Iliad 1.17.1-1.19.9	texts/Iliad_tokenized.cex	urn:cts:greekLit:tlg0012.tlg001.allen:1.17.token.1-1.19.token.9
+Iliad 1.20.1-1.21.6	texts/Iliad_tokenized.cex	urn:cts:greekLit:tlg0012.tlg001.allen:1.20.token.1-1.21.token.6
+

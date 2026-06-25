@@ -1,6 +1,10 @@
 # Ancient Greek Syntax Analyzer
 
-A web application for students to tokenize and analyze the syntax of Ancient Greek sentences, designed for educational use in classical studies. Supports four stages: tokenization, clause/phrase analysis, token assignment, and syntactic relationship analysis, with CTS-URNs for texts and CITE2-URNs for analyses.
+A web application for students to tokenize and analyze the syntax of Ancient Greek sentences, designed for educational use in classical studies. Supports four stages: tokenization, clause analysis (“verbal units”), assignment of tokens to verbal units, morphological identification, and syntactic relationship analysis.
+
+Greek words are canonically identified with CTS-URNs. CITE2-URNs as identifiers for analyses.
+
+Analyses can be exported as a `.cex` file, which can be re-imported for further work or revision. 
 
 ## Features
 - Input an Ancient Greek sentence (pre-populated with a Lysias sentence, identified by CTS-URN).
@@ -17,7 +21,8 @@ A web application for students to tokenize and analyze the syntax of Ancient Gre
   - Tokens display in sentence order.
   - Unassign by clicking assigned tokens per unit. Adverbial/`ROOT⁰` ineligible.
   - Displays units with tokens, indented by level (1em/level).
-- **Stage 4: Syntactic Relationship Analysis**:
+- **Stage 4: Morphological Descripton of Tokens
+- **Stage 5: Syntactic Relationship Analysis**:
   - Define relationships between tokens (Node 1, Node 1 Relation, Node 2, Node 2 Relation).
   - Inline table editing with dropdowns for token IDs and text inputs for relations.
   - Visualizes a directed graph (vis.js) rooted at adverbial/`ROOT⁰`.
@@ -26,6 +31,12 @@ A web application for students to tokenize and analyze the syntax of Ancient Gre
 - Prepares for CSV/TSV export with `sentenceId`.
 
 ## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Eumaeus/ancient-greek-syntax-analyzer.git
+
+1. Clone the repository.
+1. Navigate to the `src` directory.
+1. Start a server.
+1. Visit the address.
+
+
+
+

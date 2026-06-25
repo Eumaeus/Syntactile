@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ancient Greek Syntax Analyzer</title>
     <!-- Ancient Greek Syntax Analyzer v0.0.10, June 13, 2025: Fixed CEX import (verbal units, token assignments), fixed relationship bug -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <!-- vis.js CDN -->
-    <script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+    <!--<script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>-->
+    <!-- vis.js LOCAL ("Airplane Mode!") -->
+    <script src="js/vis-network.min.js"></script>
     
 </head>
 <body>
@@ -19,8 +21,8 @@
         <input type="file" id="import-cex" accept=".cex">
     </div>
     <div id="stage1-section">
-        <h2>Stage 1: Verbal Units and Token Assignment</h2>
-        <p class="instructions">Define verbal units by selecting Syntactic Type, Semantic Type, and Level (1–5), then click Confirm. Assign tokens to units using the dropdown; tokens can belong to multiple units for nested structures. Edit or delete units as needed. Token 0 (Sentence Root) is reserved for Stage 2.</p>
+        <h2>Stage 1: Define Verbal Units</h2>
+        <p class="instructions">Define a verbal unit by selecting Syntactic Type, Semantic Type, and Nesting Level (1–5). Then click Confirm. Select the new verbal unit from the menu “Assign to Verbal Unit:”. Assign tokens to this unit; tokens can belong to multiple units for nested structures. Edit or delete units as needed. Define a second unit if appropriate; select it from the menu; and assign tokens to it. Repeat until all tokens have been assigned to one or more units. Token 0 (Sentence Root) is reserved for Stage 2.</p>
         <div id="token-output"></div>
         <div id="verbal-unit-form">
             <label for="verbal-unit-id">Verbal Unit ID:</label>
@@ -69,7 +71,11 @@
         <div id="assignment-display"></div>
     </div>
     <div id="stage2-section">
-        <h2>Stage 2: Syntactic Relationship Analysis</h2>
+        <h2>Stage 2: Morphological Analysis</h2>
+        <p>TBD</p>
+    </div>
+    <div id="stage3-section">
+        <h2>Stage 3: Syntactic Relationship Analysis</h2>
         <div id="urn-display">CITE2-URN: <span id="cite2-urn"></span></div>
         <button id="export-cex">Export CEX</button>
         <p class="instructions">Define syntactic relationships to build a top-down graph rooted at '0: Sentence Root'. For each token, select linked tokens (Node 1, Node 2, including '0: Sentence Root') and enter relations (e.g., 'sentence adverbial' for γὰρ, 'Unit Verb' for the main verb). A main verb linking to '0: Sentence Root' indicates asyndeton; a linking word (e.g., γὰρ) indicates none. Export as CEX to save.</p>
@@ -89,6 +95,6 @@
         </table>
     </div>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
