@@ -14,7 +14,6 @@ const cite2UrnDisplay = document.getElementById('cite2-urn');
 const tokenOutput = document.getElementById('token-output');
 const stage1Section = document.getElementById('stage1-section');
 const stage2Section = document.getElementById('stage2-section');
-const stage3Section = document.getElementById('stage3-section');
 const verbalUnitForm = document.getElementById('verbal-unit-form');
 const verbalUnitIdDisplay = document.getElementById('verbal-unit-id');
 const syntacticType = document.getElementById('syntactic-type');
@@ -26,7 +25,8 @@ const verbalUnitSelect = document.getElementById('verbal-unit-select');
 const assignmentDisplay = document.getElementById('assignment-display');
 const analysisTableBody = document.getElementById('analysis-table-body');
 const graphContainer = document.getElementById('graph-container');
-const exportCexBtn = document.getElementById('export-cex');
+const exportCexBtn1 = document.getElementById('export-cex1');
+const exportCexBtn2 = document.getElementById('export-cex2');
 const importCexBtn = document.getElementById('import-cex-btn');
 const importCexInput = document.getElementById('import-cex');
 
@@ -184,7 +184,6 @@ confirmBtn.addEventListener('click', () => {
 // Staged reveal handlers 1
 const doneStage1 = document.getElementById('done-stage1');
 if (doneStage1 && stage2Section) {
-    console.log("click stage 1");
     doneStage1.addEventListener('click', () => {
         stage2Section.style.display = 'block';
         stage2Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -194,6 +193,7 @@ if (doneStage1 && stage2Section) {
 }
 
 // Staged reveal handlers 2
+/*
 const doneStage2 = document.getElementById('done-stage2');
 if (doneStage2 && stage3Section) {
     console.log("click stage 2");
@@ -204,6 +204,7 @@ if (doneStage2 && stage3Section) {
         // stage1Section.style.display = 'none';
     });
 }
+*/
 
 
 
@@ -695,14 +696,14 @@ function importCex(fileContent) {
     // === Refresh the entire UI ===
     if (stage1Section) stage1Section.style.display = 'block';
     if (stage2Section) stage2Section.style.display = 'block';
-    if (stage3Section) stage2Section.style.display = 'block';
+    // if (stage3Section) stage2Section.style.display = 'block';
 
     updateTokenDisplay();
     updateVerbalUnitTable();
     updateVerbalUnitSelect();
     // Staged reveal: hide later stages initially
     if (stage2Section) stage2Section.style.display = 'none';
-    if (stage3Section) stage3Section.style.display = 'none';
+    // if (stage3Section) stage3Section.style.display = 'none';
 
     if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
         verbalUnitSelect.value = verbalUnits[0].id;
@@ -713,7 +714,8 @@ function importCex(fileContent) {
 }
 
 // Button listeners
-exportCexBtn.addEventListener('click', exportCex);
+exportCexBtn1.addEventListener('click', exportCex);
+exportCexBtn2.addEventListener('click', exportCex);
 importCexBtn.addEventListener('click', () => importCexInput.click());
 importCexInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -736,4 +738,4 @@ updateAnalysisTable();
 
 // Staged reveal: hide later stages initially
 if (stage2Section) stage2Section.style.display = 'none';
-if (stage3Section) stage3Section.style.display = 'none';
+// if (stage3Section) stage3Section.style.display = 'none';

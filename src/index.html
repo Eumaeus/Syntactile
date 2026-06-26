@@ -23,6 +23,8 @@
     <div id="stage1-section">
         <h2>Stage 1: Define Verbal Units</h2>
         <p class="instructions">Define a verbal unit by selecting Syntactic Type, Semantic Type, and Nesting Level (1–5). Then click Confirm. Select the new verbal unit from the menu “Assign to Verbal Unit:”. Assign tokens to this unit; tokens can belong to multiple units for nested structures. Edit or delete units as needed. Define a second unit if appropriate; select it from the menu; and assign tokens to it. Repeat until all tokens have been assigned to one or more units. Token 0 (Sentence Root) is reserved for Stage 2.</p>
+        <button id="export-cex1">Export CEX</button>
+
         <div id="token-output"></div>
         <div id="verbal-unit-form">
             <label for="verbal-unit-id">Verbal Unit ID:</label>
@@ -75,11 +77,12 @@
 
         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
             <button id="done-stage1" class="action-btn" style="background-color: #2e7d32; color: white;">
-                ✓ Done with Stage 1 — Show Morphological Analysis (Stage 2)
+                ✓ Done with Stage 1 — Show Syntactic Relationship Analysis (Stage 2)
             </button>
         </div>
 
     </div>
+    <!--
     <div id="stage2-section">
         <h2>Stage 2: Morphological Analysis</h2>
         <p>TBD</p>
@@ -91,11 +94,12 @@
         </div>
 
     </div>
-    <div id="stage3-section">
-        <h2>Stage 3: Syntactic Relationship Analysis</h2>
+    -->
+    <div id="stage2-section">
+        <h2>Stage 2: Syntactic Relationship Analysis</h2>
         <div id="urn-display">CITE2-URN: <span id="cite2-urn"></span></div>
-        <button id="export-cex">Export CEX</button>
         <p class="instructions">Define syntactic relationships to build a top-down graph rooted at '0: Sentence Root'. For each token, select linked tokens (Node 1, Node 2, including '0: Sentence Root') and enter relations (e.g., 'sentence adverbial' for γὰρ, 'Unit Verb' for the main verb). A main verb linking to '0: Sentence Root' indicates asyndeton; a linking word (e.g., γὰρ) indicates none. Export as CEX to save.</p>
+        <button id="export-cex2">Export CEX</button>
         <div id="graph-container"></div>
         <table id="analysis-table">
             <thead>

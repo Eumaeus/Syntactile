@@ -133,7 +133,7 @@ h2 {
     background: #f0f0f0;
     border-radius: 4px;
 }
-#confirm-btn, #export-cex, #import-cex-btn {
+#confirm-btn, #export-cex1, #export-cex2, #export-cex #import-cex-btn {
     padding: 10px;
     font-size: 0.95em;
     background: #005ea2;
@@ -143,9 +143,11 @@ h2 {
     cursor: pointer;
     transition: background 0.2s;
     margin-right: 10px;
+    margin-bottom: 5px;
 }
-#confirm-btn:hover, #export-cex:hover, #import-cex-btn:hover {
+#confirm-btn:hover, #export-cex2:hover, #export-cex1:hover, #import-cex-btn:hover {
     background: #003e73;
+    color: yellow;
 }
 #import-cex {
     display: none;

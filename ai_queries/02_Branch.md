@@ -16,5 +16,7 @@ I have used branches before, but your knowledge of GitHub best-practices is infi
 
 So let's branch the code before working on "Importing Sentences."
 
+---
 
+Thanks for this! I am all set to move forward. I think I am confident with using the GitHub web-interface. I will post my thoughts on importing sentences shortly.
 
