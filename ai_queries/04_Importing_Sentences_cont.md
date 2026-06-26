@@ -167,3 +167,18 @@ Thanks for this help!
 
 Okay, thanks! I believe I have made those changes. I'll test it, and check in changes to the repository. 
 
+---
+
+Okay, those changes introduced some new problems.
+
+I can load a sentence from CEX.
+
+The abstract-token "Sentence-Root", with a tokenDisplayId of `0` formerly did not appear in the list of tokens, which was correct. Now it does appear.
+
+Further, when I define two Verbal Units, and try to add a token to the first one ("VU1"), all tokens disappear from the pool except "Sentence Root".
+
+There are no errors in the console.
+
+It is quite possible that I have not comprehensively made the changes necessary to use `tokenDisplayId` alongside `tokenId`. 
+
+When I define a Verbal Unit, in the token diplay under "Unassigned Tokens (click to assign):" the superscripted display IDs are showing "undefined".
