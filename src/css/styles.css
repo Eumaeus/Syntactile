@@ -257,3 +257,49 @@ h2 {
     background: #fff;
     margin-bottom: 15px;
 }
+
+/* Tokens in the Unassigned list that are already used in other Verbal Units */
+.token-lexical.has-other-assignments {
+    background-color: #fff8e1;      /* light amber/yellow */
+    border: 1px dashed #ff9800;     /* dashed orange border */
+    color: #5d4037;                 /* slightly muted text */
+}
+
+.token-lexical.has-other-assignments:hover {
+    background-color: #ffecb3;
+    border-style: solid;
+}
+
+.info-icon {
+    cursor: help;
+    margin-left: 4px;
+    font-size: 0.9em;
+    color: #005ea2;
+    vertical-align: middle;
+    user-select: none;
+}
+
+.info-icon:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-20%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    max-width: 420px;
+    width: 400px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    pointer-events: none;
+}
+
+.info-icon {
+    position: relative;
+    display: inline-block;
+}

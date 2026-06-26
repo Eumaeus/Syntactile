@@ -14,6 +14,7 @@ const cite2UrnDisplay = document.getElementById('cite2-urn');
 const tokenOutput = document.getElementById('token-output');
 const stage1Section = document.getElementById('stage1-section');
 const stage2Section = document.getElementById('stage2-section');
+const stage3Section = document.getElementById('stage3-section');
 const verbalUnitForm = document.getElementById('verbal-unit-form');
 const verbalUnitIdDisplay = document.getElementById('verbal-unit-id');
 const syntacticType = document.getElementById('syntactic-type');
@@ -180,6 +181,32 @@ confirmBtn.addEventListener('click', () => {
     updateAssignmentDisplay();
 });
 
+// Staged reveal handlers 1
+const doneStage1 = document.getElementById('done-stage1');
+if (doneStage1 && stage2Section) {
+    console.log("click stage 1");
+    doneStage1.addEventListener('click', () => {
+        stage2Section.style.display = 'block';
+        stage2Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Optional: collapse/hide stage1 after proceeding
+        // stage1Section.style.display = 'none';
+    });
+}
+
+// Staged reveal handlers 2
+const doneStage2 = document.getElementById('done-stage2');
+if (doneStage2 && stage3Section) {
+    console.log("click stage 2");
+    doneStage2.addEventListener('click', () => {
+        stage3Section.style.display = 'block';
+        stage3Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Optional: collapse/hide stage1 after proceeding
+        // stage1Section.style.display = 'none';
+    });
+}
+
+
+
 // Handle verbal unit editing
 function editVerbalUnit(id) {
     const unit = verbalUnits.find(u => u.id === id);
@@ -345,11 +372,22 @@ function updateAssignmentDisplay() {
             unassigned.forEach(token => {
                 const span = document.createElement('span');
                 span.className = 'token-lexical';
+
+                const assignment = tokenAssignments.find(a => a.tokenId === token.id);
+                const isAssignedElsewhere = assignment && assignment.verbalUnitIds.length > 0;
+
+                if (isAssignedElsewhere) {
+                    span.classList.add('has-other-assignments');
+                    const otherVUs = assignment.verbalUnitIds.join(', ');
+                    span.title = `Already assigned to: ${otherVUs} (still assignable here)`;
+                }
+
                 span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
                 span.dataset.tokenId = token.id;
                 span.addEventListener('click', () => toggleTokenAssignment(token.id));
                 container.appendChild(span);
             });
+
             assignmentDisplay.appendChild(unassignedDiv);
         }
     }
@@ -657,10 +695,14 @@ function importCex(fileContent) {
     // === Refresh the entire UI ===
     if (stage1Section) stage1Section.style.display = 'block';
     if (stage2Section) stage2Section.style.display = 'block';
+    if (stage3Section) stage2Section.style.display = 'block';
 
     updateTokenDisplay();
     updateVerbalUnitTable();
     updateVerbalUnitSelect();
+    // Staged reveal: hide later stages initially
+    if (stage2Section) stage2Section.style.display = 'none';
+    if (stage3Section) stage3Section.style.display = 'none';
 
     if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
         verbalUnitSelect.value = verbalUnits[0].id;
@@ -691,3 +733,7 @@ updateVerbalUnitTable();
 updateVerbalUnitSelect();
 updateAssignmentDisplay();
 updateAnalysisTable();
+
+// Staged reveal: hide later stages initially
+if (stage2Section) stage2Section.style.display = 'none';
+if (stage3Section) stage3Section.style.display = 'none';

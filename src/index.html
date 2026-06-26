@@ -27,7 +27,10 @@
         <div id="verbal-unit-form">
             <label for="verbal-unit-id">Verbal Unit ID:</label>
             <span id="verbal-unit-id"></span>
-            <label for="syntactic-type">Syntactic Type:</label>
+            <label for="syntactic-type">
+                Syntactic Type:
+                <span class="info-icon" data-tooltip="Independent Clause: main verb of the sentence&#10;Subordinate Clause: introduced by a subordinating conjunction&#10;Circumstantial Participle: adverbial participle (time, cause, condition, etc.)&#10;Attributive Participle: modifies a noun like an adjective&#10;Indirect Statement with Infinitive / Participle: reported speech or thought">ℹ️</span>
+            </label>
             <select id="syntactic-type">
                 <option value="Independent Clause">Independent Clause</option>
                 <option value="Subordinate Clause">Subordinate Clause</option>
@@ -69,10 +72,24 @@
             <select id="verbal-unit-select"></select>
         </div>
         <div id="assignment-display"></div>
+
+        <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
+            <button id="done-stage1" class="action-btn" style="background-color: #2e7d32; color: white;">
+                ✓ Done with Stage 1 — Show Morphological Analysis (Stage 2)
+            </button>
+        </div>
+
     </div>
     <div id="stage2-section">
         <h2>Stage 2: Morphological Analysis</h2>
         <p>TBD</p>
+
+        <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
+            <button id="done-stage2" class="action-btn" style="background-color: #2e7d32; color: white;">
+                ✓ Done with Stage 2 — Show Syntactic Relationship Analysis (Stage 3)
+            </button>
+        </div>
+
     </div>
     <div id="stage3-section">
         <h2>Stage 3: Syntactic Relationship Analysis</h2>
@@ -93,6 +110,8 @@
             </thead>
             <tbody id="analysis-table-body"></tbody>
         </table>
+
+
     </div>
 
     <script src="js/script.js"></script>
