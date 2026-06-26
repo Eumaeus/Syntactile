@@ -287,5 +287,10 @@ Yes, please! Your attention to detail is greater than mine, so I would appreciat
 
 I have checked into the repo the changes you suggested above, so the line numbers will have changed.
 
+---
 
+Okay, thanks! I will tackles these one at a time, and report back.
 
+I am starting to think that my incremental approach was a mistake, forcing a big change like this onto the code when it was already complex. At what point is it wiser to start from scratch with a full specification?
+
+Or is that one of Fred Brooks' common mistakes… to scrap otherwise working code because you think you can do better with a fresh start?
