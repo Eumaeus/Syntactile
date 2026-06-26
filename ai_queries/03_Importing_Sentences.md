@@ -85,3 +85,9 @@ For the display as the student works, each token in the sentence can have an enu
 
 Those CTS-URN IDs should used as the `tokenId` in the downloaded CEX output.
 
+
+---
+
+Conversation started at: <https://x.com/i/grok/share/0dd8cfb5380c46a795059a63ad94b69d>
+
+Wow! Terrific. I will get onto making these changes this morning! And a small test `cex` file would be great. Thank you!

@@ -7,6 +7,97 @@ function generateUUID() {
     });
 }
 
+function parseCtsRangeUrn(rangeUrn) {
+    const parts = rangeUrn.split(':');
+    const base = parts.slice(0, -1).join(':') + ':';
+    const rangePart = parts[parts.length - 1];
+    const [fromPass, toPass] = rangePart.split('-');
+    return {
+        fromUrn: base + fromPass,
+        toUrn: base + toPass,
+        fullRange: rangeUrn
+    };
+}
+
+async function fetchAndParseTsv(tsvPath) {
+    const resp = await fetch(tsvPath);
+    if (!resp.ok) throw new Error(`Failed to load ${tsvPath}`);
+    const text = await resp.text();
+    const lines = text.trim().split('\n');
+    const data = [];
+    for (let i = 1; i < lines.length; i++) { // skip comment + header
+        const line = lines[i].trim();
+        if (!line || line.startsWith('//')) continue;
+        const [label, textPath, sentenceUrn] = line.split('\t');
+        if (label && textPath && sentenceUrn) {
+            data.push({ label: label.trim(), textPath: textPath.trim(), sentenceUrn: sentenceUrn.trim() });
+        }
+    }
+    return data;
+}
+
+async function loadTokensFromCex(cexPath, fromUrn, toUrn) {
+    const resp = await fetch(cexPath);
+    if (!resp.ok) throw new Error(`Failed to load ${cexPath}`);
+    const text = await resp.text();
+    const lines = text.split('\n');
+
+    let dataStart = false;
+    const ctsDataLines = [];
+    for (let line of lines) {
+        line = line.trim();
+        if (!line) continue;
+        if (line === '#!ctsdata') {
+            dataStart = true;
+            continue;
+        }
+        if (dataStart && line.startsWith('urn:cts:')) {
+            ctsDataLines.push(line);
+        }
+    }
+
+    const startIdx = ctsDataLines.findIndex(l => l.split('#')[0].trim() === fromUrn);
+    const endIdx = ctsDataLines.findIndex(l => l.split('#')[0].trim() === toUrn);
+
+    if (startIdx === -1 || endIdx === -1 || endIdx < startIdx) {
+        throw new Error(`Could not find token range ${fromUrn}–${toUrn} in ${cexPath}`);
+    }
+
+    const tokenLines = ctsDataLines.slice(startIdx, endIdx + 1);
+
+    const loadedTokens = [{ text: "Sentence Root", type: 'lexical', id: 0 }];
+    let displayEnum = 1;
+
+    for (const line of tokenLines) {
+        const [urn, txt] = line.split('#');
+        if (!urn || !txt) continue;
+        const cleanTxt = txt.trim();
+        const isPunct = PUNCTUATION.includes(cleanTxt);
+
+        const tokenObj = {
+            text: cleanTxt,
+            type: isPunct ? 'punctuation' : 'lexical',
+            id: urn.trim() // ← CTS-URN is the real identifier
+        };
+
+        if (!isPunct) {
+            tokenObj.enumId = displayEnum++;
+        }
+        loadedTokens.push(tokenObj);
+    }
+    return loadedTokens;
+}
+
+function resetAnalysisState() {
+    verbalUnits = [];
+    verbalUnitIdCounter = 1;
+    tokenAssignments = [];
+    tokenAnalyses = [];
+    editingUnitId = null;
+    sentenceId = generateUUID();
+    cite2Urn = `urn:cite2:analyzer:analysis:2025-06-13-${sentenceId}`;
+}
+
 // Initialize DOM elements
 const input = document.getElementById('sentence-input');
 const ctsUrnDisplay = document.getElementById('cts-urn');
@@ -29,6 +120,19 @@ const exportCexBtn1 = document.getElementById('export-cex1');
 const exportCexBtn2 = document.getElementById('export-cex2');
 const importCexBtn = document.getElementById('import-cex-btn');
 const importCexInput = document.getElementById('import-cex');
+
+// Punctuation list (shared)
+const PUNCTUATION = [',', '.', ';', ':', '·', '—', '–'];
+
+// List of all sentence TSV files (add new ones here when you add more .tsv files)
+const sentenceTsvFiles = [
+    "Frogs_sentences.tsv",
+    ...Array.from({ length: 20 }, (_, i) => `Hansen_Quinn_Sentences_${String(i + 1).padStart(2, '0')}.tsv`),
+    "Herodotus_sentences.tsv",
+    "Iliad_sentences.tsv"
+];
+
+let currentSentencesData = []; // populated when a collection is chosen
 
 // State management
 let tokens = [];
@@ -113,8 +217,9 @@ function updateTokenDisplay() {
 
         if (token.type === 'lexical') {
             span.className = 'token-lexical';
-            span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
-            span.dataset.tokenId = token.id;
+            const displayId = token.enumId !== undefined ? token.enumId : token.id;
+            span.innerHTML = `${token.text}<sup class="token-id">${displayId}</sup>`;
+            span.dataset.tokenId = token.id; // real ID (URN string or number)
 
             // Apply assignment classes for visual feedback
             const assignment = tokenAssignments.find(a => a.tokenId === token.id);
@@ -418,7 +523,7 @@ function updateAnalysisTable() {
             <td>${token.id}</td>
             <td>${token.text}</td>
             <td>
-                <select id="node1-${token.id}" onchange="updateAnalysis(${token.id}, 'node1Id', this.value)">
+            <select id="node1-${token.id}" onchange="updateAnalysis(${token.id}, 'node1Id', this.value)">
                     <option value="">Select...</option>
                     <option value="0" ${analysis.node1Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
                     ${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0)
@@ -640,7 +745,7 @@ function importCex(fileContent) {
             } 
             else if (currentBlock === 'tokens' && parts.length >= 3) {
                 tokenData.push({
-                    id: parseInt(parts[0]),
+                    id: parts[0], // was parseInt(parts[0])
                     text: parts[1],
                     verbalUnitIds: parts[2].split(',').filter(Boolean)
                 });
@@ -655,8 +760,8 @@ function importCex(fileContent) {
             } 
             else if (currentBlock === 'relations' && parts.length >= 3) {
                 relationData.push({
-                    source: parseInt(parts[0]),
-                    target: parseInt(parts[1]),
+                    source: parts[0], // was parseInt
+                    target: parts[1], // was parseInt
                     relation: parts[2]
                 });
             }
@@ -726,6 +831,107 @@ importCexInput.addEventListener('change', (e) => {
         e.target.value = '';
     }
 });
+
+// === Load Sentence UI wiring ===
+const collectionSelect = document.getElementById('collection-select');
+const sentenceSelect = document.getElementById('sentence-select');
+const loadBtn = document.getElementById('load-sentence-btn');
+
+async function populateCollections() {
+    collectionSelect.innerHTML = '<option value="">-- Select a collection --</option>';
+    try {
+        const collections = [];
+        await Promise.all(sentenceTsvFiles.map(async (file) => {
+            try {
+                const resp = await fetch(`sentences/${file}`);
+                const txt = await resp.text();
+                const firstLine = txt.split('\n')[0].trim().replace(/^\/\//, '').trim();
+                collections.push({ display: firstLine || file, tsvFile: file });
+            } catch (e) {
+                console.warn(`Could not load label for ${file}`, e);
+            }
+        }));
+        collections.sort((a, b) => a.display.localeCompare(b.display));
+        collections.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.tsvFile;
+            opt.textContent = c.display;
+            collectionSelect.appendChild(opt);
+        });
+    } catch (e) {
+        console.error('Failed to populate collections', e);
+    }
+}
+
+collectionSelect.addEventListener('change', async () => {
+    sentenceSelect.innerHTML = '<option value="">-- Select sentence --</option>';
+    sentenceSelect.disabled = true;
+    loadBtn.disabled = true;
+    currentSentencesData = [];
+
+    if (!collectionSelect.value) return;
+
+    try {
+        currentSentencesData = await fetchAndParseTsv(`sentences/${collectionSelect.value}`);
+        currentSentencesData.forEach((s, idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.textContent = s.label;
+            sentenceSelect.appendChild(opt);
+        });
+        sentenceSelect.disabled = false;
+    } catch (e) {
+        console.error(e);
+        alert('Failed to load sentence list. Check console.');
+    }
+});
+
+sentenceSelect.addEventListener('change', () => {
+    loadBtn.disabled = !sentenceSelect.value;
+});
+
+loadBtn.addEventListener('click', async () => {
+    if (!sentenceSelect.value) return;
+    const idx = parseInt(sentenceSelect.value);
+    const sentenceInfo = currentSentencesData[idx];
+    if (!sentenceInfo) return;
+
+    try {
+        const { fromUrn, toUrn, fullRange } = parseCtsRangeUrn(sentenceInfo.sentenceUrn);
+        const loadedTokens = await loadTokensFromCex(sentenceInfo.textPath, fromUrn, toUrn);
+
+        resetAnalysisState();
+        tokens = loadedTokens;
+        ctsUrn = fullRange;
+        ctsUrnDisplay.textContent = ctsUrn;
+
+        // Optional: rough reconstruction of sentence text for the export block
+        input.value = tokens
+            .filter(t => t.id !== 0)
+            .map(t => t.text)
+            .join(' ');
+
+        updateTokenDisplay();
+        updateVerbalUnitForm();
+        updateVerbalUnitTable();
+        updateVerbalUnitSelect();
+        updateAssignmentDisplay();
+        updateAnalysisTable();
+
+        // Show stage 1, hide stage 2 until user clicks Done
+        if (stage1Section) stage1Section.style.display = 'block';
+        if (stage2Section) stage2Section.style.display = 'none';
+
+        // Scroll to tokens
+        document.getElementById('token-output').scrollIntoView({ behavior: 'smooth' });
+    } catch (e) {
+        console.error(e);
+        alert('Failed to load sentence tokens: ' + e.message);
+    }
+});
+
+// Initialize collections on page load
+populateCollections();
 
 // Initial load
 tokens = tokenize(defaultSentence);

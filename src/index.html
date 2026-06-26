@@ -16,6 +16,33 @@
     <h1>Ancient Greek Syntax Analyzer</h1>
     <div id="input-section">
         <textarea id="sentence-input" placeholder="Enter an Ancient Greek sentence..."></textarea>
+
+        <!-- Load Sentence from source texts (CTS-URN aligned) -->
+        <div id="load-sentence-controls" style="margin-top: 1em; padding: 1em; background: #f8f9fa; border-radius: 6px; border: 1px solid #ddd;">
+            <h3 style="margin-top:0; font-size:1.1em;">Load Sentence from Source Text (recommended for aligned work)</h3>
+            <div style="display: flex; gap: 1em; flex-wrap: wrap; align-items: flex-end;">
+                <div>
+                    <label for="collection-select"><strong>Collection / Text:</strong></label><br>
+                    <select id="collection-select" style="min-width: 280px;">
+                        <option value="">-- Select a collection --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="sentence-select"><strong>Sentence / Passage:</strong></label><br>
+                    <select id="sentence-select" style="min-width: 320px;" disabled>
+                        <option value="">-- Select sentence after choosing collection --</option>
+                    </select>
+                </div>
+                <div>
+                    <button id="load-sentence-btn" class="action-btn" style="background-color: #1565c0; color: white; padding: 0.6em 1.2em;" disabled>
+                        Load Sentence &amp; Start Analysis
+                    </button>
+                </div>
+            </div>
+            <p style="font-size: 0.85em; color: #555; margin: 0.5em 0 0;">Tokens will use their original CTS-URN identifiers from the tokenized source text.</p>
+        </div>
+        
+
         <div id="urn-display">CTS-URN: <span id="cts-urn"></span></div>
         <button id="import-cex-btn">Import CEX</button>
         <input type="file" id="import-cex" accept=".cex">
