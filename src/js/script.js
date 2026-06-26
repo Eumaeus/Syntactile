@@ -19,6 +19,18 @@ function parseCtsRangeUrn(rangeUrn) {
     };
 }
 
+function createTokenObject(urn, text, displayNum, isRoot = false) {
+    const cleanTxt = text.trim();
+    const isPunct = PUNCTUATION.includes(cleanTxt);
+
+    return {
+        text: cleanTxt,
+        type: isPunct ? 'punctuation' : 'lexical',
+        tokenId: isRoot ? "root" : urn.trim(),
+        displayId: isRoot ? 0 : (isPunct ? null : displayNum)
+    };
+}
+
 async function fetchAndParseTsv(tsvPath) {
     const resp = await fetch(tsvPath);
     if (!resp.ok) throw new Error(`Failed to load ${tsvPath}`);
@@ -65,26 +77,21 @@ async function loadTokensFromCex(cexPath, fromUrn, toUrn) {
 
     const tokenLines = ctsDataLines.slice(startIdx, endIdx + 1);
 
-    const loadedTokens = [{ text: "Sentence Root", type: 'lexical', id: 0 }];
+    const loadedTokens = [createTokenObject(null, "Sentence Root", 0, true)];
+
     let displayEnum = 1;
 
     for (const line of tokenLines) {
         const [urn, txt] = line.split('#');
         if (!urn || !txt) continue;
-        const cleanTxt = txt.trim();
-        const isPunct = PUNCTUATION.includes(cleanTxt);
 
-        const tokenObj = {
-            text: cleanTxt,
-            type: isPunct ? 'punctuation' : 'lexical',
-            id: urn.trim() // ← CTS-URN is the real identifier
-        };
-
-        if (!isPunct) {
-            tokenObj.enumId = displayEnum++;
+        const tokenObj = createTokenObject(urn, txt, displayEnum);
+        if (!tokenObj.type.includes('punctuation')) {
+            displayEnum++;
         }
         loadedTokens.push(tokenObj);
     }
+
     return loadedTokens;
 }
 
@@ -447,8 +454,10 @@ function updateAssignmentDisplay() {
             const isCurrent = unit.id === selectedUnitId;
 
             span.className = `token-lexical assigned-vu${Math.min(vuIndex + 1, 5)}${isCurrent ? ' current-unit' : ''}`;
-            span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
-            span.dataset.tokenId = token.id;
+
+            span.innerHTML = `${token.text}<sup class="token-id">${token.displayId}</sup>`;            
+
+            span.dataset.tokenId = token.tokenId;   // still stores the real URN
 
             if (isCurrent) {
                 span.addEventListener('click', () => toggleTokenAssignment(token.id));

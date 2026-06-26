@@ -40,4 +40,130 @@ All text is checked into the GitHub. If I can take further steps on this end to 
 
 Thanks!
 
+---
+
+Conversation started at: <https://x.com/i/grok/share/5bb6d80dd9d241f3bdf04096a0afd7b9>
+
+Great, thank you! I think I could use some more specific advice on how to edit my functions. The function that loads tokens from CEX is this one:
+
+~~~javascript
+
+async function loadTokensFromCex(cexPath, fromUrn, toUrn) {
+    const resp = await fetch(cexPath);
+    if (!resp.ok) throw new Error(`Failed to load ${cexPath}`);
+    const text = await resp.text();
+    const lines = text.split('\n');
+
+    let dataStart = false;
+    const ctsDataLines = [];
+    for (let line of lines) {
+        line = line.trim();
+        if (!line) continue;
+        if (line === '#!ctsdata') {
+            dataStart = true;
+            continue;
+        }
+        if (dataStart && line.startsWith('urn:cts:')) {
+            ctsDataLines.push(line);
+        }
+    }
+
+    const startIdx = ctsDataLines.findIndex(l => l.split('#')[0].trim() === fromUrn);
+    const endIdx = ctsDataLines.findIndex(l => l.split('#')[0].trim() === toUrn);
+
+    if (startIdx === -1 || endIdx === -1 || endIdx < startIdx) {
+        throw new Error(`Could not find token range ${fromUrn}–${toUrn} in ${cexPath}`);
+    }
+
+    const tokenLines = ctsDataLines.slice(startIdx, endIdx + 1);
+
+    const loadedTokens = [{ text: "Sentence Root", type: 'lexical', id: 0 }];
+    let displayEnum = 1;
+
+    for (const line of tokenLines) {
+        const [urn, txt] = line.split('#');
+        if (!urn || !txt) continue;
+        const cleanTxt = txt.trim();
+        const isPunct = PUNCTUATION.includes(cleanTxt);
+
+        const tokenObj = {
+            text: cleanTxt,
+            type: isPunct ? 'punctuation' : 'lexical',
+            id: urn.trim() // ← CTS-URN is the real identifier
+        };
+
+        if (!isPunct) {
+            tokenObj.enumId = displayEnum++;
+        }
+        loadedTokens.push(tokenObj);
+    }
+    return loadedTokens;
+
+~~~
+
+The `updateVerbalUnitTable()` function is this one:
+
+~~~javascript
+
+// Update verbal unit table
+function updateVerbalUnitTable() {
+
+    console.log('%c[updateVerbalUnitTable] called with', 'color: green', verbalUnits.length, 'units');
+
+    verbalUnitTableBody.innerHTML = '';
+    verbalUnits.forEach(unit => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${unit.id}</td>
+            <td>${unit.syntacticType}</td>
+            <td>${unit.semanticType}</td>
+            <td>${unit.level}</td>
+            <td>
+                <button class="action-btn edit-btn" data-id="${unit.id}">Edit</button>
+                <button class="action-btn delete-btn" data-id="${unit.id}">Delete</button>
+            </td>
+        `;
+        verbalUnitTableBody.appendChild(row);
+    });
+
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => editVerbalUnit(btn.dataset.id));
+    });
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => deleteVerbalUnit(btn.dataset.id));
+    });
+}
+
+~~~
+
+One example of the code building HTML involving token IDs is here:
+
+~~~javascript
+
+assignedTokens.forEach(token => {
+   const span = document.createElement('span');
+   const vuIndex = verbalUnits.findIndex(u => u.id === unit.id);
+   const isCurrent = unit.id === selectedUnitId;
+
+   span.className = `token-lexical assigned-vu${Math.min(vuIndex + 1, 5)}${isCurrent ? ' current-unit' : ''}`;
+   span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
+   span.dataset.tokenId = token.id;
+
+   if (isCurrent) {
+       span.addEventListener('click', () => toggleTokenAssignment(token.id));
+   }
+   tokensContainer.appendChild(span);
+});
+
+~~~
+
+I think with an example or two, I can hunt down and edit the rest.
+
+A helper function like `createTokenObject(rawToken, displayNum)` sounds great, but I would need more advice on how and where to use it.
+
+Thanks for this help!
+
+---
+
+Okay, thanks! I believe I have made those changes. I'll test it, and check in changes to the repository. 
 
