@@ -182,3 +182,59 @@ There are no errors in the console.
 It is quite possible that I have not comprehensively made the changes necessary to use `tokenDisplayId` alongside `tokenId`. 
 
 When I define a Verbal Unit, in the token diplay under "Unassigned Tokens (click to assign):" the superscripted display IDs are showing "undefined".
+
+---
+
+Search for `token.id`, in `js/script.js`:
+
+line 221: `if (token.id === 0) return;`
+line 227: `const displayId = token.enumId !== undefined ? token.enumId : token.id;`
+line 229: `span.dataset.tokenId = token.id; // real ID (URN string or number)`
+line 232: `const assignment = tokenAssignments.find(a => a.tokenId === token.id);`
+lines 241-243: 
+~~~
+	span.addEventListener('click', () => {
+		toggleTokenAssignment(token.id);
+	});
+~~~
+line 463: `span.addEventListener('click', () => toggleTokenAssignment(token.id));`
+line 491: `const assignment = tokenAssignments.find(a => a.tokenId === token.id);`
+line 500: `span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;`
+line 501: `span.dataset.tokenId = token.id;`
+line 502: `span.addEventListener('click', () => toggleTokenAssignment(token.id));`
+line 528: `const analysis = tokenAnalyses.find(a => a.tokenId === token.id) || {};`
+lines 532-532:
+~~~
+	row.innerHTML = `
+		<td>${token.id}</td>
+		…
+~~~
+line 535: `<select id="node1-${token.id}" onchange="updateAnalysis(${token.id}, 'node1Id', this.value)">`
+line 538: `${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0)`
+line 544: `<select id="node1-relation-${token.id}" onchange="updateAnalysis(${token.id}, 'node1Relation', this.value)">`
+line 552: `<select id="node2-${token.id}" onchange="updateAnalysis(${token.id}, 'node2Id', this.value)">`
+line 555: `${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0)`
+line 562: ` <select id="node2-relation-${token.id}" onchange="updateAnalysis(${token.id}, 'node2Relation', this.value)">`
+
+Searching for `token.enumId`:
+
+line 227: `const displayId = token.enumId !== undefined ? token.enumId : token.id;`
+
+Searching for `.id` in token related code, distinct from `token.id`:
+
+- Nothing related to tokens.
+
+Searching for `displayId`:
+
+line 30: `displayId: isRoot ? 0 : (isPunct ? null : displayNum)`
+line 227: `const displayId = token.enumId !== undefined ? token.enumId : token.id;`
+line 228: `span.innerHTML = `${token.text}<sup class="token-id">${displayId}</sup>`;`
+line 458: `span.innerHTML = `${token.text}<sup class="token-id">${token.displayId}</sup>`; `
+
+---
+
+I've checked all current code into the repository, including the full text of this query and all preceding ones.
+
+
+
+
