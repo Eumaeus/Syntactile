@@ -14,7 +14,7 @@ It seems appropriate to do this in a branch of the GitHub repository.
 
 I have used branches before, but your knowledge of GitHub best-practices is infinitely better than mine, so if you could start with step-by-step instructions for making a branch for this work, while we get it going, that would be educational for me.
 
-So let's branch the code before working on "Importing Sentences.""
+So let's branch the code before working on "Importing Sentences."
 
 
 
