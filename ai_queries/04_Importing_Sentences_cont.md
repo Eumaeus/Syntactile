@@ -279,6 +279,13 @@ Below is the code-chunk that seems to deal with unassigned tokens (lines 471-508
 
 I've checked all current code into the repository, including the full text of this query and all preceding ones.
 
+---
+
+> Would you like me to give you a more complete list of all the lines that still need changing (based on your search results), or would you prefer to apply the big fixes above first and then report back?
+
+Yes, please! Your attention to detail is greater than mine, so I would appreciate a more complete list of all the lines that still need changing.
+
+I have checked into the repo the changes you suggested above, so the line numbers will have changed.
 
 
 

@@ -218,15 +218,14 @@ function tokenize(sentence) {
 function updateTokenDisplay() {
     tokenOutput.innerHTML = '';
     tokens.forEach((token, index) => {
-        if (token.id === 0) return;
+        if (token.tokenId === "root" || token.displayId === 0) return;
 
         const span = document.createElement('span');
 
         if (token.type === 'lexical') {
             span.className = 'token-lexical';
-            const displayId = token.enumId !== undefined ? token.enumId : token.id;
-            span.innerHTML = `${token.text}<sup class="token-id">${displayId}</sup>`;
-            span.dataset.tokenId = token.id; // real ID (URN string or number)
+            span.innerHTML = `${token.text}<sup class="token-id">${token.displayId}</sup>`;
+            span.dataset.tokenId = token.tokenId;
 
             // Apply assignment classes for visual feedback
             const assignment = tokenAssignments.find(a => a.tokenId === token.id);
@@ -471,16 +470,20 @@ function updateAssignmentDisplay() {
     // Unassigned tokens section for the currently selected unit
     if (selectedUnitId) {
         const unassigned = tokens.filter(t =>
-            t.type === 'lexical' && t.id !== 0 &&
-            !tokenAssignments.some(a => a.tokenId === t.id && a.verbalUnitIds.includes(selectedUnitId))
+            t.type === 'lexical' &&
+            t.tokenId !== "root" &&                    // ← fixed root check
+            !tokenAssignments.some(a => 
+                a.tokenId === t.tokenId && 
+                a.verbalUnitIds.includes(selectedUnitId)
+            )
         );
 
         if (unassigned.length > 0) {
             const unassignedDiv = document.createElement('div');
             unassignedDiv.id = 'unassigned-tokens';
             unassignedDiv.innerHTML = `
-                <div class="unit-info">Unassigned Tokens (click to assign):</div>
-                <div class="tokens"></div>
+            <div class="unit-info">Unassigned Tokens (click to assign):</div>
+            <div class="tokens"></div>
             `;
             const container = unassignedDiv.querySelector('.tokens');
 
@@ -488,7 +491,7 @@ function updateAssignmentDisplay() {
                 const span = document.createElement('span');
                 span.className = 'token-lexical';
 
-                const assignment = tokenAssignments.find(a => a.tokenId === token.id);
+                const assignment = tokenAssignments.find(a => a.tokenId === token.tokenId);
                 const isAssignedElsewhere = assignment && assignment.verbalUnitIds.length > 0;
 
                 if (isAssignedElsewhere) {
@@ -497,9 +500,10 @@ function updateAssignmentDisplay() {
                     span.title = `Already assigned to: ${otherVUs} (still assignable here)`;
                 }
 
-                span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
-                span.dataset.tokenId = token.id;
-                span.addEventListener('click', () => toggleTokenAssignment(token.id));
+                // Use displayId for the visible number
+                span.innerHTML = `${token.text}<sup class="token-id">${token.displayId}</sup>`;
+                span.dataset.tokenId = token.tokenId;                    // real ID
+                span.addEventListener('click', () => toggleTokenAssignment(token.tokenId));
                 container.appendChild(span);
             });
 
@@ -532,7 +536,7 @@ function updateAnalysisTable() {
             <td>${token.id}</td>
             <td>${token.text}</td>
             <td>
-            <select id="node1-${token.id}" onchange="updateAnalysis(${token.id}, 'node1Id', this.value)">
+            <select id="node1-${token.id}" onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value)">
                     <option value="">Select...</option>
                     <option value="0" ${analysis.node1Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
                     ${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0)
