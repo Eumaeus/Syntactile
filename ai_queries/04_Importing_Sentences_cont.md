@@ -233,6 +233,50 @@ line 458: `span.innerHTML = `${token.text}<sup class="token-id">${token.displayI
 
 ---
 
+Below is the code-chunk that seems to deal with unassigned tokens (lines 471-508):
+
+~~~javascript
+// Unassigned tokens section for the currently selected unit
+    if (selectedUnitId) {
+        const unassigned = tokens.filter(t =>
+            t.type === 'lexical' && t.id !== 0 &&
+            !tokenAssignments.some(a => a.tokenId === t.id && a.verbalUnitIds.includes(selectedUnitId))
+        );
+
+        if (unassigned.length > 0) {
+            const unassignedDiv = document.createElement('div');
+            unassignedDiv.id = 'unassigned-tokens';
+            unassignedDiv.innerHTML = `
+                <div class="unit-info">Unassigned Tokens (click to assign):</div>
+                <div class="tokens"></div>
+            `;
+            const container = unassignedDiv.querySelector('.tokens');
+
+            unassigned.forEach(token => {
+                const span = document.createElement('span');
+                span.className = 'token-lexical';
+
+                const assignment = tokenAssignments.find(a => a.tokenId === token.id);
+                const isAssignedElsewhere = assignment && assignment.verbalUnitIds.length > 0;
+
+                if (isAssignedElsewhere) {
+                    span.classList.add('has-other-assignments');
+                    const otherVUs = assignment.verbalUnitIds.join(', ');
+                    span.title = `Already assigned to: ${otherVUs} (still assignable here)`;
+                }
+
+                span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
+                span.dataset.tokenId = token.id;
+                span.addEventListener('click', () => toggleTokenAssignment(token.id));
+                container.appendChild(span);
+            });
+
+            assignmentDisplay.appendChild(unassignedDiv);
+        }
+    }
+
+~~~
+
 I've checked all current code into the repository, including the full text of this query and all preceding ones.
 
 
