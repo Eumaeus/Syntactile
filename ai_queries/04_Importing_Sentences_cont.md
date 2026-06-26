@@ -294,3 +294,11 @@ Okay, thanks! I will tackles these one at a time, and report back.
 I am starting to think that my incremental approach was a mistake, forcing a big change like this onto the code when it was already complex. At what point is it wiser to start from scratch with a full specification?
 
 Or is that one of Fred Brooks' common mistakes… to scrap otherwise working code because you think you can do better with a fresh start?
+Thanks for the encouraging words! I will fix these details, comprehensively. Then it can be fun and satisfying to look at working code and do a normalization step. But… first things first. I'll get onto the excellent list you gave me and report back. Thank you for all this help!I am confident that the data-model is correct, and that our input- and output- serialization formats are correct and will allow reuse of this data.
+
+
+---
+
+Thanks for the encouraging words! I will fix these details, comprehensively. Then it can be fun and satisfying to look at working code and do a normalization step. But… first things first. I'll get onto the excellent list you gave me and report back. Thank you for all this help!I am confident that the data-model is correct, and that our input- and output- serialization formats are correct and will allow reuse of this data.
+
+
