@@ -183,33 +183,55 @@ input.value = defaultSentence;
 
 // Tokenize the input sentence, adding Token 0 (Sentence Root)
 function tokenize(sentence) {
-    const loadedTokens = [createTokenObject(null, "Sentence Root", 0, true)];
+    const result = [createTokenObject(null, "Sentence Root", 0, true)];
+
     let displayEnum = 1;
-    let lexicalId = 1;
-    const punctuation = [',', '.', ';', ':'];
-    currentToken = '';
+    let currentToken = '';
+
     for (let i = 0; i < sentence.length; i++) {
         const char = sentence[i];
+
         if (/\s/.test(char)) {
             if (currentToken) {
-                tokens.push({ text: currentToken, type: 'lexical', id: lexicalId++ });
+                result.push(createTokenObjectForPlainText(currentToken, displayEnum));
+                displayEnum++;
                 currentToken = '';
             }
-            tokens.push({ text: char, type: 'white-space', id: null });
-        } else if (punctuation.includes(char)) {
+            result.push({
+                text: char,
+                type: 'white-space',
+                tokenId: null,
+                displayId: null
+            });
+        } else if (PUNCTUATION.includes(char)) {
             if (currentToken) {
-                tokens.push({ text: currentToken, type: 'lexical', id: lexicalId++ });
+                result.push(createTokenObjectForPlainText(currentToken, displayEnum));
+                displayEnum++;
                 currentToken = '';
             }
-            tokens.push({ text: char, type: 'punctuation', id: null });
+            result.push(createTokenObjectForPlainText(char, displayEnum)); // will set displayId = null inside helper
         } else {
             currentToken += char;
         }
     }
+
     if (currentToken) {
-        tokens.push({ text: currentToken, type: 'lexical', id: lexicalId++ });
+        result.push(createTokenObjectForPlainText(currentToken, displayEnum));
     }
-    return loadedTokens;
+
+    return result;
+}
+
+// Helper for plain-text mode (no real CTS URN)
+function createTokenObjectForPlainText(text, displayNum) {
+    const cleanTxt = text.trim();
+    const isPunct = PUNCTUATION.includes(cleanTxt);
+    return {
+        text: cleanTxt,
+        type: isPunct ? 'punctuation' : 'lexical',
+        tokenId: isPunct ? null : displayNum.toString(),   // use display number as stable string ID
+        displayId: isPunct ? null : displayNum
+    };
 }
 
 // Update inline token display + apply assignment classes
@@ -429,7 +451,7 @@ function updateAssignmentDisplay() {
             .filter(a => a.verbalUnitIds.includes(unit.id))
             .map(a => tokens.find(t => t.tokenId === a.tokenId))
             .filter(Boolean)
-            .sort((a, b) => a.tokenId - b.tokenId);
+            .sort((a, b) => (a.displayId || 0) - (b.displayId || 0));
 
         const row = document.createElement('div');
         row.className = `verbal-unit-row level-${unit.level}`;

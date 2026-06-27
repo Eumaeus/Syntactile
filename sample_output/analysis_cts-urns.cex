@@ -1,0 +1,38 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-aae19608-7817-4c08-a91b-c6acc011fd7b
+text#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1-4.2.token.11
+
+#!citedata
+sentence#text
+aae19608-7817-4c08-a91b-c6acc011fd7b#ἡ μὲν μάχη στρατιώταις κακή , ἀγαθὴ δὲ ἡ νίκη .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#Sentence Root#
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1#ἡ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.2#μὲν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#μάχη#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.4#στρατιώταις#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#κακή#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.7#ἀγαθὴ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.8#δὲ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.9#ἡ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#νίκη#VU2
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Intransitive#1
+VU2#Independent Clause#Intransitive#1
+
+#!citerelations
+source#target#relation
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#root#Predicative
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.4#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#Dative
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#Attribute
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.2#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#Unit Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.7#root#Predicative
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.7#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.9#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#Attribute
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.8#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.7#Unit Adverbial

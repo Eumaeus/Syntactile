@@ -43,8 +43,27 @@ On the principle of "one thing at a time"…
 
 When I load a sentence from the popup menus, and confirm my Verbal Units, I get a list of tokens in `<div id="assignment-display">…</div>`.
 
-When I use the default text from in `<textarea id="sentence-input">`, I do not get any tokens apearing in `<div id="assignment-display">…</div>`.
+When I use the default text from in `<textarea id="sentence-input">`, I do not get any tokens appearing in `<div id="assignment-display">…</div>`.
 
 I have not had success in tracking this down.
 
 Everything is up to date in the repo: <https://github.com/Eumaeus/Syntactile>. 
+
+---
+
+Wow!! We are SO CLOSE!
+
+I have tested the default sentence from Homer, and a couple of loaded sentences.
+
+The functionality of each step worked.
+
+The CEX output format looks great, both the export of the default sentence, with basic IDs ("root" and integers), and the sentence loaded from CEX, with the graph expresses as relationships between CTS-URNs.
+
+Loading a CEX worked for the default sentence, with "root" and integer-IDs.
+
+It did not work for a CEX with CTS-URNs as IDs. Neither the assignment to Verbal Units, nor the graph display.
+
+Which suggests that the problem is in the CEX import function, rather than in the functionality of the webpage's UI.
+
+I have checked in the current state of the files, including two sample CEX files, in `sample_output/`, which are the ones showing success (`sample_output/analysis_numeric-ids.cex`) on import, and one failing on import (`sample_output/analysis_cts-urns.cex`).
+
