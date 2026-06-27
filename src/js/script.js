@@ -451,7 +451,7 @@ function updateAssignmentDisplay() {
             .filter(a => a.verbalUnitIds.includes(unit.id))
             .map(a => tokens.find(t => t.tokenId === a.tokenId))
             .filter(Boolean)
-            .sort((a, b) => (a.displayId || 0) - (b.displayId || 0));
+            .sort((a, b) => a.tokenId - b.tokenId);
 
         const row = document.createElement('div');
         row.className = `verbal-unit-row level-${unit.level}`;
@@ -795,11 +795,17 @@ function importCex(fileContent) {
                 sentenceData = { id: parts[0], text: parts[1] };
             } 
             else if (currentBlock === 'tokens' && parts.length >= 3) {
-                tokenData.push({
-                    id: parts[0], // was parseInt(parts[0])
+                const tokenEntry = {
+                    id: parts[0],
                     text: parts[1],
-                    verbalUnitIds: parts[2].split(',').filter(Boolean)
-                });
+                    verbalUnitIds: parts[2] ? parts[2].split(',').filter(Boolean) : []
+                };
+                // Future-proof: read optional 4th column as displayId
+                if (parts.length >= 4 && parts[3]) {
+                    const parsed = parseInt(parts[3], 10);
+                    if (!isNaN(parsed)) tokenEntry.displayId = parsed;
+                }
+                tokenData.push(tokenEntry);
             } 
             else if (currentBlock === 'units' && parts.length >= 4) {
                 unitData.push({
@@ -822,7 +828,46 @@ function importCex(fileContent) {
     // === Restore application state ===
     sentenceId = sentenceData.id || generateUUID();
     input.value = sentenceData.text || defaultSentence;
-    tokens = tokenize(input.value);
+
+    // === Rebuild tokens from CEX data (safe + future-proof) ===
+    tokens = [];
+    const seenTokenIds = new Set();
+    let displayEnum = 1;
+
+    tokenData.forEach(t => {
+        if (!t.id || seenTokenIds.has(t.id)) return; // skip duplicates or empty
+        seenTokenIds.add(t.id);
+
+        if (t.id === "root") {
+            tokens.unshift(createTokenObject(null, "Sentence Root", 0, true)); // ensure root is first
+        } else {
+            const cleanText = (t.text || "").trim();
+            if (!cleanText) return;
+
+            const isPunct = PUNCTUATION.includes(cleanText);
+
+            // Future-proof: use explicit displayId from CEX if present, otherwise sequential
+            let dispId = null;
+            if (typeof t.displayId === 'number' && !isNaN(t.displayId)) {
+                dispId = t.displayId;
+            } else if (!isPunct) {
+                dispId = displayEnum++;
+            }
+
+            tokens.push({
+                text: cleanText,
+                type: isPunct ? 'punctuation' : 'lexical',
+                tokenId: t.id,           // preserves numeric IDs or full CTS URNs
+                displayId: dispId
+            });
+        }
+    });
+
+    // If root wasn't in the CEX for some reason, add it at the beginning
+    if (!tokens.some(t => t.tokenId === "root")) {
+        tokens.unshift(createTokenObject(null, "Sentence Root", 0, true));
+    }
+
     verbalUnits = unitData;
     verbalUnitIdCounter = Math.max(1, ...verbalUnits.map(u => parseInt(u.id.replace('VU', '')) || 0)) + 1;
 
@@ -835,6 +880,8 @@ function importCex(fileContent) {
 
     tokenAnalyses = [];
     relationData.forEach(r => {
+        if (!r.source || !r.target) return; // safety: skip malformed relations
+
         let analysis = tokenAnalyses.find(a => a.tokenId === r.source);
         if (!analysis) {
             analysis = { tokenId: r.source };

@@ -67,3 +67,14 @@ Which suggests that the problem is in the CEX import function, rather than in th
 
 I have checked in the current state of the files, including two sample CEX files, in `sample_output/`, which are the ones showing success (`sample_output/analysis_numeric-ids.cex`) on import, and one failing on import (`sample_output/analysis_cts-urns.cex`).
 
+---
+
+> Would you like me to also add a small safety improvement (e.g. better handling if some tokens are missing, or preserving original displayId if we ever export it in the future)? Or shall we move on to the next bug after you test this?
+
+Yes, please!!!
+
+---
+
+Okay… those changes worked! Now both default and CTS-URN sentences load from CEX and restore the graph view.
+
+I spoke in error earlier, though. In *neither* case does importing a CEX restore the token-assigment to Verbal Units, although it *does* restore the defined Verbal Units. (The default *Iliad* quotation has two Verbal Units.)
