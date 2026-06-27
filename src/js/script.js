@@ -183,11 +183,11 @@ input.value = defaultSentence;
 
 // Tokenize the input sentence, adding Token 0 (Sentence Root)
 function tokenize(sentence) {
-    const tokens = [{ text: "Sentence Root", type: 'lexical', id: 0 }];
-    let currentToken = '';
+    const loadedTokens = [createTokenObject(null, "Sentence Root", 0, true)];
+    let displayEnum = 1;
     let lexicalId = 1;
     const punctuation = [',', '.', ';', ':'];
-
+    currentToken = '';
     for (let i = 0; i < sentence.length; i++) {
         const char = sentence[i];
         if (/\s/.test(char)) {
@@ -209,7 +209,7 @@ function tokenize(sentence) {
     if (currentToken) {
         tokens.push({ text: currentToken, type: 'lexical', id: lexicalId++ });
     }
-    return tokens;
+    return loadedTokens;
 }
 
 // Update inline token display + apply assignment classes
@@ -510,13 +510,11 @@ function updateAssignmentDisplay() {
     }
 }
 
-// Update analysis table with RELATION DROPDOWNS
 function updateAnalysisTable() {
     analysisTableBody.innerHTML = '';
 
-    // Sentence Root row
+    // Root row (static)
     const rootRow = document.createElement('tr');
-    
     rootRow.innerHTML = `
         <td>0</td>
         <td>Sentence Root</td>
@@ -525,62 +523,79 @@ function updateAnalysisTable() {
         <td><select disabled><option value="">N/A</option></select></td>
         <td><select disabled><option value="">N/A</option></select></td>
     `;
-    
     analysisTableBody.appendChild(rootRow);
 
-    tokens.filter(t => t.type === 'lexical' && t.tokenId !== 0).forEach(token => {
-        const analysis = tokenAnalyses.find(a => a.tokenId === token.tokenId) || {};
-        if (token.tokenId === "root" || token.displayId === 0) return;
+    tokens
+        .filter(t => t.type === 'lexical' && t.tokenId !== "root")
+        .forEach(token => {
+            const analysis = tokenAnalyses.find(a => a.tokenId === token.tokenId) || {};
 
-
-
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${token.displayId}</td>
-            <td>${token.text}</td>
-            <td>
-            <select id="node1-${token.tokenId}" onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value)">
-                    <option value="">Select...</option>
-                    <option value="0" ${analysis.node1Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
-                    ${tokens.filter(u => u.type === 'lexical' && u.tokenId !== token.tokenId && u.tokenId !== "root")
-                        .map(u => `<option value="${u.tokenId}" ${analysis.node1Id === u.tokenId ? 'selected' : ''}>${u.displayId}: ${u.text}</option>`)
-                        .join('')}
-                </select>
-            </td>
-            <td>
-                <select id="node1-relation-${token.tokenId}" onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value)">
-                    <option value="">-- Select relation --</option>
-                    ${RELATION_OPTIONS.map(rel => 
-                        `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
-                    ).join('')}
-                </select>
-            </td>
-            <td>
-                <select id="node2-${token.tokenId}" onchange="updateAnalysis('${token.tokenId}', 'node2Id', this.value)">
-                    <option value="">Select...</option>
-                    <option value="0" ${analysis.node2Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
-                    ${tokens.filter(u => u.type === 'lexical' && u.tokenId !== token.tokenId && u.tokenId !== 0)
-                        .map(u => `<option value="${u.tokenId}" ${analysis.node2Id === u.tokenId ? 'selected' : ''}>${u.tokenId}: ${u.text}</option>`)
-                        .join('')}
-                </select>
-            </td>
-            <td>
-                <select id="node2-relation-${token.tokenId}" onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value)">
-                    <option value="">-- Select relation --</option>
-                    ${RELATION_OPTIONS.map(rel => 
-                        `<option value="${rel}" ${analysis.node2Relation === rel ? 'selected' : ''}>${rel}</option>`
-                    ).join('')}
-                </select>
-            </td>
-        `;
-        analysisTableBody.appendChild(row);
-    });
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${token.displayId}</td>
+                <td>${token.text}</td>
+                <td>
+                    <select id="node1-${token.tokenId}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value)">
+                        <option value="">Select...</option>
+                        <option value="root" ${analysis.node1Id === "root" || analysis.node1Id === "root" ? 'selected' : ''}>
+                            0: Sentence Root
+                        </option>
+                        ${tokens
+                            .filter(u => u.type === 'lexical' && 
+                                         u.tokenId !== token.tokenId && 
+                                         u.tokenId !== "root")
+                            .map(u => `<option value="${u.tokenId}" 
+                                ${analysis.node1Id === u.tokenId ? 'selected' : ''}>
+                                ${u.displayId}: ${u.text}
+                            </option>`)
+                            .join('')}
+                    </select>
+                </td>
+                <td>
+                    <select id="node1-relation-${token.tokenId}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value)">
+                        <option value="">-- Select relation --</option>
+                        ${RELATION_OPTIONS.map(rel => 
+                            `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
+                        ).join('')}
+                    </select>
+                </td>
+                <td>
+                    <select id="node2-${token.tokenId}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node2Id', this.value)">
+                        <option value="">Select...</option>
+                        <option value="root" ${analysis.node2Id === "root" || analysis.node2Id === "root" ? 'selected' : ''}>
+                            0: Sentence Root
+                        </option>
+                        ${tokens
+                            .filter(u => u.type === 'lexical' && 
+                                         u.tokenId !== token.tokenId && 
+                                         u.tokenId !== "root")
+                            .map(u => `<option value="${u.tokenId}" 
+                                ${analysis.node2Id === u.tokenId ? 'selected' : ''}>
+                                ${u.displayId}: ${u.text}     <!-- FIXED: was u.tokenId -->
+                            </option>`)
+                            .join('')}
+                    </select>
+                </td>
+                <td>
+                    <select id="node2-relation-${token.tokenId}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value)">
+                        <option value="">-- Select relation --</option>
+                        ${RELATION_OPTIONS.map(rel => 
+                            `<option value="${rel}" ${analysis.node2Relation === rel ? 'selected' : ''}>${rel}</option>`
+                        ).join('')}
+                    </select>
+                </td>
+            `;
+            analysisTableBody.appendChild(row);
+        });
 
     updateGraph();
-    cite2UrnDisplay.textContent = cite2Urn;
+    // cite2UrnDisplay... (keep your existing line)
 }
 
-// Update a single analysis entry
 function updateAnalysis(tokenId, field, value) {
     let analysis = tokenAnalyses.find(a => a.tokenId === tokenId);
     if (!analysis) {
@@ -589,22 +604,29 @@ function updateAnalysis(tokenId, field, value) {
     }
 
     if (field.includes('Id')) {
-        analysis[field] = value === '' ? null : parseInt(value, 10);
+        if (value === '' || value == null) {
+            analysis[field] = null;
+        } else if (value === "root" || value === "0") {
+            analysis[field] = "root";           // consistent string
+        } else {
+            analysis[field] = value;            // keep full CTS URN string
+        }
     } else {
         analysis[field] = value === '' ? null : value;
     }
 
-    // Clean up empty entries
-    if (!analysis.node1Id && !analysis.node1Relation && !analysis.node2Id && !analysis.node2Relation) {
+    // Clean up empty analyses
+    if (!analysis.node1Id && !analysis.node1Relation &&
+        !analysis.node2Id && !analysis.node2Relation) {
         tokenAnalyses = tokenAnalyses.filter(a => a.tokenId !== tokenId);
     }
 
     updateGraph();
 }
 
-// Graph visualization with vis.js
 function updateGraph() {
-    const activeTokenIds = new Set([0]);
+    const activeTokenIds = new Set(["root"]);
+
     tokenAnalyses.forEach(analysis => {
         if (analysis.node1Id !== null && analysis.node1Relation) {
             activeTokenIds.add(analysis.tokenId);
@@ -617,15 +639,18 @@ function updateGraph() {
     });
 
     const nodes = [{
-        id: '0',
+        id: 'root',
         label: '0: Sentence Root',
         color: '#fff9c4',
         font: { size: 14, bold: true }
     }].concat(
-        tokens.filter(t => t.type === 'lexical' && activeTokenIds.has(t.tokenId) && t.tokenId !== 0)
+        tokens
+            .filter(t => t.type === 'lexical' && 
+                         activeTokenIds.has(t.tokenId) && 
+                         t.tokenId !== "root")
             .map(t => ({
-                id: t.tokenId,
-                label: `${t.tokenId}: ${t.text}`,
+                id: t.tokenId,                              // internal ID (for edges)
+                label: `${t.displayId}: ${t.text}`,         // UI label (FIXED)
                 color: '#e6f0fa',
                 font: { size: 12 }
             }))
@@ -656,19 +681,7 @@ function updateGraph() {
         edges: new vis.DataSet(edges)
     };
 
-    const options = {
-        layout: {
-            hierarchical: {
-                direction: 'UD',
-                sortMethod: 'hubsize',
-                levelSeparation: 150,
-                nodeSpacing: 200
-            }
-        },
-        nodes: { shape: 'box', color: { border: '#005ea2' } },
-        edges: { font: { size: 10 }, arrows: { to: { enabled: true, scaleFactor: 0.5 } } },
-        physics: { enabled: false }
-    };
+    const options = { /* your existing options */ };
 
     if (graphNetwork) graphNetwork.destroy();
     graphNetwork = new vis.Network(graphContainer, data, options);
@@ -923,7 +936,7 @@ loadBtn.addEventListener('click', async () => {
 
         // Optional: rough reconstruction of sentence text for the export block
         input.value = tokens
-            .filter(t => t.tokenId !== 0)
+            .filter(t => t.tokenId !== "root")
             .map(t => t.text)
             .join(' ');
 

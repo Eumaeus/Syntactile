@@ -32,3 +32,19 @@ There are a few other bugs, but let's deal with one category at a time!
 Thanks, as always, for your help.
 
 All the code is up-to-date in the repository: <https://github.com/Eumaeus/Syntactile>. 
+
+---
+
+Conversation started at: <https://x.com/i/grok/share/bbaf0c1fa5ab4e71aab7d84e080b6192>
+
+This is great. Thank you SO MUCH!!!!
+
+On the principle of "one thing at a time"… 
+
+When I load a sentence from the popup menus, and confirm my Verbal Units, I get a list of tokens in `<div id="assignment-display">…</div>`.
+
+When I use the default text from in `<textarea id="sentence-input">`, I do not get any tokens apearing in `<div id="assignment-display">…</div>`.
+
+I have not had success in tracking this down.
+
+Everything is up to date in the repo: <https://github.com/Eumaeus/Syntactile>. 
