@@ -872,11 +872,11 @@ function importCex(fileContent) {
     verbalUnitIdCounter = Math.max(1, ...verbalUnits.map(u => parseInt(u.id.replace('VU', '')) || 0)) + 1;
 
     tokenAssignments = tokenData
-        .filter(t => tokens.some(tok => tok.tokenId === t.tokenId))
-        .map(t => ({
-            tokenId: t.tokenId,
-            verbalUnitIds: t.verbalUnitIds.filter(id => verbalUnits.some(u => u.id === id))
-        }));
+    .filter(t => tokens.some(tok => tok.tokenId === t.id))   // ← changed to t.id
+    .map(t => ({
+        tokenId: t.id,                                       // ← changed to t.id
+        verbalUnitIds: t.verbalUnitIds.filter(id => verbalUnits.some(u => u.id === id))
+    }));
 
     tokenAnalyses = [];
     relationData.forEach(r => {

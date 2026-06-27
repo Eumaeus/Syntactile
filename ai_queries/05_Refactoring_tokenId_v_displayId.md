@@ -78,3 +78,48 @@ Yes, please!!!
 Okay… those changes worked! Now both default and CTS-URN sentences load from CEX and restore the graph view.
 
 I spoke in error earlier, though. In *neither* case does importing a CEX restore the token-assigment to Verbal Units, although it *does* restore the defined Verbal Units. (The default *Iliad* quotation has two Verbal Units.)
+
+The code is updated in the repository.
+
+---
+
+Perfect.
+
+One last thing that I can see, in terms of actual functionality.
+
+When assigning tokens to Verbal Units, everything works as it should. Before any assignment, all tokens appear in yellow as unassigned. As tokens are assigned to VU1, they move up and no longer appear as unassigned.
+
+When switching to VU2, the tokens assigned to VU1 remain in that list, assigned. 
+
+All tokens appear in the Unassigned listing, with those assigned to VU1 differentiated by color. You helped me with this at my request and it works great.
+
+Upon importing a CEX, tokens assigned to VU1 appear where they should, and tokens assigned to VU2 appear where they should.
+
+But in Unassigned Tokens, we see all tokens from VU2.
+
+I think, after a CEX import, the only tokens that should appear in the Unassigned list are tokens truly unassigned.
+
+Of course, if the user then create a VU3 and selects it from the menu, to add tokens to it, *all* tokens should appear in Unassigned, with those assigned to VU1 or VU2 differentiated by color.
+
+(A token may appear in more than one Verbal Unit).
+
+If this explanation does not make sense, please let me know.
+
+I have included the file `sample_output/analysis_unassigned_tokens.cex` as the CEX I am importing. In the CEX, every token is correctly assigned either to VU1 or VU2.
+
+---
+
+Oh, of course. You are absolutely right! This is precisely what I asked for and what you implemented in the code.
+
+I forgot that on import, VU1 *will be selected*, and so of course the tokens assigned to VU2 will be "unassigned" based on the current state of the UI.
+
+So this is not a "bug fix", but a case of "designer changed his mind about the spec after it was implemented correctly as he described it."
+
+Thank you for understanding this UI better than I do!
+
+I like your **Option B**: "Change the Unassigned logic so that immediately after import it only shows tokens with zero assignments at all, then reverts to normal behavior once the user interacts with the select or creates a new VU."
+
+I think it would be most clear to the user, while keeping the best UI and functionality when actually editing. Let's do that.
+
+
+
