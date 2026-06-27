@@ -19,6 +19,13 @@ function parseCtsRangeUrn(rangeUrn) {
     };
 }
 
+function exitImportReviewMode() {
+    if (justImported) {
+        justImported = false;
+        updateAssignmentDisplay(); // refresh with normal editing behavior
+    }
+}
+
 function createTokenObject(urn, text, displayNum, isRoot = false) {
     const cleanTxt = text.trim();
     const isPunct = PUNCTUATION.includes(cleanTxt);
@@ -147,6 +154,7 @@ let sentenceId = generateUUID();
 let editingUnitId = null;
 let tokenAssignments = []; // { tokenId: number, verbalUnitIds: string[] }
 let tokenAnalyses = []; // { tokenId: number, node1Id: number|null, node1Relation: string, node2Id: number|null, node2Relation: string }
+let justImported = false;   // ← new flag
 let graphNetwork = null;
 let ctsUrn = 'urn:cts:greekLit:tlg0054.tlg001.perseus-grc1:1.1.1';
 let cite2Urn = `urn:cite2:analyzer:analysis:2025-06-13-${sentenceId}`;
@@ -309,6 +317,7 @@ confirmBtn.addEventListener('click', () => {
     level.selectedIndex = 0;
     updateVerbalUnitForm();
     updateVerbalUnitSelect();
+    exitImportReviewMode();
     updateAssignmentDisplay();
 });
 
@@ -409,8 +418,10 @@ function updateVerbalUnitSelect() {
     });
 
     verbalUnitSelect.removeEventListener('change', updateAssignmentDisplay);
-    verbalUnitSelect.addEventListener('change', updateAssignmentDisplay);
-
+    verbalUnitSelect.addEventListener('change', () => {
+        exitImportReviewMode();
+        updateAssignmentDisplay();
+    });
     if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
         verbalUnitSelect.value = verbalUnits[0].id;
         updateAssignmentDisplay();
@@ -436,6 +447,8 @@ function toggleTokenAssignment(tokenId) {
     } else {
         tokenAssignments.push({ tokenId, verbalUnitIds: [selectedUnitId] });
     }
+
+
 
     updateTokenDisplay();
     updateAssignmentDisplay();
@@ -489,21 +502,36 @@ function updateAssignmentDisplay() {
 
     // Unassigned tokens section for the currently selected unit
     if (selectedUnitId) {
-        const unassigned = tokens.filter(t =>
-            t.type === 'lexical' &&
-            t.tokenId !== "root" &&                    // ← fixed root check
-            !tokenAssignments.some(a => 
-                a.tokenId === t.tokenId && 
-                a.verbalUnitIds.includes(selectedUnitId)
-            )
-        );
+        let unassigned;
+
+        if (justImported) {
+            // === Post-import "review" mode ===
+            // Only show tokens that have ZERO assignments at all
+            unassigned = tokens.filter(t =>
+                t.type === 'lexical' &&
+                t.tokenId !== "root" &&
+                !tokenAssignments.some(a => a.tokenId === t.tokenId && a.verbalUnitIds.length > 0)
+            );
+        } else {
+            // === Normal editing mode ===
+            // Show tokens not yet assigned to THIS specific Verbal Unit
+            // (tokens assigned to other VUs still appear with special styling)
+            unassigned = tokens.filter(t =>
+                t.type === 'lexical' &&
+                t.tokenId !== "root" &&
+                !tokenAssignments.some(a => 
+                    a.tokenId === t.tokenId && 
+                    a.verbalUnitIds.includes(selectedUnitId)
+                )
+            );
+        }
 
         if (unassigned.length > 0) {
             const unassignedDiv = document.createElement('div');
             unassignedDiv.id = 'unassigned-tokens';
             unassignedDiv.innerHTML = `
-            <div class="unit-info">Unassigned Tokens (click to assign):</div>
-            <div class="tokens"></div>
+                <div class="unit-info">Unassigned Tokens (click to assign):</div>
+                <div class="tokens"></div>
             `;
             const container = unassignedDiv.querySelector('.tokens');
 
@@ -514,15 +542,14 @@ function updateAssignmentDisplay() {
                 const assignment = tokenAssignments.find(a => a.tokenId === token.tokenId);
                 const isAssignedElsewhere = assignment && assignment.verbalUnitIds.length > 0;
 
-                if (isAssignedElsewhere) {
+                if (isAssignedElsewhere && !justImported) {
                     span.classList.add('has-other-assignments');
                     const otherVUs = assignment.verbalUnitIds.join(', ');
                     span.title = `Already assigned to: ${otherVUs} (still assignable here)`;
                 }
 
-                // Use displayId for the visible number
                 span.innerHTML = `${token.text}<sup class="token-id">${token.displayId}</sup>`;
-                span.dataset.tokenId = token.tokenId;                    // real ID
+                span.dataset.tokenId = token.tokenId;
                 span.addEventListener('click', () => toggleTokenAssignment(token.tokenId));
                 container.appendChild(span);
             });
@@ -901,6 +928,8 @@ function importCex(fileContent) {
     if (stage2Section) stage2Section.style.display = 'block';
     // if (stage3Section) stage2Section.style.display = 'block';
 
+
+    justImported = true;
     updateTokenDisplay();
     updateVerbalUnitTable();
     updateVerbalUnitSelect();
