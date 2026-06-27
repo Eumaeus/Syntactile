@@ -13,12 +13,17 @@
     
 </head>
 <body>
-    <h1>Ancient Greek Syntax Analyzer</h1>
-    <div id="input-section">
-        <textarea id="sentence-input" placeholder="Enter an Ancient Greek sentence..."></textarea>
 
+    <div id="masthead" class="sansfont">Furman Classics. <a href="https://github.com/Eumaeus/Syntactile">Syntactile: Ancient Greek Syntax</a>. C. Blackwell, 2026. CC-BY-NC. Code and instructions on <a href="https://github.com/Eumaeus/Dramaturg.jl">Github</a>.</div>
+
+    <h1>Syntactile: Ancient Greek Syntax</h1>
+    <p id="app-credits">Document the syntax of Ancient Greek sentences.</p>
+
+
+    <div id="stage0-section">
+        <h2>Stage 0: Get a Sentence</h2>
         <!-- Load Sentence from source texts (CTS-URN aligned) -->
-        <div id="load-sentence-controls" style="margin-top: 1em; padding: 1em; background: #f8f9fa; border-radius: 6px; border: 1px solid #ddd;">
+        <div class="loadpanel"  id="load-sentence-controls" >
             <h3 style="margin-top:0; font-size:1.1em;">Load Sentence from Source Text (recommended for aligned work)</h3>
             <div style="display: flex; gap: 1em; flex-wrap: wrap; align-items: flex-end;">
                 <div>
@@ -41,11 +46,32 @@
             </div>
             <p style="font-size: 0.85em; color: #555; margin: 0.5em 0 0;">Tokens will use their original CTS-URN identifiers from the tokenized source text.</p>
         </div>
-        
 
-        <div id="urn-display">CTS-URN: <span id="cts-urn"></span></div>
-        <button id="import-cex-btn">Import CEX</button>
-        <input type="file" id="import-cex" accept=".cex">
+        
+        <div class="loadpanel" id="load-cex-controls" >
+            <h3 style="margin-top:0; font-size:1.1em;">Load Syntax from CEX</h3>
+            <button id="import-cex-btn"  class="action-btn" style="background-color: #1565c0; color: white; padding: 0.6em 1.2em;">Import CEX and Resume/Edit Analysis</button>
+            <input type="file" id="import-cex" accept=".cex">
+        </div>
+
+         <!-- Default sentence; paste-type area -->
+        <div class="loadpanel" id="load-sentence-controls" >
+            <h3 style="margin-top:0; font-size:1.1em;">Paste or Type a Sentence</h3>
+
+            <textarea id="sentence-input" placeholder="Enter an Ancient Greek sentence..."></textarea>
+
+            <div id="urn-display">Placeholder URN: <span id="cts-urn"></span></div>
+        </div>
+
+
+
+        <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
+            <button id="done-stage0" class="action-btn" style="background-color: #2e7d32; color: white;">
+                ✓ Done with Stage 0 — Show Verbal Units (Stage 1)
+            </button>
+        </div>
+
+
     </div>
     <div id="stage1-section">
         <h2>Stage 1: Define Verbal Units</h2>

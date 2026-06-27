@@ -115,6 +115,7 @@ const input = document.getElementById('sentence-input');
 const ctsUrnDisplay = document.getElementById('cts-urn');
 const cite2UrnDisplay = document.getElementById('cite2-urn');
 const tokenOutput = document.getElementById('token-output');
+const stage0Section = document.getElementById('stage0-section');
 const stage1Section = document.getElementById('stage1-section');
 const stage2Section = document.getElementById('stage2-section');
 const verbalUnitForm = document.getElementById('verbal-unit-form');
@@ -146,6 +147,9 @@ const sentenceTsvFiles = [
 
 let currentSentencesData = []; // populated when a collection is chosen
 
+const date = new Date().toISOString().split("T")[0];
+
+
 // State management
 let tokens = [];
 let verbalUnits = [];
@@ -156,29 +160,38 @@ let tokenAssignments = []; // { tokenId: number, verbalUnitIds: string[] }
 let tokenAnalyses = []; // { tokenId: number, node1Id: number|null, node1Relation: string, node2Id: number|null, node2Relation: string }
 let justImported = false;   // ← new flag
 let graphNetwork = null;
-let ctsUrn = 'urn:cts:greekLit:tlg0054.tlg001.perseus-grc1:1.1.1';
-let cite2Urn = `urn:cite2:analyzer:analysis:2025-06-13-${sentenceId}`;
+let ctsUrn = 'urn:cts:greekLit:demos.ad_hoc.default:0';
+let cite2Urn = `urn:cite2:analyzer:analysis:${date}-${sentenceId}`;
 
 // Allowed syntactic relations (used for dropdowns)
 const RELATION_OPTIONS = [
+    "Unit Verb",
+    "Unit Infinitive",
+    "Unit Participle",
+    "-",
+    "Subject",
+    "Relative Pronoun",
+    "Apostrophe",
+    "-",
+    "Direct Object",
+    "Predicative",
+    "-",
+    "Article",
+    "Attribute",
+    "Adverbial",
+    "Appositive",
+    "-",
+    "Correlated",
+    "-",
+    "Auxiliary Infinitive",
+    "-",
+    "Preposition",
+    "Object of Prep.",
+    "-",
     "Sentence Adverbial",
     "Unit Adverbial",
     "Conjunction",
-    "Apostrophe",
-    "Finite Unit Verb",
-    "Infinitive Unit Verb",
-    "Circumstantial Participle",
-    "Attributive Participle",
-    "Auxiliary Infinitive",
-    "Articular Infinitive",
-    "Adverbial",
-    "Correlated",
-    "Preposition",
-    "Attribute",
-    "Predicative",
-    "Subject",
-    "Appositive",
-    "Direct Object",
+    "-",
     "Dative",
     "Genitive",
     "Accusative",
@@ -321,14 +334,25 @@ confirmBtn.addEventListener('click', () => {
     updateAssignmentDisplay();
 });
 
+// Staged reveal handlers 0
+const doneStage0 = document.getElementById('done-stage0');
+if (doneStage0 && stage1Section) {
+    doneStage0.addEventListener('click', () => {
+        stage1Section.style.display = 'block';
+        stage1Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        //Optional: collapse/hide stage0 after proceeding
+        //stage0Section.style.display = 'none';
+    });
+}
+
 // Staged reveal handlers 1
 const doneStage1 = document.getElementById('done-stage1');
 if (doneStage1 && stage2Section) {
     doneStage1.addEventListener('click', () => {
         stage2Section.style.display = 'block';
         stage2Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Optional: collapse/hide stage1 after proceeding
-        // stage1Section.style.display = 'none';
+        //Optional: collapse/hide stage1 after proceeding
+        //stage1Section.style.display = 'none';
     });
 }
 
@@ -604,10 +628,14 @@ function updateAnalysisTable() {
                 <td>
                     <select id="node1-relation-${token.tokenId}" 
                             onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value)">
-                        <option value="">-- Select relation --</option>
-                        ${RELATION_OPTIONS.map(rel => 
-                            `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
-                        ).join('')}
+                        <option value="">Select…</option>
+                        ${RELATION_OPTIONS.map(rel => {
+                            if (rel == "-") {
+                                return `<hr>`
+                            } else {
+                                return `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
+                            }
+                        }).join('')}
                     </select>
                 </td>
                 <td>
@@ -632,9 +660,13 @@ function updateAnalysisTable() {
                     <select id="node2-relation-${token.tokenId}" 
                             onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value)">
                         <option value="">-- Select relation --</option>
-                        ${RELATION_OPTIONS.map(rel => 
-                            `<option value="${rel}" ${analysis.node2Relation === rel ? 'selected' : ''}>${rel}</option>`
-                        ).join('')}
+                         ${RELATION_OPTIONS.map(rel => {
+                            if (rel == "-") {
+                                return `<hr>`
+                            } else {
+                                return `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
+                            }
+                        }).join('')}
                     </select>
                 </td>
             `;
@@ -924,6 +956,7 @@ function importCex(fileContent) {
     });
 
     // === Refresh the entire UI ===
+    if (stage0Section) stage0Section.style.display = 'block';
     if (stage1Section) stage1Section.style.display = 'block';
     if (stage2Section) stage2Section.style.display = 'block';
     // if (stage3Section) stage2Section.style.display = 'block';
@@ -1047,6 +1080,7 @@ loadBtn.addEventListener('click', async () => {
 
         // Show stage 1, hide stage 2 until user clicks Done
         if (stage1Section) stage1Section.style.display = 'block';
+        if (stage0Section) stage0Section.style.display = 'block';
         if (stage2Section) stage2Section.style.display = 'none';
 
         // Scroll to tokens
@@ -1070,5 +1104,6 @@ updateAssignmentDisplay();
 updateAnalysisTable();
 
 // Staged reveal: hide later stages initially
+if (stage1Section) stage1Section.style.display = 'none';
 if (stage2Section) stage2Section.style.display = 'none';
 // if (stage3Section) stage3Section.style.display = 'none';
