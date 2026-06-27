@@ -22,7 +22,6 @@ function parseCtsRangeUrn(rangeUrn) {
 function createTokenObject(urn, text, displayNum, isRoot = false) {
     const cleanTxt = text.trim();
     const isPunct = PUNCTUATION.includes(cleanTxt);
-
     return {
         text: cleanTxt,
         type: isPunct ? 'punctuation' : 'lexical',
@@ -39,7 +38,7 @@ async function fetchAndParseTsv(tsvPath) {
     const data = [];
     for (let i = 1; i < lines.length; i++) { // skip comment + header
         const line = lines[i].trim();
-        if (!line || line.startsWith('//')) continue;
+        if (!line || line.startsWith('//') || line.startsWith('label')) continue;
         const [label, textPath, sentenceUrn] = line.split('\t');
         if (label && textPath && sentenceUrn) {
             data.push({ label: label.trim(), textPath: textPath.trim(), sentenceUrn: sentenceUrn.trim() });
@@ -84,7 +83,6 @@ async function loadTokensFromCex(cexPath, fromUrn, toUrn) {
     for (const line of tokenLines) {
         const [urn, txt] = line.split('#');
         if (!urn || !txt) continue;
-
         const tokenObj = createTokenObject(urn, txt, displayEnum);
         if (!tokenObj.type.includes('punctuation')) {
             displayEnum++;
@@ -228,7 +226,7 @@ function updateTokenDisplay() {
             span.dataset.tokenId = token.tokenId;
 
             // Apply assignment classes for visual feedback
-            const assignment = tokenAssignments.find(a => a.tokenId === token.id);
+            const assignment = tokenAssignments.find(a => a.tokenId === token.tokenId);
             if (assignment && assignment.verbalUnitIds.length > 0) {
                 const vuIndex = verbalUnits.findIndex(u => u.id === assignment.verbalUnitIds[0]);
                 if (vuIndex !== -1) {
@@ -238,7 +236,7 @@ function updateTokenDisplay() {
 
             // Click to toggle assignment for currently selected verbal unit
             span.addEventListener('click', () => {
-                toggleTokenAssignment(token.id);
+                toggleTokenAssignment(token.tokenId);
             });
 
         } else if (token.type === 'white-space') {
@@ -429,9 +427,9 @@ function updateAssignmentDisplay() {
     verbalUnits.forEach(unit => {
         const assignedTokens = tokenAssignments
             .filter(a => a.verbalUnitIds.includes(unit.id))
-            .map(a => tokens.find(t => t.id === a.tokenId))
+            .map(a => tokens.find(t => t.tokenId === a.tokenId))
             .filter(Boolean)
-            .sort((a, b) => a.id - b.id);
+            .sort((a, b) => a.tokenId - b.tokenId);
 
         const row = document.createElement('div');
         row.className = `verbal-unit-row level-${unit.level}`;
@@ -459,7 +457,7 @@ function updateAssignmentDisplay() {
             span.dataset.tokenId = token.tokenId;   // still stores the real URN
 
             if (isCurrent) {
-                span.addEventListener('click', () => toggleTokenAssignment(token.id));
+                span.addEventListener('click', () => toggleTokenAssignment(token.tokenId));
             }
             tokensContainer.appendChild(span);
         });
@@ -518,6 +516,7 @@ function updateAnalysisTable() {
 
     // Sentence Root row
     const rootRow = document.createElement('tr');
+    
     rootRow.innerHTML = `
         <td>0</td>
         <td>Sentence Root</td>
@@ -526,26 +525,30 @@ function updateAnalysisTable() {
         <td><select disabled><option value="">N/A</option></select></td>
         <td><select disabled><option value="">N/A</option></select></td>
     `;
+    
     analysisTableBody.appendChild(rootRow);
 
-    tokens.filter(t => t.type === 'lexical' && t.id !== 0).forEach(token => {
-        const analysis = tokenAnalyses.find(a => a.tokenId === token.id) || {};
+    tokens.filter(t => t.type === 'lexical' && t.tokenId !== 0).forEach(token => {
+        const analysis = tokenAnalyses.find(a => a.tokenId === token.tokenId) || {};
+        if (token.tokenId === "root" || token.displayId === 0) return;
+
+
 
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${token.id}</td>
+            <td>${token.displayId}</td>
             <td>${token.text}</td>
             <td>
-            <select id="node1-${token.id}" onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value)">
+            <select id="node1-${token.tokenId}" onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value)">
                     <option value="">Select...</option>
                     <option value="0" ${analysis.node1Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
-                    ${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0)
-                        .map(u => `<option value="${u.id}" ${analysis.node1Id === u.id ? 'selected' : ''}>${u.id}: ${u.text}</option>`)
+                    ${tokens.filter(u => u.type === 'lexical' && u.tokenId !== token.tokenId && u.tokenId !== "root")
+                        .map(u => `<option value="${u.tokenId}" ${analysis.node1Id === u.tokenId ? 'selected' : ''}>${u.displayId}: ${u.text}</option>`)
                         .join('')}
                 </select>
             </td>
             <td>
-                <select id="node1-relation-${token.id}" onchange="updateAnalysis(${token.id}, 'node1Relation', this.value)">
+                <select id="node1-relation-${token.tokenId}" onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value)">
                     <option value="">-- Select relation --</option>
                     ${RELATION_OPTIONS.map(rel => 
                         `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
@@ -553,16 +556,16 @@ function updateAnalysisTable() {
                 </select>
             </td>
             <td>
-                <select id="node2-${token.id}" onchange="updateAnalysis(${token.id}, 'node2Id', this.value)">
+                <select id="node2-${token.tokenId}" onchange="updateAnalysis('${token.tokenId}', 'node2Id', this.value)">
                     <option value="">Select...</option>
                     <option value="0" ${analysis.node2Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
-                    ${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0)
-                        .map(u => `<option value="${u.id}" ${analysis.node2Id === u.id ? 'selected' : ''}>${u.id}: ${u.text}</option>`)
+                    ${tokens.filter(u => u.type === 'lexical' && u.tokenId !== token.tokenId && u.tokenId !== 0)
+                        .map(u => `<option value="${u.tokenId}" ${analysis.node2Id === u.tokenId ? 'selected' : ''}>${u.tokenId}: ${u.text}</option>`)
                         .join('')}
                 </select>
             </td>
             <td>
-                <select id="node2-relation-${token.id}" onchange="updateAnalysis(${token.id}, 'node2Relation', this.value)">
+                <select id="node2-relation-${token.tokenId}" onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value)">
                     <option value="">-- Select relation --</option>
                     ${RELATION_OPTIONS.map(rel => 
                         `<option value="${rel}" ${analysis.node2Relation === rel ? 'selected' : ''}>${rel}</option>`
@@ -619,10 +622,10 @@ function updateGraph() {
         color: '#fff9c4',
         font: { size: 14, bold: true }
     }].concat(
-        tokens.filter(t => t.type === 'lexical' && activeTokenIds.has(t.id) && t.id !== 0)
+        tokens.filter(t => t.type === 'lexical' && activeTokenIds.has(t.tokenId) && t.tokenId !== 0)
             .map(t => ({
-                id: t.id,
-                label: `${t.id}: ${t.text}`,
+                id: t.tokenId,
+                label: `${t.tokenId}: ${t.text}`,
                 color: '#e6f0fa',
                 font: { size: 12 }
             }))
@@ -683,8 +686,8 @@ function exportCex() {
 
     cex += '#!citedata\ntokenId#text#verbalUnitIds\n';
     tokens.filter(t => t.type === 'lexical').forEach(t => {
-        const units = tokenAssignments.find(a => a.tokenId === t.id)?.verbalUnitIds.join(',') || '';
-        cex += `${t.id}#${t.text.replace(/#/g, '\\#')}#${units}\n`;
+        const units = tokenAssignments.find(a => a.tokenId === t.tokenId)?.verbalUnitIds.join(',') || '';
+        cex += `${t.tokenId}#${t.text.replace(/#/g, '\\#')}#${units}\n`;
     });
     cex += '\n';
 
@@ -789,9 +792,9 @@ function importCex(fileContent) {
     verbalUnitIdCounter = Math.max(1, ...verbalUnits.map(u => parseInt(u.id.replace('VU', '')) || 0)) + 1;
 
     tokenAssignments = tokenData
-        .filter(t => tokens.some(tok => tok.id === t.id))
+        .filter(t => tokens.some(tok => tok.tokenId === t.tokenId))
         .map(t => ({
-            tokenId: t.id,
+            tokenId: t.tokenId,
             verbalUnitIds: t.verbalUnitIds.filter(id => verbalUnits.some(u => u.id === id))
         }));
 
@@ -920,7 +923,7 @@ loadBtn.addEventListener('click', async () => {
 
         // Optional: rough reconstruction of sentence text for the export block
         input.value = tokens
-            .filter(t => t.id !== 0)
+            .filter(t => t.tokenId !== 0)
             .map(t => t.text)
             .join(' ');
 
