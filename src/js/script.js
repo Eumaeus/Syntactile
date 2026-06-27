@@ -762,7 +762,44 @@ function updateGraph() {
         edges: new vis.DataSet(edges)
     };
 
-    const options = { /* your existing options */ };
+     const options = {
+        layout: {
+            hierarchical: {
+                direction: 'UD',
+                sortMethod: 'hubsize',
+                levelSeparation: 100,
+                nodeSpacing: 100
+            }
+        },
+        nodes: { 
+            shape: 'box', 
+            color: { 
+                border: '#005ea2' 
+            } 
+        },
+        edges: { 
+            physics: true,
+            font: { 
+                size: 10 
+            }, 
+            arrows: { 
+                to: { 
+                    enabled: true, 
+                    scaleFactor: 0.5 
+                } 
+            },
+            smooth: {
+                 type: "continuous",
+                 //type: "curvedCW",
+                 roundness: 0.2
+            },
+        },
+        //physics: { enabled: false }
+        physics: {
+            enabled: true
+        }
+    };
+
 
     if (graphNetwork) graphNetwork.destroy();
     graphNetwork = new vis.Network(graphContainer, data, options);
@@ -1106,4 +1143,3 @@ updateAnalysisTable();
 // Staged reveal: hide later stages initially
 if (stage1Section) stage1Section.style.display = 'none';
 if (stage2Section) stage2Section.style.display = 'none';
-// if (stage3Section) stage3Section.style.display = 'none';

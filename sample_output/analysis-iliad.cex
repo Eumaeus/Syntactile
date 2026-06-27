@@ -1,11 +1,11 @@
 #!citelibrary
 name#Ancient Greek Syntax Analysis
-urn#urn:cite2:analyzer:analysis:2025-06-13-7d47c106-666f-4e1b-be42-3154fa30220c
-text#urn:cts:greekLit:tlg0054.tlg001.perseus-grc1:1.1.1
+urn#urn:cite2:analyzer:analysis:2026-06-27-eb03acd4-9c38-49c4-a0be-93fba975f477
+text#urn:cts:greekLit:demos.ad_hoc.default:0
 
 #!citedata
 sentence#text
-7d47c106-666f-4e1b-be42-3154fa30220c#μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος οὐλομένην, ἣ μυρί' Ἀχαιοῖς ἄλγε' ἔθηκε.
+eb03acd4-9c38-49c4-a0be-93fba975f477#μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος οὐλομένην, ἣ μυρί' Ἀχαιοῖς ἄλγε' ἔθηκε.
 
 #!citedata
 tokenId#text#verbalUnitIds
@@ -29,15 +29,15 @@ VU2#Subordinate Clause#Transitive#2
 
 #!citerelations
 source#target#relation
-2#root#Finite Unit Verb
+2#root#Unit Verb
+3#root#Apostrophe
 1#2#Direct Object
-3#2#Subject
-5#1#Genitive
-4#5#Genitive
+5#1#Attribute
 6#1#Attribute
-7#1#Appositive
+7#1#Relative Pronoun
 7#11#Subject
-11#7#Finite Unit Verb
+4#5#Attribute
+11#7#Unit Verb
 10#11#Direct Object
+9#11#Adverbial
 8#10#Attribute
-9#11#Dative
