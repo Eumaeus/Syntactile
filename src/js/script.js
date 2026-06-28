@@ -898,10 +898,12 @@ function exportCex() {
     let cex = '#!citelibrary\n';
     cex += `name#Ancient Greek Syntax Analysis\n`;
     cex += `urn#${cite2Urn}\n`;
-    cex += `text#${ctsUrn}\n\n`;
+    cex += `text#${ctsUrn}\n`;
+    cex += `editor#${editorName}\n`;
+    cex += `date#${date}\n\n`;
 
-    cex += '#!citedata\nsentence#text\n';
-    cex += `${sentenceId}#${input.value.replace(/#/g, '\\#')}\n\n`;
+    cex += '#!citedata\nsentence#ctsurn#text\n';
+    cex += `${cite2Urn}#${ctsUrn}#${input.value.replace(/#/g, '\\#')}\n\n`;
 
     cex += '#!citedata\ntokenId#text#verbalUnitIds\n';
     tokens.filter(t => t.type === 'lexical').forEach(t => {
@@ -955,7 +957,7 @@ function importCex(fileContent) {
         else if (line.startsWith('#!citedata')) {
             currentBlock = 'awaitingHeader';
         } 
-        else if (line === 'sentence#text') {
+        else if (line === 'sentence#ctsurn#text') {
             currentBlock = 'sentence';
         } 
         else if (line === 'tokenId#text#verbalUnitIds') {
@@ -976,7 +978,7 @@ function importCex(fileContent) {
                 if (parts[0] === 'text') ctsUrn = parts[1];
             } 
             else if (currentBlock === 'sentence' && parts.length >= 2) {
-                sentenceData = { id: parts[0], text: parts[1] };
+                sentenceData = { id: parts[0], ctsurn: parts[1], text: parts[2] };
             } 
             else if (currentBlock === 'tokens' && parts.length >= 3) {
                 const tokenEntry = {
