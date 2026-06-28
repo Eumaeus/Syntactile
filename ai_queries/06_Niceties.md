@@ -4,7 +4,7 @@ It hopes to be a tool for allowing students and scholars to analyze the syntax o
 
 The code at <https://github.com/Eumaeus/Syntactile> includes a directory, `ai_queries` that contains the history of my requests for help that got the project to its present state. This will be updated in the repository as we go along.
 
-I am working in branch `feature/import-sentences`.
+I am working in branch `main`.
 
 The last conversation we had on this topic is here: <https://x.com/i/grok/share/83d975096f5e4812bc59a4ae50c164d2>
 
@@ -87,3 +87,17 @@ const options = {
 ~~~
 
 Thanks for looking at this! All files are up-to-date in the repository at <https://github.com/Eumaeus/Syntactile>.
+
+---
+
+The modifications for zooming and centering the graph, and the reset button are prefect.
+
+All other changes are ideal, too! Easy fixes, and it really does improve the experience. I did not opt for forcing levels on the nodes, your last suggestion. As you said, it would require a more involved refactor than I want to do now. 
+
+This is great… the experience of working with this tool will be much smoother. Thank you!
+
+Everything is up-to-date in the repository.
+
+## One More Thing…
+
+If it would not be too disruptive, it would be great to be able to expand `<div id="graph-container"></div>` to full-screen, or at least full-window, for examining, discussing the graph. It would have to be just as easy to restore it to its current dimensions and place in the page.

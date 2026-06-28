@@ -668,16 +668,24 @@ function updateAnalysisTable() {
                             if (rel == "-") {
                                 return `<hr>`
                             } else {
-                                return `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
+                                return `<option value="${rel}" ${analysis.node2Relation === rel ? 'selected' : ''}>${rel}</option>`
                             }
                         }).join('')}
                     </select>
+                </td>
+                 <td>
+                    <button onclick="resetTokenAnalysis('${token.tokenId}')" 
+                            title="Reset this token's four menus to default"
+                            style="font-size: 1.1em; padding: 2px 6px; cursor: pointer;">
+                        ↺
+                    </button>
                 </td>
             `;
             analysisTableBody.appendChild(row);
         });
 
     updateGraph();
+    recenterGraph();
     // cite2UrnDisplay... (keep your existing line)
 }
 
@@ -766,47 +774,47 @@ function updateGraph() {
         edges: new vis.DataSet(edges)
     };
 
-     const options = {
+    const options = {
         layout: {
             hierarchical: {
-                direction: 'UD',
+                direction: 'UD',        // ← Try this first (Down-Up)
                 sortMethod: 'hubsize',
-                levelSeparation: 100,
+                levelSeparation: 120,
                 nodeSpacing: 100
             }
         },
         nodes: { 
             shape: 'box', 
-            color: { 
-                border: '#005ea2' 
-            } 
+            color: { border: '#005ea2' } 
         },
         edges: { 
             physics: true,
-            font: { 
-                size: 10 
-            }, 
-            arrows: { 
-                to: { 
-                    enabled: true, 
-                    scaleFactor: 0.5 
-                } 
-            },
-            smooth: {
-                 type: "continuous",
-                 //type: "curvedCW",
-                 roundness: 0.2
-            },
+            font: { size: 10 },
+            arrows: { to: { enabled: true, scaleFactor: 0.5 } },
+            smooth: { type: "continuous", roundness: 0.18 },
+            scaling: {
+                label: { enabled: true, min: 10, max: 18 }
+            }
         },
-        //physics: { enabled: false }
-        physics: {
-            enabled: true
+        physics: { enabled: true },
+        interaction: {
+            zoomView: true,
+            zoomSpeed: 0.45,           // ← Lower = less brisk (try 0.3–0.6)
+            navigationButtons: true,   // Adds built-in zoom +/- and pan controls
+            // keyboard: { enabled: true } // optional extra
         }
     };
 
-
     if (graphNetwork) graphNetwork.destroy();
     graphNetwork = new vis.Network(graphContainer, data, options);
+}
+
+function recenterGraph() {
+    if (graphNetwork) {
+        graphNetwork.fit({
+            animation: { duration: 400, easingFunction: "easeInOutQuad" }
+        });
+    }
 }
 
 // Export to CEX
@@ -1011,7 +1019,7 @@ function importCex(fileContent) {
     updateVerbalUnitTable();
     updateVerbalUnitSelect();
     // Staged reveal: hide later stages initially
-    if (stage2Section) stage2Section.style.display = 'none';
+    if (stage2Section) stage2Section.style.display = 'block';
     // if (stage3Section) stage3Section.style.display = 'none';
 
     if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
@@ -1164,7 +1172,20 @@ function editor2Changed(val) {
     }
 }
 
+function resetTokenAnalysis(tokenId) {
+    tokenAnalyses = tokenAnalyses.filter(a => a.tokenId !== tokenId);
+    updateAnalysisTable();
+}
+
+function resetSyntacticStage() {
+    if (!confirm("Reset all syntactic relationship analyses for this sentence?")) return;
+    tokenAnalyses = [];
+    updateAnalysisTable();   // this also calls updateGraph()
+}
 
 // Staged reveal: hide later stages initially
-if (stage1Section) stage1Section.style.display = 'block';
-if (stage2Section) stage2Section.style.display = 'block';
+if (stage1Section) stage1Section.style.display = 'none';
+if (stage2Section) stage2Section.style.display = 'none';
+
+//Let's start the graph centered!
+recenterGraph();

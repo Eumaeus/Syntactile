@@ -131,6 +131,7 @@
         </div>
         <div id="assignment-display"></div>
 
+
         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
             <button id="done-stage1" class="action-btn" style="background-color: #2e7d32; color: white;">
                 ✓ Done with Stage 1 — Show Syntactic Relationship Analysis (Stage 2)
@@ -161,6 +162,13 @@
         <input id="editor-name2" type="text" value="Your Name" class="editor_name_button" onchange="editor2Changed(this.value)"> 
 
         <div id="graph-container"></div>
+
+        <button id="recenter_graph_button" onclick="recenterGraph()" class="btn">Recenter / Fit Graph</button>
+
+        <button onclick="resetSyntacticStage()" class="btn btn-warning">Reset All Syntactic Analyses</button>
+
+
+
         <table id="analysis-table">
             <thead>
                 <tr>
@@ -170,6 +178,7 @@
                     <th>Node 1 Relation</th>
                     <th>Node 2</th>
                     <th>Node 2 Relation</th>
+                    <th>Reset</th>
                 </tr>
             </thead>
             <tbody id="analysis-table-body"></tbody>
