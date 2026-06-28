@@ -101,3 +101,13 @@ Everything is up-to-date in the repository.
 ## One More Thing…
 
 If it would not be too disruptive, it would be great to be able to expand `<div id="graph-container"></div>` to full-screen, or at least full-window, for examining, discussing the graph. It would have to be just as easy to restore it to its current dimensions and place in the page.
+
+---
+
+BEAUTIFUL! Absolutely perfect.
+
+This tool is amazing. I have worked with other online syntax applications for years, and this is so much better. I am in awe of what I can accomplish with your help.
+
+My list of *desiderata* for teaching in the Fall is getting shorter, but is not yet complete! I will come back in a new conversation, referencing this one, to talk about evaulating and comparing the graphed syntax that this Syntactile app exports. But let me articulate my thoughts as clearly as possible.
+
+Conversation at: <https://x.com/i/grok/share/107cdcbe14c74e1c8fa5a97ed987da64>

@@ -817,6 +817,79 @@ function recenterGraph() {
     }
 }
 
+// ==================== GRAPH FULLSCREEN ====================
+
+function toggleGraphFullscreen() {
+    const container = document.getElementById('graph-container');
+    if (!container) return;
+
+    if (!document.fullscreenElement) {
+        // Enter fullscreen
+        container.requestFullscreen()
+            .then(() => {
+                refreshGraphAfterResize();
+            })
+            .catch(err => {
+                console.warn("Could not enter fullscreen:", err);
+                // Fallback (rarely needed)
+                makeGraphFullWindowCSS(container);
+            });
+    } else {
+        // Exit fullscreen
+        document.exitFullscreen();
+    }
+}
+
+// Helper: refresh vis-network after container size changes
+function refreshGraphAfterResize() {
+    if (!graphNetwork) return;
+    
+    setTimeout(() => {
+        graphNetwork.redraw();
+        graphNetwork.fit({ animation: { duration: 300 } });
+    }, 120);
+}
+
+// Optional CSS fallback (used only if requestFullscreen fails)
+function makeGraphFullWindowCSS(container) {
+    container.classList.add('graph-fullwindow');
+    refreshGraphAfterResize();
+
+    // Add temporary close button overlay if needed
+    let closeBtn = document.getElementById('graph-fullwindow-close');
+    if (!closeBtn) {
+        closeBtn = document.createElement('button');
+        closeBtn.id = 'graph-fullwindow-close';
+        closeBtn.textContent = '✕ Close Full Window';
+        closeBtn.style.cssText = 'position:fixed;top:10px;right:10px;z-index:10000;padding:8px 16px;';
+        closeBtn.onclick = () => exitGraphFullWindowCSS(container);
+        document.body.appendChild(closeBtn);
+    }
+}
+
+function exitGraphFullWindowCSS(container) {
+    container.classList.remove('graph-fullwindow');
+    const closeBtn = document.getElementById('graph-fullwindow-close');
+    if (closeBtn) closeBtn.remove();
+    refreshGraphAfterResize();
+}
+
+// Listen for native fullscreen changes (including ESC key)
+document.addEventListener('fullscreenchange', () => {
+    const btn = document.getElementById('fullscreen-btn');
+    if (!btn) return;
+
+    if (document.fullscreenElement) {
+        btn.textContent = '⛶ Exit Fullscreen';
+        btn.title = 'Return to normal view';
+        refreshGraphAfterResize();
+    } else {
+        btn.textContent = '⛶ Fullscreen';
+        btn.title = 'Toggle fullscreen view of the graph';
+        refreshGraphAfterResize();
+    }
+});
+
 // Export to CEX
 function exportCex() {
 
