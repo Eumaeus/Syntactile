@@ -1,18 +1,20 @@
 // Hansen & Quinn, Unit 06
 
 label	text	sentence
-Sentence 01	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.1.token.1-6.1.token.19
-Sentence 02	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.2.token.1-6.2.token.14
-Sentence 03	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.3.token.1-6.3.token.20
-Sentence 04	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.4.token.1-6.4.token.9
-Sentence 05	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.5.token.1-6.5.token.24
-Sentence 06	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.6.token.1-6.6.token.13
-Sentence 07	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.7.token.1-6.7.token.21
-Sentence 08	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.8.token.1-6.8.token.12
-Sentence 09	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.9.token.1-6.9.token.27
+Sentence 1	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.1.token.1-6.1.token.19
+Sentence 2	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.2.token.1-6.2.token.14
+Sentence 3	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.3.token.1-6.3.token.20
+Sentence 4	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.4.token.1-6.4.token.9
+Sentence 5	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.5.token.1-6.5.token.24
+Sentence 6	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.6.token.1-6.6.token.13
+Sentence 7	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.7.token.1-6.7.token.21
+Sentence 8	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.8.token.1-6.8.token.12
+Sentence 9	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.9.token.1-6.9.token.27
 Sentence 10	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.10.token.1-6.10.token.9
-Sentence 11	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.11.token.1-6.11.token.11
-Sentence 12	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.12.token.1-6.12.token.26
+Sentence 11a	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.11a.token.1-6.11a.token.5
+Sentence 11b	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.11b.token.1-6.11b.token.6
+Sentence 12a	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.12a.token.1-6.12a.token.20
+Sentence 12b	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.12b.token.1-6.12b.token.6
 Sentence 13	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.13.token.1-6.13.token.22
 Sentence 14	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.14.token.1-6.14.token.10
 Sentence 15	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.15.token.1-6.15.token.16
@@ -29,4 +31,5 @@ Sentence 25	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.202
 Sentence 26	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.26.token.1-6.26.token.12
 Sentence 27	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.27.token.1-6.27.token.7
 Sentence 28	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.28.token.1-6.28.token.10
-Sentence 29	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.29.token.1-6.29.token.15
+Sentence 29a	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.29a.token.1-6.29a.token.7
+Sentence 29b	texts/HQ_Sentences_tokenized.cex	urn:cts:fuTeaching:blackwell.hq.2026:6.29b.token.1-6.29b.token.8

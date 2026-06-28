@@ -9,26 +9,76 @@ body {
     min-height: 100vh;
     color: #1a1a1a;
 }
+
+div#masthead {
+    color: #999;
+    background: url(logo.png) no-repeat;
+    padding-left: 50px;
+    min-height: 32px;
+    line-height: 2.1rem;
+    margin-bottom: 2rem;
+}
+
+a {
+    color: navy;
+    text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
 h1 {
     font-size: 1.8em;
     font-weight: 600;
-    margin: 20px 0;
+    margin: 15px 0 0 0;
     color: #1a1a1a;
 }
+
+p#app-credits {
+    margin-bottom: 40px;
+}
+
 h2 {
     font-size: 1.4em;
     font-weight: 600;
     margin: 15px 0;
 }
+
 .instructions {
     font-size: 0.9em;
     color: #4a4a4a;
     margin-bottom: 10px;
 }
-#input-section, #stage1-section, #stage2-section, #stage3-section {
-    width: 80%;
-    max-width: 700px;
-    margin-bottom: 20px;
+
+textarea {
+    max-width: 80%;
+}
+
+div.loadpanel {
+    margin-top: 1em; 
+    padding: 1em; 
+    background: #f8f9fa; 
+    border-radius: 6px; 
+    border: 1px solid #ccc;"
+}
+
+select#sentence-select, select#collection-select  {
+    padding: 8px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    font-size: 0.9em;
+    width: 100%;
+    margin-top:10px;
+}
+
+
+#input-section, #stage0-section, #stage1-section, #stage2-section, #stage3-section {
+    width: 90%;
+    max-width: 800px;
+    background-color: white;
+    margin-bottom: 120px;
+    border: 1px solid black;
+    padding: 25px;
+    border-radius: 15px; /* Applies to all 4 corners */
 }
 #sentence-input {
     width: 100%;
@@ -40,7 +90,7 @@ h2 {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: border-color 0.2s;
     resize: vertical;
-    min-height: 80px;
+    min-height: 30px;
 }
 #sentence-input:focus {
     border-color: #005ea2;
@@ -48,7 +98,7 @@ h2 {
 }
 #urn-display {
     font-size: 0.9em;
-    color: #005ea2;
+    color: #555;
     margin: 10px 0;
 }
 #controls {
@@ -120,6 +170,7 @@ h2 {
     font-size: 0.9em;
     font-weight: 500;
 }
+
 #verbal-unit-form select {
     padding: 8px;
     border: 1px solid #d1d1d1;
@@ -133,19 +184,34 @@ h2 {
     background: #f0f0f0;
     border-radius: 4px;
 }
-#confirm-btn, #export-cex, #import-cex-btn {
+
+input#editor-name2, input#editor-name1 {
+    padding: 10px;
+    font-size: 0.95em;
+    background: #eee;
+    color: #014f87;
+    border: 1px solid #014f87;
+    border-radius: 4px;
+    transition: background 0.2s;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+#confirm-btn, #export-cex1, #export-cex2, #export-cex #import-cex-btn {
     padding: 10px;
     font-size: 0.95em;
     background: #005ea2;
     color: #fff;
-    border: none;
+    border: 1px solid #333;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.2s;
     margin-right: 10px;
+    margin-bottom: 5px;
 }
-#confirm-btn:hover, #export-cex:hover, #import-cex-btn:hover {
+#confirm-btn:hover, #export-cex2:hover, #export-cex1:hover, #import-cex-btn:hover {
     background: #003e73;
+    color: #bed7e8;
 }
 #import-cex {
     display: none;
@@ -239,10 +305,10 @@ h2 {
     display: block;
 }
 .level-1 { margin-left: 0; }
-.level-2 { margin-left: 1em; }
-.level-3 { margin-left: 2em; }
-.level-4 { margin-left: 3em; }
-.level-5 { margin-left: 4em; }
+.level-2 { margin-left: 2em; }
+.level-3 { margin-left: 4em; }
+.level-4 { margin-left: 6em; }
+.level-5 { margin-left: 8em; }
 #unassigned-tokens {
     margin-top: 15px;
 }

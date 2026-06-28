@@ -7,14 +7,121 @@ function generateUUID() {
     });
 }
 
+function parseCtsRangeUrn(rangeUrn) {
+    const parts = rangeUrn.split(':');
+    const base = parts.slice(0, -1).join(':') + ':';
+    const rangePart = parts[parts.length - 1];
+    const [fromPass, toPass] = rangePart.split('-');
+    return {
+        fromUrn: base + fromPass,
+        toUrn: base + toPass,
+        fullRange: rangeUrn
+    };
+}
+
+function exitImportReviewMode() {
+    if (justImported) {
+        justImported = false;
+        updateAssignmentDisplay(); // refresh with normal editing behavior
+    }
+}
+
+function createTokenObject(urn, text, displayNum, isRoot = false) {
+    const cleanTxt = text.trim();
+    const isPunct = PUNCTUATION.includes(cleanTxt);
+    return {
+        text: cleanTxt,
+        type: isPunct ? 'punctuation' : 'lexical',
+        tokenId: isRoot ? "root" : urn.trim(),
+        displayId: isRoot ? 0 : (isPunct ? null : displayNum)
+    };
+}
+
+async function fetchAndParseTsv(tsvPath) {
+    const resp = await fetch(tsvPath);
+    if (!resp.ok) throw new Error(`Failed to load ${tsvPath}`);
+    const text = await resp.text();
+    const lines = text.trim().split('\n');
+    const data = [];
+    for (let i = 1; i < lines.length; i++) { // skip comment + header
+        const line = lines[i].trim();
+        if (!line || line.startsWith('//') || line.startsWith('label')) continue;
+        const [label, textPath, sentenceUrn] = line.split('\t');
+        if (label && textPath && sentenceUrn) {
+            data.push({ label: label.trim(), textPath: textPath.trim(), sentenceUrn: sentenceUrn.trim() });
+        }
+    }
+    return data;
+}
+
+async function loadTokensFromCex(cexPath, fromUrn, toUrn) {
+    const resp = await fetch(cexPath);
+    if (!resp.ok) throw new Error(`Failed to load ${cexPath}`);
+    const text = await resp.text();
+    const lines = text.split('\n');
+
+    let dataStart = false;
+    const ctsDataLines = [];
+    for (let line of lines) {
+        line = line.trim();
+        if (!line) continue;
+        if (line === '#!ctsdata') {
+            dataStart = true;
+            continue;
+        }
+        if (dataStart && line.startsWith('urn:cts:')) {
+            ctsDataLines.push(line);
+        }
+    }
+
+    const startIdx = ctsDataLines.findIndex(l => l.split('#')[0].trim() === fromUrn);
+    const endIdx = ctsDataLines.findIndex(l => l.split('#')[0].trim() === toUrn);
+
+    if (startIdx === -1 || endIdx === -1 || endIdx < startIdx) {
+        throw new Error(`Could not find token range ${fromUrn}–${toUrn} in ${cexPath}`);
+    }
+
+    const tokenLines = ctsDataLines.slice(startIdx, endIdx + 1);
+
+    const loadedTokens = [createTokenObject(null, "Sentence Root", 0, true)];
+
+    let displayEnum = 1;
+
+    for (const line of tokenLines) {
+        const [urn, txt] = line.split('#');
+        if (!urn || !txt) continue;
+        const tokenObj = createTokenObject(urn, txt, displayEnum);
+        if (!tokenObj.type.includes('punctuation')) {
+            displayEnum++;
+        }
+        loadedTokens.push(tokenObj);
+    }
+
+    return loadedTokens;
+}
+
+function resetAnalysisState() {
+    verbalUnits = [];
+    verbalUnitIdCounter = 1;
+    tokenAssignments = [];
+    tokenAnalyses = [];
+    editingUnitId = null;
+    sentenceId = generateUUID();
+    cite2Urn = `urn:cite2:analyzer:analysis:2025-06-13-${sentenceId}`;
+}
+
 // Initialize DOM elements
 const input = document.getElementById('sentence-input');
+
+const editor_field1 =  document.getElementById("editor-name1");
+const editor_field2 = document.getElementById("editor-name2");
+
 const ctsUrnDisplay = document.getElementById('cts-urn');
 const cite2UrnDisplay = document.getElementById('cite2-urn');
 const tokenOutput = document.getElementById('token-output');
+const stage0Section = document.getElementById('stage0-section');
 const stage1Section = document.getElementById('stage1-section');
 const stage2Section = document.getElementById('stage2-section');
-const stage3Section = document.getElementById('stage3-section');
 const verbalUnitForm = document.getElementById('verbal-unit-form');
 const verbalUnitIdDisplay = document.getElementById('verbal-unit-id');
 const syntacticType = document.getElementById('syntactic-type');
@@ -26,9 +133,26 @@ const verbalUnitSelect = document.getElementById('verbal-unit-select');
 const assignmentDisplay = document.getElementById('assignment-display');
 const analysisTableBody = document.getElementById('analysis-table-body');
 const graphContainer = document.getElementById('graph-container');
-const exportCexBtn = document.getElementById('export-cex');
+const exportCexBtn1 = document.getElementById('export-cex1');
+const exportCexBtn2 = document.getElementById('export-cex2');
 const importCexBtn = document.getElementById('import-cex-btn');
 const importCexInput = document.getElementById('import-cex');
+
+// Punctuation list (shared)
+const PUNCTUATION = [',', '.', ';', ':', '·', '—', '–'];
+
+// List of all sentence TSV files (add new ones here when you add more .tsv files)
+const sentenceTsvFiles = [
+    "Frogs_sentences.tsv",
+    ...Array.from({ length: 20 }, (_, i) => `Hansen_Quinn_Sentences_${String(i + 1).padStart(2, '0')}.tsv`),
+    "Herodotus_sentences.tsv",
+    "Iliad_sentences.tsv"
+];
+
+let currentSentencesData = []; // populated when a collection is chosen
+
+const date = new Date().toISOString().split("T")[0];
+
 
 // State management
 let tokens = [];
@@ -38,30 +162,40 @@ let sentenceId = generateUUID();
 let editingUnitId = null;
 let tokenAssignments = []; // { tokenId: number, verbalUnitIds: string[] }
 let tokenAnalyses = []; // { tokenId: number, node1Id: number|null, node1Relation: string, node2Id: number|null, node2Relation: string }
+let justImported = false;   // ← new flag
 let graphNetwork = null;
-let ctsUrn = 'urn:cts:greekLit:tlg0054.tlg001.perseus-grc1:1.1.1';
-let cite2Urn = `urn:cite2:analyzer:analysis:2025-06-13-${sentenceId}`;
+let ctsUrn = 'urn:cts:greekLit:demos.ad_hoc.default:0';
+let cite2Urn = `urn:cite2:analyzer:analysis:${date}-${sentenceId}`;
 
 // Allowed syntactic relations (used for dropdowns)
 const RELATION_OPTIONS = [
+    "Unit Verb",
+    "Unit Infinitive",
+    "Unit Participle",
+    "-",
+    "Subject",
+    "Relative Pronoun",
+    "Apostrophe",
+    "-",
+    "Direct Object",
+    "Predicative",
+    "-",
+    "Article",
+    "Attribute",
+    "Adverbial",
+    "Appositive",
+    "-",
+    "Correlated",
+    "-",
+    "Auxiliary Infinitive",
+    "-",
+    "Preposition",
+    "Object of Prep.",
+    "-",
     "Sentence Adverbial",
     "Unit Adverbial",
     "Conjunction",
-    "Apostrophe",
-    "Finite Unit Verb",
-    "Infinitive Unit Verb",
-    "Circumstantial Participle",
-    "Attributive Participle",
-    "Auxiliary Infinitive",
-    "Articular Infinitive",
-    "Adverbial",
-    "Correlated",
-    "Preposition",
-    "Attribute",
-    "Predicative",
-    "Subject",
-    "Appositive",
-    "Direct Object",
+    "-",
     "Dative",
     "Genitive",
     "Accusative",
@@ -74,50 +208,72 @@ input.value = defaultSentence;
 
 // Tokenize the input sentence, adding Token 0 (Sentence Root)
 function tokenize(sentence) {
-    const tokens = [{ text: "Sentence Root", type: 'lexical', id: 0 }];
+    const result = [createTokenObject(null, "Sentence Root", 0, true)];
+
+    let displayEnum = 1;
     let currentToken = '';
-    let lexicalId = 1;
-    const punctuation = [',', '.', ';', ':'];
 
     for (let i = 0; i < sentence.length; i++) {
         const char = sentence[i];
+
         if (/\s/.test(char)) {
             if (currentToken) {
-                tokens.push({ text: currentToken, type: 'lexical', id: lexicalId++ });
+                result.push(createTokenObjectForPlainText(currentToken, displayEnum));
+                displayEnum++;
                 currentToken = '';
             }
-            tokens.push({ text: char, type: 'white-space', id: null });
-        } else if (punctuation.includes(char)) {
+            result.push({
+                text: char,
+                type: 'white-space',
+                tokenId: null,
+                displayId: null
+            });
+        } else if (PUNCTUATION.includes(char)) {
             if (currentToken) {
-                tokens.push({ text: currentToken, type: 'lexical', id: lexicalId++ });
+                result.push(createTokenObjectForPlainText(currentToken, displayEnum));
+                displayEnum++;
                 currentToken = '';
             }
-            tokens.push({ text: char, type: 'punctuation', id: null });
+            result.push(createTokenObjectForPlainText(char, displayEnum)); // will set displayId = null inside helper
         } else {
             currentToken += char;
         }
     }
+
     if (currentToken) {
-        tokens.push({ text: currentToken, type: 'lexical', id: lexicalId++ });
+        result.push(createTokenObjectForPlainText(currentToken, displayEnum));
     }
-    return tokens;
+
+    return result;
+}
+
+// Helper for plain-text mode (no real CTS URN)
+function createTokenObjectForPlainText(text, displayNum) {
+    const cleanTxt = text.trim();
+    const isPunct = PUNCTUATION.includes(cleanTxt);
+    return {
+        text: cleanTxt,
+        type: isPunct ? 'punctuation' : 'lexical',
+        tokenId: isPunct ? null : displayNum.toString(),   // use display number as stable string ID
+        displayId: isPunct ? null : displayNum
+    };
 }
 
 // Update inline token display + apply assignment classes
 function updateTokenDisplay() {
     tokenOutput.innerHTML = '';
     tokens.forEach((token, index) => {
-        if (token.id === 0) return;
+        if (token.tokenId === "root" || token.displayId === 0) return;
 
         const span = document.createElement('span');
 
         if (token.type === 'lexical') {
             span.className = 'token-lexical';
-            span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
-            span.dataset.tokenId = token.id;
+            span.innerHTML = `${token.text}<sup class="token-id">${token.displayId}</sup>`;
+            span.dataset.tokenId = token.tokenId;
 
             // Apply assignment classes for visual feedback
-            const assignment = tokenAssignments.find(a => a.tokenId === token.id);
+            const assignment = tokenAssignments.find(a => a.tokenId === token.tokenId);
             if (assignment && assignment.verbalUnitIds.length > 0) {
                 const vuIndex = verbalUnits.findIndex(u => u.id === assignment.verbalUnitIds[0]);
                 if (vuIndex !== -1) {
@@ -127,7 +283,7 @@ function updateTokenDisplay() {
 
             // Click to toggle assignment for currently selected verbal unit
             span.addEventListener('click', () => {
-                toggleTokenAssignment(token.id);
+                toggleTokenAssignment(token.tokenId);
             });
 
         } else if (token.type === 'white-space') {
@@ -178,22 +334,34 @@ confirmBtn.addEventListener('click', () => {
     level.selectedIndex = 0;
     updateVerbalUnitForm();
     updateVerbalUnitSelect();
+    exitImportReviewMode();
     updateAssignmentDisplay();
 });
+
+// Staged reveal handlers 0
+const doneStage0 = document.getElementById('done-stage0');
+if (doneStage0 && stage1Section) {
+    doneStage0.addEventListener('click', () => {
+        stage1Section.style.display = 'block';
+        stage1Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        //Optional: collapse/hide stage0 after proceeding
+        //stage0Section.style.display = 'none';
+    });
+}
 
 // Staged reveal handlers 1
 const doneStage1 = document.getElementById('done-stage1');
 if (doneStage1 && stage2Section) {
-    console.log("click stage 1");
     doneStage1.addEventListener('click', () => {
         stage2Section.style.display = 'block';
         stage2Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Optional: collapse/hide stage1 after proceeding
-        // stage1Section.style.display = 'none';
+        //Optional: collapse/hide stage1 after proceeding
+        //stage1Section.style.display = 'none';
     });
 }
 
 // Staged reveal handlers 2
+/*
 const doneStage2 = document.getElementById('done-stage2');
 if (doneStage2 && stage3Section) {
     console.log("click stage 2");
@@ -204,6 +372,7 @@ if (doneStage2 && stage3Section) {
         // stage1Section.style.display = 'none';
     });
 }
+*/
 
 
 
@@ -277,8 +446,10 @@ function updateVerbalUnitSelect() {
     });
 
     verbalUnitSelect.removeEventListener('change', updateAssignmentDisplay);
-    verbalUnitSelect.addEventListener('change', updateAssignmentDisplay);
-
+    verbalUnitSelect.addEventListener('change', () => {
+        exitImportReviewMode();
+        updateAssignmentDisplay();
+    });
     if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
         verbalUnitSelect.value = verbalUnits[0].id;
         updateAssignmentDisplay();
@@ -305,6 +476,8 @@ function toggleTokenAssignment(tokenId) {
         tokenAssignments.push({ tokenId, verbalUnitIds: [selectedUnitId] });
     }
 
+
+
     updateTokenDisplay();
     updateAssignmentDisplay();
 }
@@ -317,9 +490,9 @@ function updateAssignmentDisplay() {
     verbalUnits.forEach(unit => {
         const assignedTokens = tokenAssignments
             .filter(a => a.verbalUnitIds.includes(unit.id))
-            .map(a => tokens.find(t => t.id === a.tokenId))
+            .map(a => tokens.find(t => t.tokenId === a.tokenId))
             .filter(Boolean)
-            .sort((a, b) => a.id - b.id);
+            .sort((a, b) => a.tokenId - b.tokenId);
 
         const row = document.createElement('div');
         row.className = `verbal-unit-row level-${unit.level}`;
@@ -341,11 +514,13 @@ function updateAssignmentDisplay() {
             const isCurrent = unit.id === selectedUnitId;
 
             span.className = `token-lexical assigned-vu${Math.min(vuIndex + 1, 5)}${isCurrent ? ' current-unit' : ''}`;
-            span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
-            span.dataset.tokenId = token.id;
+
+            span.innerHTML = `${token.text}<sup class="token-id">${token.displayId}</sup>`;            
+
+            span.dataset.tokenId = token.tokenId;   // still stores the real URN
 
             if (isCurrent) {
-                span.addEventListener('click', () => toggleTokenAssignment(token.id));
+                span.addEventListener('click', () => toggleTokenAssignment(token.tokenId));
             }
             tokensContainer.appendChild(span);
         });
@@ -355,10 +530,29 @@ function updateAssignmentDisplay() {
 
     // Unassigned tokens section for the currently selected unit
     if (selectedUnitId) {
-        const unassigned = tokens.filter(t =>
-            t.type === 'lexical' && t.id !== 0 &&
-            !tokenAssignments.some(a => a.tokenId === t.id && a.verbalUnitIds.includes(selectedUnitId))
-        );
+        let unassigned;
+
+        if (justImported) {
+            // === Post-import "review" mode ===
+            // Only show tokens that have ZERO assignments at all
+            unassigned = tokens.filter(t =>
+                t.type === 'lexical' &&
+                t.tokenId !== "root" &&
+                !tokenAssignments.some(a => a.tokenId === t.tokenId && a.verbalUnitIds.length > 0)
+            );
+        } else {
+            // === Normal editing mode ===
+            // Show tokens not yet assigned to THIS specific Verbal Unit
+            // (tokens assigned to other VUs still appear with special styling)
+            unassigned = tokens.filter(t =>
+                t.type === 'lexical' &&
+                t.tokenId !== "root" &&
+                !tokenAssignments.some(a => 
+                    a.tokenId === t.tokenId && 
+                    a.verbalUnitIds.includes(selectedUnitId)
+                )
+            );
+        }
 
         if (unassigned.length > 0) {
             const unassignedDiv = document.createElement('div');
@@ -373,18 +567,18 @@ function updateAssignmentDisplay() {
                 const span = document.createElement('span');
                 span.className = 'token-lexical';
 
-                const assignment = tokenAssignments.find(a => a.tokenId === token.id);
+                const assignment = tokenAssignments.find(a => a.tokenId === token.tokenId);
                 const isAssignedElsewhere = assignment && assignment.verbalUnitIds.length > 0;
 
-                if (isAssignedElsewhere) {
+                if (isAssignedElsewhere && !justImported) {
                     span.classList.add('has-other-assignments');
                     const otherVUs = assignment.verbalUnitIds.join(', ');
                     span.title = `Already assigned to: ${otherVUs} (still assignable here)`;
                 }
 
-                span.innerHTML = `${token.text}<sup class="token-id">${token.id}</sup>`;
-                span.dataset.tokenId = token.id;
-                span.addEventListener('click', () => toggleTokenAssignment(token.id));
+                span.innerHTML = `${token.text}<sup class="token-id">${token.displayId}</sup>`;
+                span.dataset.tokenId = token.tokenId;
+                span.addEventListener('click', () => toggleTokenAssignment(token.tokenId));
                 container.appendChild(span);
             });
 
@@ -393,11 +587,10 @@ function updateAssignmentDisplay() {
     }
 }
 
-// Update analysis table with RELATION DROPDOWNS
 function updateAnalysisTable() {
     analysisTableBody.innerHTML = '';
 
-    // Sentence Root row
+    // Root row (static)
     const rootRow = document.createElement('tr');
     rootRow.innerHTML = `
         <td>0</td>
@@ -409,56 +602,85 @@ function updateAnalysisTable() {
     `;
     analysisTableBody.appendChild(rootRow);
 
-    tokens.filter(t => t.type === 'lexical' && t.id !== 0).forEach(token => {
-        const analysis = tokenAnalyses.find(a => a.tokenId === token.id) || {};
+    tokens
+        .filter(t => t.type === 'lexical' && t.tokenId !== "root")
+        .forEach(token => {
+            const analysis = tokenAnalyses.find(a => a.tokenId === token.tokenId) || {};
 
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${token.id}</td>
-            <td>${token.text}</td>
-            <td>
-                <select id="node1-${token.id}" onchange="updateAnalysis(${token.id}, 'node1Id', this.value)">
-                    <option value="">Select...</option>
-                    <option value="0" ${analysis.node1Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
-                    ${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0)
-                        .map(u => `<option value="${u.id}" ${analysis.node1Id === u.id ? 'selected' : ''}>${u.id}: ${u.text}</option>`)
-                        .join('')}
-                </select>
-            </td>
-            <td>
-                <select id="node1-relation-${token.id}" onchange="updateAnalysis(${token.id}, 'node1Relation', this.value)">
-                    <option value="">-- Select relation --</option>
-                    ${RELATION_OPTIONS.map(rel => 
-                        `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
-                    ).join('')}
-                </select>
-            </td>
-            <td>
-                <select id="node2-${token.id}" onchange="updateAnalysis(${token.id}, 'node2Id', this.value)">
-                    <option value="">Select...</option>
-                    <option value="0" ${analysis.node2Id === 0 ? 'selected' : ''}>0: Sentence Root</option>
-                    ${tokens.filter(u => u.type === 'lexical' && u.id !== token.id && u.id !== 0)
-                        .map(u => `<option value="${u.id}" ${analysis.node2Id === u.id ? 'selected' : ''}>${u.id}: ${u.text}</option>`)
-                        .join('')}
-                </select>
-            </td>
-            <td>
-                <select id="node2-relation-${token.id}" onchange="updateAnalysis(${token.id}, 'node2Relation', this.value)">
-                    <option value="">-- Select relation --</option>
-                    ${RELATION_OPTIONS.map(rel => 
-                        `<option value="${rel}" ${analysis.node2Relation === rel ? 'selected' : ''}>${rel}</option>`
-                    ).join('')}
-                </select>
-            </td>
-        `;
-        analysisTableBody.appendChild(row);
-    });
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${token.displayId}</td>
+                <td>${token.text}</td>
+                <td>
+                    <select id="node1-${token.tokenId}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value)">
+                        <option value="">Select...</option>
+                        <option value="root" ${analysis.node1Id === "root" || analysis.node1Id === "root" ? 'selected' : ''}>
+                            0: Sentence Root
+                        </option>
+                        ${tokens
+                            .filter(u => u.type === 'lexical' && 
+                                         u.tokenId !== token.tokenId && 
+                                         u.tokenId !== "root")
+                            .map(u => `<option value="${u.tokenId}" 
+                                ${analysis.node1Id === u.tokenId ? 'selected' : ''}>
+                                ${u.displayId}: ${u.text}
+                            </option>`)
+                            .join('')}
+                    </select>
+                </td>
+                <td>
+                    <select id="node1-relation-${token.tokenId}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value)">
+                        <option value="">Select…</option>
+                        ${RELATION_OPTIONS.map(rel => {
+                            if (rel == "-") {
+                                return `<hr>`
+                            } else {
+                                return `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
+                            }
+                        }).join('')}
+                    </select>
+                </td>
+                <td>
+                    <select id="node2-${token.tokenId}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node2Id', this.value)">
+                        <option value="">Select...</option>
+                        <option value="root" ${analysis.node2Id === "root" || analysis.node2Id === "root" ? 'selected' : ''}>
+                            0: Sentence Root
+                        </option>
+                        ${tokens
+                            .filter(u => u.type === 'lexical' && 
+                                         u.tokenId !== token.tokenId && 
+                                         u.tokenId !== "root")
+                            .map(u => `<option value="${u.tokenId}" 
+                                ${analysis.node2Id === u.tokenId ? 'selected' : ''}>
+                                ${u.displayId}: ${u.text}     <!-- FIXED: was u.tokenId -->
+                            </option>`)
+                            .join('')}
+                    </select>
+                </td>
+                <td>
+                    <select id="node2-relation-${token.tokenId}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value)">
+                        <option value="">-- Select relation --</option>
+                         ${RELATION_OPTIONS.map(rel => {
+                            if (rel == "-") {
+                                return `<hr>`
+                            } else {
+                                return `<option value="${rel}" ${analysis.node1Relation === rel ? 'selected' : ''}>${rel}</option>`
+                            }
+                        }).join('')}
+                    </select>
+                </td>
+            `;
+            analysisTableBody.appendChild(row);
+        });
 
     updateGraph();
-    cite2UrnDisplay.textContent = cite2Urn;
+    // cite2UrnDisplay... (keep your existing line)
 }
 
-// Update a single analysis entry
 function updateAnalysis(tokenId, field, value) {
     let analysis = tokenAnalyses.find(a => a.tokenId === tokenId);
     if (!analysis) {
@@ -467,22 +689,29 @@ function updateAnalysis(tokenId, field, value) {
     }
 
     if (field.includes('Id')) {
-        analysis[field] = value === '' ? null : parseInt(value, 10);
+        if (value === '' || value == null) {
+            analysis[field] = null;
+        } else if (value === "root" || value === "0") {
+            analysis[field] = "root";           // consistent string
+        } else {
+            analysis[field] = value;            // keep full CTS URN string
+        }
     } else {
         analysis[field] = value === '' ? null : value;
     }
 
-    // Clean up empty entries
-    if (!analysis.node1Id && !analysis.node1Relation && !analysis.node2Id && !analysis.node2Relation) {
+    // Clean up empty analyses
+    if (!analysis.node1Id && !analysis.node1Relation &&
+        !analysis.node2Id && !analysis.node2Relation) {
         tokenAnalyses = tokenAnalyses.filter(a => a.tokenId !== tokenId);
     }
 
     updateGraph();
 }
 
-// Graph visualization with vis.js
 function updateGraph() {
-    const activeTokenIds = new Set([0]);
+    const activeTokenIds = new Set(["root"]);
+
     tokenAnalyses.forEach(analysis => {
         if (analysis.node1Id !== null && analysis.node1Relation) {
             activeTokenIds.add(analysis.tokenId);
@@ -495,15 +724,18 @@ function updateGraph() {
     });
 
     const nodes = [{
-        id: '0',
+        id: 'root',
         label: '0: Sentence Root',
         color: '#fff9c4',
         font: { size: 14, bold: true }
     }].concat(
-        tokens.filter(t => t.type === 'lexical' && activeTokenIds.has(t.id) && t.id !== 0)
+        tokens
+            .filter(t => t.type === 'lexical' && 
+                         activeTokenIds.has(t.tokenId) && 
+                         t.tokenId !== "root")
             .map(t => ({
-                id: t.id,
-                label: `${t.id}: ${t.text}`,
+                id: t.tokenId,                              // internal ID (for edges)
+                label: `${t.displayId}: ${t.text}`,         // UI label (FIXED)
                 color: '#e6f0fa',
                 font: { size: 12 }
             }))
@@ -534,19 +766,44 @@ function updateGraph() {
         edges: new vis.DataSet(edges)
     };
 
-    const options = {
+     const options = {
         layout: {
             hierarchical: {
                 direction: 'UD',
                 sortMethod: 'hubsize',
-                levelSeparation: 150,
-                nodeSpacing: 200
+                levelSeparation: 100,
+                nodeSpacing: 100
             }
         },
-        nodes: { shape: 'box', color: { border: '#005ea2' } },
-        edges: { font: { size: 10 }, arrows: { to: { enabled: true, scaleFactor: 0.5 } } },
-        physics: { enabled: false }
+        nodes: { 
+            shape: 'box', 
+            color: { 
+                border: '#005ea2' 
+            } 
+        },
+        edges: { 
+            physics: true,
+            font: { 
+                size: 10 
+            }, 
+            arrows: { 
+                to: { 
+                    enabled: true, 
+                    scaleFactor: 0.5 
+                } 
+            },
+            smooth: {
+                 type: "continuous",
+                 //type: "curvedCW",
+                 roundness: 0.2
+            },
+        },
+        //physics: { enabled: false }
+        physics: {
+            enabled: true
+        }
     };
+
 
     if (graphNetwork) graphNetwork.destroy();
     graphNetwork = new vis.Network(graphContainer, data, options);
@@ -554,6 +811,9 @@ function updateGraph() {
 
 // Export to CEX
 function exportCex() {
+
+    let editorName = editor_field1.value.replace(" ", "_")
+
     let cex = '#!citelibrary\n';
     cex += `name#Ancient Greek Syntax Analysis\n`;
     cex += `urn#${cite2Urn}\n`;
@@ -564,8 +824,8 @@ function exportCex() {
 
     cex += '#!citedata\ntokenId#text#verbalUnitIds\n';
     tokens.filter(t => t.type === 'lexical').forEach(t => {
-        const units = tokenAssignments.find(a => a.tokenId === t.id)?.verbalUnitIds.join(',') || '';
-        cex += `${t.id}#${t.text.replace(/#/g, '\\#')}#${units}\n`;
+        const units = tokenAssignments.find(a => a.tokenId === t.tokenId)?.verbalUnitIds.join(',') || '';
+        cex += `${t.tokenId}#${t.text.replace(/#/g, '\\#')}#${units}\n`;
     });
     cex += '\n';
 
@@ -589,7 +849,7 @@ function exportCex() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `analysis_${sentenceId}.cex`;
+    a.download = `analysis_${editorName}_${sentenceId}.cex`;
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -638,11 +898,17 @@ function importCex(fileContent) {
                 sentenceData = { id: parts[0], text: parts[1] };
             } 
             else if (currentBlock === 'tokens' && parts.length >= 3) {
-                tokenData.push({
-                    id: parseInt(parts[0]),
+                const tokenEntry = {
+                    id: parts[0],
                     text: parts[1],
-                    verbalUnitIds: parts[2].split(',').filter(Boolean)
-                });
+                    verbalUnitIds: parts[2] ? parts[2].split(',').filter(Boolean) : []
+                };
+                // Future-proof: read optional 4th column as displayId
+                if (parts.length >= 4 && parts[3]) {
+                    const parsed = parseInt(parts[3], 10);
+                    if (!isNaN(parsed)) tokenEntry.displayId = parsed;
+                }
+                tokenData.push(tokenEntry);
             } 
             else if (currentBlock === 'units' && parts.length >= 4) {
                 unitData.push({
@@ -654,8 +920,8 @@ function importCex(fileContent) {
             } 
             else if (currentBlock === 'relations' && parts.length >= 3) {
                 relationData.push({
-                    source: parseInt(parts[0]),
-                    target: parseInt(parts[1]),
+                    source: parts[0], // was parseInt
+                    target: parts[1], // was parseInt
                     relation: parts[2]
                 });
             }
@@ -665,19 +931,60 @@ function importCex(fileContent) {
     // === Restore application state ===
     sentenceId = sentenceData.id || generateUUID();
     input.value = sentenceData.text || defaultSentence;
-    tokens = tokenize(input.value);
+
+    // === Rebuild tokens from CEX data (safe + future-proof) ===
+    tokens = [];
+    const seenTokenIds = new Set();
+    let displayEnum = 1;
+
+    tokenData.forEach(t => {
+        if (!t.id || seenTokenIds.has(t.id)) return; // skip duplicates or empty
+        seenTokenIds.add(t.id);
+
+        if (t.id === "root") {
+            tokens.unshift(createTokenObject(null, "Sentence Root", 0, true)); // ensure root is first
+        } else {
+            const cleanText = (t.text || "").trim();
+            if (!cleanText) return;
+
+            const isPunct = PUNCTUATION.includes(cleanText);
+
+            // Future-proof: use explicit displayId from CEX if present, otherwise sequential
+            let dispId = null;
+            if (typeof t.displayId === 'number' && !isNaN(t.displayId)) {
+                dispId = t.displayId;
+            } else if (!isPunct) {
+                dispId = displayEnum++;
+            }
+
+            tokens.push({
+                text: cleanText,
+                type: isPunct ? 'punctuation' : 'lexical',
+                tokenId: t.id,           // preserves numeric IDs or full CTS URNs
+                displayId: dispId
+            });
+        }
+    });
+
+    // If root wasn't in the CEX for some reason, add it at the beginning
+    if (!tokens.some(t => t.tokenId === "root")) {
+        tokens.unshift(createTokenObject(null, "Sentence Root", 0, true));
+    }
+
     verbalUnits = unitData;
     verbalUnitIdCounter = Math.max(1, ...verbalUnits.map(u => parseInt(u.id.replace('VU', '')) || 0)) + 1;
 
     tokenAssignments = tokenData
-        .filter(t => tokens.some(tok => tok.id === t.id))
-        .map(t => ({
-            tokenId: t.id,
-            verbalUnitIds: t.verbalUnitIds.filter(id => verbalUnits.some(u => u.id === id))
-        }));
+    .filter(t => tokens.some(tok => tok.tokenId === t.id))   // ← changed to t.id
+    .map(t => ({
+        tokenId: t.id,                                       // ← changed to t.id
+        verbalUnitIds: t.verbalUnitIds.filter(id => verbalUnits.some(u => u.id === id))
+    }));
 
     tokenAnalyses = [];
     relationData.forEach(r => {
+        if (!r.source || !r.target) return; // safety: skip malformed relations
+
         let analysis = tokenAnalyses.find(a => a.tokenId === r.source);
         if (!analysis) {
             analysis = { tokenId: r.source };
@@ -693,16 +1000,19 @@ function importCex(fileContent) {
     });
 
     // === Refresh the entire UI ===
+    if (stage0Section) stage0Section.style.display = 'block';
     if (stage1Section) stage1Section.style.display = 'block';
     if (stage2Section) stage2Section.style.display = 'block';
-    if (stage3Section) stage2Section.style.display = 'block';
+    // if (stage3Section) stage2Section.style.display = 'block';
 
+
+    justImported = true;
     updateTokenDisplay();
     updateVerbalUnitTable();
     updateVerbalUnitSelect();
     // Staged reveal: hide later stages initially
     if (stage2Section) stage2Section.style.display = 'none';
-    if (stage3Section) stage3Section.style.display = 'none';
+    // if (stage3Section) stage3Section.style.display = 'none';
 
     if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
         verbalUnitSelect.value = verbalUnits[0].id;
@@ -713,7 +1023,8 @@ function importCex(fileContent) {
 }
 
 // Button listeners
-exportCexBtn.addEventListener('click', exportCex);
+exportCexBtn1.addEventListener('click', exportCex);
+exportCexBtn2.addEventListener('click', exportCex);
 importCexBtn.addEventListener('click', () => importCexInput.click());
 importCexInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -725,6 +1036,108 @@ importCexInput.addEventListener('change', (e) => {
     }
 });
 
+// === Load Sentence UI wiring ===
+const collectionSelect = document.getElementById('collection-select');
+const sentenceSelect = document.getElementById('sentence-select');
+const loadBtn = document.getElementById('load-sentence-btn');
+
+async function populateCollections() {
+    collectionSelect.innerHTML = '<option value="">-- Select a collection --</option>';
+    try {
+        const collections = [];
+        await Promise.all(sentenceTsvFiles.map(async (file) => {
+            try {
+                const resp = await fetch(`sentences/${file}`);
+                const txt = await resp.text();
+                const firstLine = txt.split('\n')[0].trim().replace(/^\/\//, '').trim();
+                collections.push({ display: firstLine || file, tsvFile: file });
+            } catch (e) {
+                console.warn(`Could not load label for ${file}`, e);
+            }
+        }));
+        collections.sort((a, b) => a.display.localeCompare(b.display));
+        collections.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.tsvFile;
+            opt.textContent = c.display;
+            collectionSelect.appendChild(opt);
+        });
+    } catch (e) {
+        console.error('Failed to populate collections', e);
+    }
+}
+
+collectionSelect.addEventListener('change', async () => {
+    sentenceSelect.innerHTML = '<option value="">-- Select sentence --</option>';
+    sentenceSelect.disabled = true;
+    loadBtn.disabled = true;
+    currentSentencesData = [];
+
+    if (!collectionSelect.value) return;
+
+    try {
+        currentSentencesData = await fetchAndParseTsv(`sentences/${collectionSelect.value}`);
+        currentSentencesData.forEach((s, idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.textContent = s.label;
+            sentenceSelect.appendChild(opt);
+        });
+        sentenceSelect.disabled = false;
+    } catch (e) {
+        console.error(e);
+        alert('Failed to load sentence list. Check console.');
+    }
+});
+
+sentenceSelect.addEventListener('change', () => {
+    loadBtn.disabled = !sentenceSelect.value;
+});
+
+loadBtn.addEventListener('click', async () => {
+    if (!sentenceSelect.value) return;
+    const idx = parseInt(sentenceSelect.value);
+    const sentenceInfo = currentSentencesData[idx];
+    if (!sentenceInfo) return;
+
+    try {
+        const { fromUrn, toUrn, fullRange } = parseCtsRangeUrn(sentenceInfo.sentenceUrn);
+        const loadedTokens = await loadTokensFromCex(sentenceInfo.textPath, fromUrn, toUrn);
+
+        resetAnalysisState();
+        tokens = loadedTokens;
+        ctsUrn = fullRange;
+        ctsUrnDisplay.textContent = ctsUrn;
+
+        // Optional: rough reconstruction of sentence text for the export block
+        input.value = tokens
+            .filter(t => t.tokenId !== "root")
+            .map(t => t.text)
+            .join(' ');
+
+        updateTokenDisplay();
+        updateVerbalUnitForm();
+        updateVerbalUnitTable();
+        updateVerbalUnitSelect();
+        updateAssignmentDisplay();
+        updateAnalysisTable();
+
+        // Show stage 1, hide stage 2 until user clicks Done
+        if (stage1Section) stage1Section.style.display = 'block';
+        if (stage0Section) stage0Section.style.display = 'block';
+        if (stage2Section) stage2Section.style.display = 'none';
+
+        // Scroll to tokens
+        document.getElementById('token-output').scrollIntoView({ behavior: 'smooth' });
+    } catch (e) {
+        console.error(e);
+        alert('Failed to load sentence tokens: ' + e.message);
+    }
+});
+
+// Initialize collections on page load
+populateCollections();
+
 // Initial load
 tokens = tokenize(defaultSentence);
 updateTokenDisplay();
@@ -734,6 +1147,24 @@ updateVerbalUnitSelect();
 updateAssignmentDisplay();
 updateAnalysisTable();
 
+// Synchronize both editor-name-fields
+function editor1Changed(val) {
+    const e1value = editor_field1.value;
+    const e2value = editor_field2.value;
+    if (e2value != e1value) {
+        editor_field2.value = e1value;
+    }
+}
+
+function editor2Changed(val) {
+    const e1value = editor_field1.value;
+    const e2value = editor_field2.value;
+    if (e2value != e1value) {
+        editor_field1.value = e2value;
+    }
+}
+
+
 // Staged reveal: hide later stages initially
-if (stage2Section) stage2Section.style.display = 'none';
-if (stage3Section) stage3Section.style.display = 'none';
+if (stage1Section) stage1Section.style.display = 'block';
+if (stage2Section) stage2Section.style.display = 'block';

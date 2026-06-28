@@ -121,6 +121,33 @@ filegroups = map(sentence_urns) do urn
 	m[1]
 end |> unique
 
+# ╔═╡ 7aa73fbe-8761-49f6-9e25-9e556829bfe4
+md"""Testing Sentence Labels"""
+
+# ╔═╡ 4fda9718-af45-4658-9d09-ccf9267a11da
+map(filegroups) do group
+	sentences = filter(range_urns) do urn
+		contains(urn, group)
+	end
+
+	m = match(output_filename_regex, group)
+	filename = output_dir * output_fn * "_" * lpad(m[2], 2, "0") * ".tsv"
+
+		println((output_label * "Unit $(lpad(m[2], 2, "0"))" * "\n"))
+		println("label\ttext\tsentence")
+		for (idx, s) in pairs(sentences)
+
+			label_regex = r"urn:cts:fuTeaching:blackwell.hq.2026:[0-9]+\.([0-9]+[a-z]*)\."
+			m = match(label_regex, s)
+			this_label = m[1]
+			
+			line_to_print = "Sentence $(this_label)" * "\t" * local_text_file * "\t" * s
+			println(line_to_print)
+		end
+
+	
+end
+
 # ╔═╡ 32d5db75-61c2-4a5a-9808-dea6b820e583
 map(filegroups) do group
 	sentences = filter(range_urns) do urn
@@ -134,7 +161,12 @@ map(filegroups) do group
 		println(f, (output_label * "Unit $(lpad(m[2], 2, "0"))" * "\n"))
 		println(f, "label\ttext\tsentence")
 		for (idx, s) in pairs(sentences)
-			line_to_print = "Sentence $(lpad(idx, 2, '0'))" * "\t" * local_text_file * "\t" * s
+
+			label_regex = r"urn:cts:fuTeaching:blackwell.hq.2026:[0-9]+\.([0-9]+[a-z]*)\."
+			m = match(label_regex, s)
+			this_label = m[1]
+			
+			line_to_print = "Sentence $(this_label)" * "\t" * local_text_file * "\t" * s
 			println(f, line_to_print)
 		end
 	end
@@ -749,6 +781,8 @@ version = "5.15.0+0"
 # ╠═24abfacd-cbef-4157-a4c2-2d08203ad45b
 # ╠═b959db23-4116-4079-8c90-019f2182dfcd
 # ╠═94e39ed8-4ba0-4b1a-a8cd-70db678cedb4
+# ╠═7aa73fbe-8761-49f6-9e25-9e556829bfe4
+# ╠═4fda9718-af45-4658-9d09-ccf9267a11da
 # ╠═32d5db75-61c2-4a5a-9808-dea6b820e583
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

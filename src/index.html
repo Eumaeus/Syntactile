@@ -13,16 +13,74 @@
     
 </head>
 <body>
-    <h1>Ancient Greek Syntax Analyzer</h1>
-    <div id="input-section">
-        <textarea id="sentence-input" placeholder="Enter an Ancient Greek sentence..."></textarea>
-        <div id="urn-display">CTS-URN: <span id="cts-urn"></span></div>
-        <button id="import-cex-btn">Import CEX</button>
-        <input type="file" id="import-cex" accept=".cex">
+
+    <div id="masthead" class="sansfont">Furman Classics. <a href="https://github.com/Eumaeus/Syntactile">Syntactile: Documenting Syntax</a>. C. Blackwell, 2026. CC-BY-NC. Code and instructions on <a href="https://github.com/Eumaeus/Dramaturg.jl">Github</a>.</div>
+
+    <h1>Syntactile</h1>
+    <p id="app-credits">Document the syntax of Ancient Greek sentences.</p>
+
+
+    <div id="stage0-section">
+        <h2>Stage 0: Get a Sentence</h2>
+        <!-- Load Sentence from source texts (CTS-URN aligned) -->
+        <div class="loadpanel"  id="load-sentence-controls" >
+            <h3 style="margin-top:0; font-size:1.1em;">Load Sentence from Source Text (recommended for aligned work)</h3>
+            <div style="display: flex; gap: 1em; flex-wrap: wrap; align-items: flex-end;">
+                <div>
+                    <label for="collection-select"><strong>Collection / Text:</strong></label><br>
+                    <select id="collection-select" style="min-width: 280px;">
+                        <option value="">-- Select a collection --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="sentence-select"><strong>Sentence / Passage:</strong></label><br>
+                    <select id="sentence-select" style="min-width: 320px;" disabled>
+                        <option value="">-- Select sentence after choosing collection --</option>
+                    </select>
+                </div>
+                <div>
+                    <button id="load-sentence-btn" class="action-btn" style="background-color: #1565c0; color: white; padding: 0.6em 1.2em;" disabled>
+                        Load Sentence &amp; Start Analysis
+                    </button>
+                </div>
+            </div>
+            <p style="font-size: 0.85em; color: #555; margin: 0.5em 0 0;">Tokens will use their original CTS-URN identifiers from the tokenized source text.</p>
+        </div>
+
+        
+        <div class="loadpanel" id="load-cex-controls" >
+            <h3 style="margin-top:0; font-size:1.1em;">Load Syntax from CEX</h3>
+            <button id="import-cex-btn"  class="action-btn" style="background-color: #1565c0; color: white; padding: 0.6em 1.2em;">Import CEX and Resume/Edit Analysis</button>
+            <input type="file" id="import-cex" accept=".cex">
+        </div>
+
+         <!-- Default sentence; paste-type area -->
+        <div class="loadpanel" id="load-sentence-controls" >
+            <h3 style="margin-top:0; font-size:1.1em;">Paste or Type a Sentence</h3>
+
+            <textarea id="sentence-input" placeholder="Enter an Ancient Greek sentence..."></textarea>
+
+            <div id="urn-display">Placeholder URN: <span id="cts-urn"></span></div>
+        </div>
+
+
+
+        <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
+            <button id="done-stage0" class="action-btn" style="background-color: #2e7d32; color: white;">
+                ✓ Done with Stage 0 — Show Verbal Units (Stage 1)
+            </button>
+        </div>
+
+
     </div>
     <div id="stage1-section">
         <h2>Stage 1: Define Verbal Units</h2>
         <p class="instructions">Define a verbal unit by selecting Syntactic Type, Semantic Type, and Nesting Level (1–5). Then click Confirm. Select the new verbal unit from the menu “Assign to Verbal Unit:”. Assign tokens to this unit; tokens can belong to multiple units for nested structures. Edit or delete units as needed. Define a second unit if appropriate; select it from the menu; and assign tokens to it. Repeat until all tokens have been assigned to one or more units. Token 0 (Sentence Root) is reserved for Stage 2.</p>
+
+        <button id="export-cex1">Export CEX</button>
+        <label class="editor_name_button_label">Editor’s Name:</label>
+        <input id="editor-name1" type="text" value="Your Name" class="editor_name_button"  onchange="editor1Changed(this.value)">
+
         <div id="token-output"></div>
         <div id="verbal-unit-form">
             <label for="verbal-unit-id">Verbal Unit ID:</label>
@@ -75,11 +133,12 @@
 
         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
             <button id="done-stage1" class="action-btn" style="background-color: #2e7d32; color: white;">
-                ✓ Done with Stage 1 — Show Morphological Analysis (Stage 2)
+                ✓ Done with Stage 1 — Show Syntactic Relationship Analysis (Stage 2)
             </button>
         </div>
 
     </div>
+    <!--
     <div id="stage2-section">
         <h2>Stage 2: Morphological Analysis</h2>
         <p>TBD</p>
@@ -91,11 +150,16 @@
         </div>
 
     </div>
-    <div id="stage3-section">
-        <h2>Stage 3: Syntactic Relationship Analysis</h2>
+    -->
+    <div id="stage2-section">
+        <h2>Stage 2: Syntactic Relationship Analysis</h2>
         <div id="urn-display">CITE2-URN: <span id="cite2-urn"></span></div>
-        <button id="export-cex">Export CEX</button>
         <p class="instructions">Define syntactic relationships to build a top-down graph rooted at '0: Sentence Root'. For each token, select linked tokens (Node 1, Node 2, including '0: Sentence Root') and enter relations (e.g., 'sentence adverbial' for γὰρ, 'Unit Verb' for the main verb). A main verb linking to '0: Sentence Root' indicates asyndeton; a linking word (e.g., γὰρ) indicates none. Export as CEX to save.</p>
+
+        <button id="export-cex2">Export CEX</button>
+        <label class="editor_name_button_label">Editor’s Name:</label>
+        <input id="editor-name2" type="text" value="Your Name" class="editor_name_button" onchange="editor2Changed(this.value)"> 
+
         <div id="graph-container"></div>
         <table id="analysis-table">
             <thead>
