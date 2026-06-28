@@ -110,4 +110,4 @@ This tool is amazing. I have worked with other online syntax applications for ye
 
 My list of *desiderata* for teaching in the Fall is getting shorter, but is not yet complete! I will come back in a new conversation, referencing this one, to talk about evaulating and comparing the graphed syntax that this Syntactile app exports. But let me articulate my thoughts as clearly as possible.
 
-Conversation at: <https://x.com/i/grok/share/107cdcbe14c74e1c8fa5a97ed987da64>
+Conversation at: <https://x.com/i/grok/share/6f3e03e2783a4f0794197ee30950188e>
