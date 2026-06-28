@@ -184,12 +184,25 @@ select#sentence-select, select#collection-select  {
     background: #f0f0f0;
     border-radius: 4px;
 }
+
+input#editor-name2, input#editor-name1 {
+    padding: 10px;
+    font-size: 0.95em;
+    background: #eee;
+    color: #014f87;
+    border: 1px solid #014f87;
+    border-radius: 4px;
+    transition: background 0.2s;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
 #confirm-btn, #export-cex1, #export-cex2, #export-cex #import-cex-btn {
     padding: 10px;
     font-size: 0.95em;
     background: #005ea2;
     color: #fff;
-    border: none;
+    border: 1px solid #333;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.2s;
@@ -198,7 +211,7 @@ select#sentence-select, select#collection-select  {
 }
 #confirm-btn:hover, #export-cex2:hover, #export-cex1:hover, #import-cex-btn:hover {
     background: #003e73;
-    color: yellow;
+    color: #bed7e8;
 }
 #import-cex {
     display: none;
@@ -292,10 +305,10 @@ select#sentence-select, select#collection-select  {
     display: block;
 }
 .level-1 { margin-left: 0; }
-.level-2 { margin-left: 1em; }
-.level-3 { margin-left: 2em; }
-.level-4 { margin-left: 3em; }
-.level-5 { margin-left: 4em; }
+.level-2 { margin-left: 2em; }
+.level-3 { margin-left: 4em; }
+.level-4 { margin-left: 6em; }
+.level-5 { margin-left: 8em; }
 #unassigned-tokens {
     margin-top: 15px;
 }

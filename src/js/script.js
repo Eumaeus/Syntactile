@@ -112,6 +112,10 @@ function resetAnalysisState() {
 
 // Initialize DOM elements
 const input = document.getElementById('sentence-input');
+
+const editor_field1 =  document.getElementById("editor-name1");
+const editor_field2 = document.getElementById("editor-name2");
+
 const ctsUrnDisplay = document.getElementById('cts-urn');
 const cite2UrnDisplay = document.getElementById('cite2-urn');
 const tokenOutput = document.getElementById('token-output');
@@ -807,6 +811,9 @@ function updateGraph() {
 
 // Export to CEX
 function exportCex() {
+
+    let editorName = editor_field1.value.replace(" ", "_")
+
     let cex = '#!citelibrary\n';
     cex += `name#Ancient Greek Syntax Analysis\n`;
     cex += `urn#${cite2Urn}\n`;
@@ -842,7 +849,7 @@ function exportCex() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `analysis_${sentenceId}.cex`;
+    a.download = `analysis_${editorName}_${sentenceId}.cex`;
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -1140,6 +1147,24 @@ updateVerbalUnitSelect();
 updateAssignmentDisplay();
 updateAnalysisTable();
 
+// Synchronize both editor-name-fields
+function editor1Changed(val) {
+    const e1value = editor_field1.value;
+    const e2value = editor_field2.value;
+    if (e2value != e1value) {
+        editor_field2.value = e1value;
+    }
+}
+
+function editor2Changed(val) {
+    const e1value = editor_field1.value;
+    const e2value = editor_field2.value;
+    if (e2value != e1value) {
+        editor_field1.value = e2value;
+    }
+}
+
+
 // Staged reveal: hide later stages initially
-if (stage1Section) stage1Section.style.display = 'none';
-if (stage2Section) stage2Section.style.display = 'none';
+if (stage1Section) stage1Section.style.display = 'block';
+if (stage2Section) stage2Section.style.display = 'block';
