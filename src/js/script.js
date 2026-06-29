@@ -499,7 +499,6 @@ function createEllipsisToken() {
     })
     updateAssignmentDisplay();
     updateAnalysisTable();
-    console.log(`Ellipsis-token would be created with URN = ${newEllipsisTokenUrn} and text of '${ellipsisTokenText}'.`)
 }
 
 // Update token assignment display (with unassigned tokens)
