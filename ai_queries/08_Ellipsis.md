@@ -77,4 +77,10 @@ function createEllipsisToken() {
 
 ~~~
 
+And… in the process of trying to do as much prepping as possible before asking your help, I seem to have solved the problem.
+
+It is interesting, and contrary to the assurances of the AI-Naysayers, how by implementing and updating code that you wrote for me, over a week or so I am pretty familiar with how it all works, to the point that I can add a somewhat major feature on my own. Neat!
+
+~~~
+
 So… I would like your help making `createEllipsisToken()` create a new token with `newEllipsisTokenUrn` as its URN, `ellipsisTokenText` as its text-content, and adding it to the list of tokens
