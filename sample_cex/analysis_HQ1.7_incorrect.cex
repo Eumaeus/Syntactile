@@ -1,0 +1,47 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-97f6a9be-5823-4aa5-87b2-7f7b80dd9153
+text#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.1-1.7.token.13
+editor#HQ1.7_incorrect
+date#2026-06-29
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-97f6a9be-5823-4aa5-87b2-7f7b80dd9153#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.1-1.7.token.13#ἐν ταῖς ἀγοραῖς τὰς τῶν ἀνθρώπων ψυχὰς ὁ Ὅμηρος τοῖς βιβλίοις παιδεύει .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.1#ἐν#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.2#ταῖς#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.3#ἀγοραῖς#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.4#τὰς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.5#τῶν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.6#ἀνθρώπων#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.7#ψυχὰς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.8#ὁ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.9#Ὅμηρος#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.10#τοῖς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.11#βιβλίοις#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.12#παιδεύει#VU1
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+VU2#Subordinate Clause#Intransitive#2
+
+#!citerelations
+source#target#relation
+source#target#relation
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.12#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.9#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.12#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.8#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.9#Article
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.11#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.12#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.10#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.11#Article
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.7#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.12#Direct Object
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.4#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.7#Article
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.6#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.7#Attribute
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.5#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.6#Article
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.1#root#Preposition
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.3#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.1#Object of Prep.
+urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.2#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.3#Article

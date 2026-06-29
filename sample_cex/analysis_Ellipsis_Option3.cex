@@ -1,0 +1,97 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-171a0d5a-e266-4077-9300-91d7540a8a19
+text#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.1-14.19.36
+editor#Matthew_Complete_option3
+date#2026-06-29
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-171a0d5a-e266-4077-9300-91d7540a8a19#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.1-14.19.36#καὶ κελεύσας τοὺς ὄχλους ἀνακλιθῆναι ἐπὶ τοῦ χόρτου , λαβὼν τοὺς πέντε ἄρτους καὶ τοὺς δύο ἰχθύας , ἀναβλέψας εἰς τὸν οὐρανὸν εὐλόγησεν καὶ κλάσας ἔδωκεν τοῖς μαθηταῖς τοὺς ἄρτους οἱ δὲ μαθηταὶ τοῖς ὄχλοις .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.1#καὶ#VU1
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.2#κελεύσας#VU1,VU3
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.3#τοὺς#VU1,VU3
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.4#ὄχλους#VU1,VU3
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.5#ἀνακλιθῆναι#VU1,VU3
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.6#ἐπὶ#VU1,VU3
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.7#τοῦ#VU1,VU3
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.8#χόρτου#VU1,VU3
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.0#λαβὼν#VU1,VU4
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.11#τοὺς#VU1,VU4
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.12#πέντε#VU1,VU4
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.13#ἄρτους#VU1,VU4
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.14#καὶ#VU1,VU4
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.15#τοὺς#VU1,VU4
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.16#δύο#VU1,VU4
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.17#ἰχθύας#VU1,VU4
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.19#ἀναβλέψας#VU1,VU5
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.20#εἰς#VU1,VU5
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.21#τὸν#VU1,VU5
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.22#οὐρανὸν#VU1,VU5
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.23#εὐλόγησεν#VU1
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.24#καὶ#VU6
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.25#κλάσας#VU6,VU7
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.26#ἔδωκεν#VU6
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.27#τοῖς#VU6
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.28#μαθηταῖς#VU6
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.29#τοὺς#VU6
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.30#ἄρτους#VU6
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.31#οἱ#VU8
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.32#δὲ#VU8
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.33#μαθηταὶ#VU8
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.34#τοῖς#VU8
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.35#ὄχλοις#VU8
+urn:cite2:fuTeaching:syntax.ellipsis:38#【⋯】#VU8
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+VU3#Circumstantial Participle#Transitive#2
+VU4#Circumstantial Participle#Transitive#2
+VU5#Circumstantial Participle#Intransitive#2
+VU6#Independent Clause#Transitive#1
+VU7#Circumstantial Participle#Transitive#2
+VU8#Independent Clause#Transitive#1
+
+#!citerelations
+source#target#relation
+source#target#relation
+source#target#relation
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.23#root#Unit Verb
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.24#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.26#Conjunction
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.26#root#Unit Verb
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.32#urn:cite2:fuTeaching:syntax.ellipsis:38#Conjunction
+urn:cite2:fuTeaching:syntax.ellipsis:38#root#Unit Verb
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.2#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.23#Unit Participle
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.0#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.23#Unit Participle
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.19#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.23#Unit Participle
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.1#root#Sentence Adverbial
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.4#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.2#Direct Object
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.3#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.4#Article
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.5#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.2#Auxiliary Infinitive
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.6#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.5#Adverbial
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.8#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.6#Object of Prep.
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.7#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.8#Article
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.13#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.14#Direct Object
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.17#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.14#Direct Object
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.14#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.0#Conjunction
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.11#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.13#Article
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.12#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.13#Attribute
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.15#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.17#Article
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.16#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.17#Attribute
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.20#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.19#Adverbial
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.22#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.20#Object of Prep.
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.21#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.22#Article
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.30#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.26#Direct Object
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.29#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.30#Article
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.28#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.26#Adverbial
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.27#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.28#Article
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.25#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.26#Unit Participle
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.33#urn:cite2:fuTeaching:syntax.ellipsis:38#Subject
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.31#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.33#Article
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.35#urn:cite2:fuTeaching:syntax.ellipsis:38#Adverbial
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.34#urn:cts:greekLit:tlg0031.tlg001.wh:14.19.35#Article

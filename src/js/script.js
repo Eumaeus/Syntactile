@@ -83,7 +83,7 @@ async function loadTokensFromCex(cexPath, fromUrn, toUrn) {
 
     const tokenLines = ctsDataLines.slice(startIdx, endIdx + 1);
 
-    const loadedTokens = [createTokenObject(null, "Sentence Root", 0, true)];
+    const loadedTokens = [createTokenObject(null, "ROOT", 0, true)];
 
     let displayEnum = 1;
 
@@ -109,6 +109,17 @@ function resetAnalysisState() {
     sentenceId = generateUUID();
     cite2Urn = `urn:cite2:analyzer:analysis:2025-06-13-${sentenceId}`;
 }
+
+
+// List of all sentence TSV files (add new ones here when you add more .tsv files)
+const sentenceTsvFiles = [
+    "Ellipsis_sentences.tsv",
+    "Frogs_sentences.tsv",
+    ...Array.from({ length: 20 }, (_, i) => `Hansen_Quinn_Sentences_${String(i + 1).padStart(2, '0')}.tsv`),
+    "Herodotus_sentences.tsv",
+    "Iliad_sentences.tsv"
+];
+
 
 // Initialize DOM elements
 const input = document.getElementById('sentence-input');
@@ -141,13 +152,9 @@ const importCexInput = document.getElementById('import-cex');
 // Punctuation list (shared)
 const PUNCTUATION = [',', '.', ';', ':', '·', '—', '–'];
 
-// List of all sentence TSV files (add new ones here when you add more .tsv files)
-const sentenceTsvFiles = [
-    "Frogs_sentences.tsv",
-    ...Array.from({ length: 20 }, (_, i) => `Hansen_Quinn_Sentences_${String(i + 1).padStart(2, '0')}.tsv`),
-    "Herodotus_sentences.tsv",
-    "Iliad_sentences.tsv"
-];
+// URN and text to represent ellipsis
+const ellipsisUrnBase = "urn:cite2:fuTeaching:syntax.ellipsis:"
+const ellipsisTokenText = "【⋯】"
 
 let currentSentencesData = []; // populated when a collection is chosen
 
@@ -208,7 +215,7 @@ input.value = defaultSentence;
 
 // Tokenize the input sentence, adding Token 0 (Sentence Root)
 function tokenize(sentence) {
-    const result = [createTokenObject(null, "Sentence Root", 0, true)];
+    const result = [createTokenObject(null, "ROOT", 0, true)];
 
     let displayEnum = 1;
     let currentToken = '';
@@ -344,6 +351,7 @@ if (doneStage0 && stage1Section) {
     doneStage0.addEventListener('click', () => {
         stage1Section.style.display = 'block';
         stage1Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        recenterGraph();
         //Optional: collapse/hide stage0 after proceeding
         //stage0Section.style.display = 'none';
     });
@@ -355,6 +363,7 @@ if (doneStage1 && stage2Section) {
     doneStage1.addEventListener('click', () => {
         stage2Section.style.display = 'block';
         stage2Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        recenterGraph();
         //Optional: collapse/hide stage1 after proceeding
         //stage1Section.style.display = 'none';
     });
@@ -482,6 +491,21 @@ function toggleTokenAssignment(tokenId) {
     updateAssignmentDisplay();
 }
 
+// Create a token representing ellipsis
+function createEllipsisToken() {
+    const numberOfTokens = tokens.length;
+    const newTokenId = numberOfTokens + 1;
+    const newEllipsisTokenUrn = ellipsisUrnBase + newTokenId;
+    tokens.push({
+        text: ellipsisTokenText,
+        type: 'lexical',
+        tokenId: newEllipsisTokenUrn,           // preserves numeric IDs or full CTS URNs
+        displayId: newTokenId
+    })
+    updateAssignmentDisplay();
+    updateAnalysisTable();
+}
+
 // Update token assignment display (with unassigned tokens)
 function updateAssignmentDisplay() {
     assignmentDisplay.innerHTML = '';
@@ -559,7 +583,7 @@ function updateAssignmentDisplay() {
             unassignedDiv.id = 'unassigned-tokens';
             unassignedDiv.innerHTML = `
                 <div class="unit-info">Unassigned Tokens (click to assign):</div>
-                <div class="tokens"></div>
+                <div class="tokens"></div><button id="ellipsisBtn" onclick="createEllipsisToken()">Create Ellipsis Token</button>
             `;
             const container = unassignedDiv.querySelector('.tokens');
 
@@ -594,7 +618,7 @@ function updateAnalysisTable() {
     const rootRow = document.createElement('tr');
     rootRow.innerHTML = `
         <td>0</td>
-        <td>Sentence Root</td>
+        <td>ROOT</td>
         <td><select disabled><option value="">N/A</option></select></td>
         <td><select disabled><option value="">N/A</option></select></td>
         <td><select disabled><option value="">N/A</option></select></td>
@@ -607,16 +631,23 @@ function updateAnalysisTable() {
         .forEach(token => {
             const analysis = tokenAnalyses.find(a => a.tokenId === token.tokenId) || {};
 
+            // For styling selected elements
+            selectedClassNameN1Id = analysis.node1Id != undefined ? 'analysis-selected' : '';
+            selectedClassNameN2Id = analysis.node2Id ? 'analysis-selected' : '';
+            selectedClassNameN1Rel = analysis.node1Relation ? 'analysis-selected' : '';
+            selectedClassNameN2Rel = analysis.node2Relation ? 'analysis-selected' : '';
+
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${token.displayId}</td>
                 <td>${token.text}</td>
                 <td>
-                    <select id="node1-${token.tokenId}" 
-                            onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value)">
+                    <select id="node1-${token.tokenId}"
+                            class="${selectedClassNameN1Id}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value, this)">
                         <option value="">Select...</option>
                         <option value="root" ${analysis.node1Id === "root" || analysis.node1Id === "root" ? 'selected' : ''}>
-                            0: Sentence Root
+                            0: ROOT
                         </option>
                         ${tokens
                             .filter(u => u.type === 'lexical' && 
@@ -631,7 +662,8 @@ function updateAnalysisTable() {
                 </td>
                 <td>
                     <select id="node1-relation-${token.tokenId}" 
-                            onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value)">
+                            class="${selectedClassNameN1Rel}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value, this)">
                         <option value="">Select…</option>
                         ${RELATION_OPTIONS.map(rel => {
                             if (rel == "-") {
@@ -644,10 +676,11 @@ function updateAnalysisTable() {
                 </td>
                 <td>
                     <select id="node2-${token.tokenId}" 
-                            onchange="updateAnalysis('${token.tokenId}', 'node2Id', this.value)">
+                            class="${selectedClassNameN2Id}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node2Id', this.value, this)">
                         <option value="">Select...</option>
                         <option value="root" ${analysis.node2Id === "root" || analysis.node2Id === "root" ? 'selected' : ''}>
-                            0: Sentence Root
+                            0: ROOT
                         </option>
                         ${tokens
                             .filter(u => u.type === 'lexical' && 
@@ -662,7 +695,8 @@ function updateAnalysisTable() {
                 </td>
                 <td>
                     <select id="node2-relation-${token.tokenId}" 
-                            onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value)">
+                            class="${selectedClassNameN2Rel}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value, this)">
                         <option value="">-- Select relation --</option>
                          ${RELATION_OPTIONS.map(rel => {
                             if (rel == "-") {
@@ -689,7 +723,13 @@ function updateAnalysisTable() {
     // cite2UrnDisplay... (keep your existing line)
 }
 
-function updateAnalysis(tokenId, field, value) {
+function updateAnalysis(tokenId, field, value, selectElement) {
+    if (value == '') {
+        selectElement.classList.remove("analysis-selected");
+    } else {
+        selectElement.classList.add("analysis-selected");
+    }
+
     let analysis = tokenAnalyses.find(a => a.tokenId === tokenId);
     if (!analysis) {
         analysis = { tokenId };
@@ -733,7 +773,7 @@ function updateGraph() {
 
     const nodes = [{
         id: 'root',
-        label: '0: Sentence Root',
+        label: '0: ROOT',
         color: '#fff9c4',
         font: { size: 14, bold: true }
     }].concat(
@@ -1025,7 +1065,7 @@ function importCex(fileContent) {
         seenTokenIds.add(t.id);
 
         if (t.id === "root") {
-            tokens.unshift(createTokenObject(null, "Sentence Root", 0, true)); // ensure root is first
+            tokens.unshift(createTokenObject(null, "ROOT", 0, true)); // ensure root is first
         } else {
             const cleanText = (t.text || "").trim();
             if (!cleanText) return;
@@ -1051,7 +1091,7 @@ function importCex(fileContent) {
 
     // If root wasn't in the CEX for some reason, add it at the beginning
     if (!tokens.some(t => t.tokenId === "root")) {
-        tokens.unshift(createTokenObject(null, "Sentence Root", 0, true));
+        tokens.unshift(createTokenObject(null, "ROOT", 0, true));
     }
 
     verbalUnits = unitData;
@@ -1103,6 +1143,8 @@ function importCex(fileContent) {
 
     updateAssignmentDisplay();
     updateAnalysisTable();
+    stage1Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
 }
 
 // Button listeners

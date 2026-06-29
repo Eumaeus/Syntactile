@@ -91,7 +91,7 @@ select#sentence-select, select#collection-select  {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: border-color 0.2s;
     resize: vertical;
-    min-height: 30px;
+    min-height: 60px;
 }
 #sentence-input:focus {
     border-color: #005ea2;
@@ -113,7 +113,8 @@ select#sentence-select, select#collection-select  {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     font-size: 1em;
     line-height: 1.6;
-    display: none;
+    display: block;
+
 }
 .token-lexical {
     display: inline-block;
@@ -125,6 +126,29 @@ select#sentence-select, select#collection-select  {
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
 }
+
+#ellipsisBtn {
+    display: block;
+    padding: 7px 8px 5px 8px;
+    margin: 4px;
+    background: #eee;
+    color: navy;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+#ellipsisBtn:active {
+    padding: 7px 8px 5px 8px;
+    color: #eee;
+    background: navy;
+    border: 1px solid #black;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
 .token-lexical:hover {
     background: #cce4f7;
 }
@@ -198,6 +222,11 @@ input#editor-name2, input#editor-name1 {
     margin-bottom: 5px;
 }
 
+div#export-cex1-div, div#export-cex2-div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 #confirm-btn, #export-cex1, #export-cex2, #export-cex #import-cex-btn {
     padding: 10px;
     font-size: 0.95em;
@@ -214,6 +243,16 @@ input#editor-name2, input#editor-name1 {
     background: #003e73;
     color: #bed7e8;
 }
+
+#verbal-unit-select {
+    background: #005ea2;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 10px;
+
+}
+
 #import-cex {
     display: none;
 }
@@ -243,6 +282,12 @@ input#editor-name2, input#editor-name1 {
     border-radius: 4px;
     font-size: 0.9em;
 }
+
+.analysis-selected {
+    background: #ccffd4;
+}
+
+
 .action-btn {
     padding: 6px 12px;
     font-size: 0.85em;

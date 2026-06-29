@@ -1,0 +1,40 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-7b52de7e-a1d1-42a6-b14a-dc416b952f51
+text#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1-4.2.token.11
+editor#HQ4.1_Option2
+date#2026-06-29
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-7b52de7e-a1d1-42a6-b14a-dc416b952f51#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1-4.2.token.11#ἡ μὲν μάχη στρατιώταις κακή , ἀγαθὴ δὲ ἡ νίκη .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1#ἡ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.2#μὲν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#μάχη#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.4#στρατιώταις#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#κακή#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.7#ἀγαθὴ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.8#δὲ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.9#ἡ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#νίκη#VU2
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Intransitive#1
+VU2#Independent Clause#Transitive#1
+
+#!citerelations
+source#target#relation
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.2#root#Unit Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.8#root#Unit Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.2#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#Predicative
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.8#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.9#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#Article
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#Article
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.4#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.7#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#Predicative
