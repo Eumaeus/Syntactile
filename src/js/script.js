@@ -630,7 +630,7 @@ function updateAnalysisTable() {
             const analysis = tokenAnalyses.find(a => a.tokenId === token.tokenId) || {};
 
             // For styling selected elements
-            selectedClassNameN1Id = analysis.node1Id ? 'analysis-selected' : '';
+            selectedClassNameN1Id = analysis.node1Id != undefined ? 'analysis-selected' : '';
             selectedClassNameN2Id = analysis.node2Id ? 'analysis-selected' : '';
             selectedClassNameN1Rel = analysis.node1Relation ? 'analysis-selected' : '';
             selectedClassNameN2Rel = analysis.node2Relation ? 'analysis-selected' : '';
@@ -722,8 +722,12 @@ function updateAnalysisTable() {
 }
 
 function updateAnalysis(tokenId, field, value, selectElement) {
-    console.log(selectElement);
-    selectElement.classList.add("analysis-selected");
+    if (value == '') {
+        selectElement.classList.remove("analysis-selected");
+    } else {
+        selectElement.classList.add("analysis-selected");
+    }
+
     let analysis = tokenAnalyses.find(a => a.tokenId === tokenId);
     if (!analysis) {
         analysis = { tokenId };
