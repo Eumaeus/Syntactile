@@ -1,4 +1,53 @@
 
-urn:cts:greekLit:tlg0031.tlg001.wh:14.19#
+// The pound sign "#" is used as a column divider.
 
-καὶ κελεύσας τοὺς ὄχλους ἀνακλιθῆναι ἐπὶ τοῦ χόρτου, λαβὼν τοὺς πέντε ἄρτους καὶ τοὺς δύο ἰχθύας, ἀναβλέψας εἰς τὸν οὐρανὸν εὐλόγησεν καὶ κλάσας ἔδωκεν τοῖς μαθηταῖς τοὺς ἄρτους οἱ δὲ μαθηταὶ τοῖς ὄχλοις. 
+#!cexversion
+3.0
+
+#!citelibrary
+name#NT, Matthew, Example of Ellipsis
+urn#urn:cite2:furman:cex.2026:syntactical
+license#Creative Commons Attribution Share Alike
+
+#!ctscatalog
+urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online#lang
+urn:cts:greekLit:tlg0031.tlg001.wh:#chapter/verse/token#Novum Testamentum#Matthew#Westcott and Hort, 1881#tokenized#true#grc
+
+#!ctsdata
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.1#καὶ
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.2#κελεύσας
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.3#τοὺς
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.4#ὄχλους
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.5#ἀνακλιθῆναι
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.6#ἐπὶ
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.7#τοῦ
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.8#χόρτου
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.9#,
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.0#λαβὼν
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.11#τοὺς
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.12#πέντε
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.13#ἄρτους
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.14#καὶ
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.15#τοὺς
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.16#δύο
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.17#ἰχθύας
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.18#,
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.19#ἀναβλέψας
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.20#εἰς
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.21#τὸν
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.22#οὐρανὸν
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.23#εὐλόγησεν
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.24#καὶ
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.25#κλάσας
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.26#ἔδωκεν
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.27#τοῖς
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.28#μαθηταῖς
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.29#τοὺς
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.30#ἄρτους
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.31#οἱ
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.32#δὲ
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.33#μαθηταὶ
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.34#τοῖς
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.35#ὄχλοις
+urn:cts:greekLit:tlg0031.tlg001.wh:14.19.36#.
+

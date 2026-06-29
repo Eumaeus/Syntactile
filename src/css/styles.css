@@ -91,7 +91,7 @@ select#sentence-select, select#collection-select  {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: border-color 0.2s;
     resize: vertical;
-    min-height: 30px;
+    min-height: 60px;
 }
 #sentence-input:focus {
     border-color: #005ea2;
@@ -221,6 +221,11 @@ input#editor-name2, input#editor-name1 {
     margin-bottom: 5px;
 }
 
+div#export-cex1-div, div#export-cex2-div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 #confirm-btn, #export-cex1, #export-cex2, #export-cex #import-cex-btn {
     padding: 10px;
     font-size: 0.95em;
@@ -276,6 +281,12 @@ input#editor-name2, input#editor-name1 {
     border-radius: 4px;
     font-size: 0.9em;
 }
+
+.analysis-selected {
+    background: #ccffd4;
+}
+
+
 .action-btn {
     padding: 6px 12px;
     font-size: 0.85em;

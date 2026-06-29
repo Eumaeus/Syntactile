@@ -110,6 +110,17 @@ function resetAnalysisState() {
     cite2Urn = `urn:cite2:analyzer:analysis:2025-06-13-${sentenceId}`;
 }
 
+
+// List of all sentence TSV files (add new ones here when you add more .tsv files)
+const sentenceTsvFiles = [
+    "Ellipsis_sentences.tsv",
+    "Frogs_sentences.tsv",
+    ...Array.from({ length: 20 }, (_, i) => `Hansen_Quinn_Sentences_${String(i + 1).padStart(2, '0')}.tsv`),
+    "Herodotus_sentences.tsv",
+    "Iliad_sentences.tsv"
+];
+
+
 // Initialize DOM elements
 const input = document.getElementById('sentence-input');
 
@@ -144,14 +155,6 @@ const PUNCTUATION = [',', '.', ';', ':', '·', '—', '–'];
 // URN and text to represent ellipsis
 const ellipsisUrnBase = "urn:cite2:fuTeaching:syntax.ellipsis:"
 const ellipsisTokenText = "【⋯】"
-
-// List of all sentence TSV files (add new ones here when you add more .tsv files)
-const sentenceTsvFiles = [
-    "Frogs_sentences.tsv",
-    ...Array.from({ length: 20 }, (_, i) => `Hansen_Quinn_Sentences_${String(i + 1).padStart(2, '0')}.tsv`),
-    "Herodotus_sentences.tsv",
-    "Iliad_sentences.tsv"
-];
 
 let currentSentencesData = []; // populated when a collection is chosen
 
@@ -626,13 +629,20 @@ function updateAnalysisTable() {
         .forEach(token => {
             const analysis = tokenAnalyses.find(a => a.tokenId === token.tokenId) || {};
 
+            // For styling selected elements
+            selectedClassNameN1Id = analysis.node1Id ? 'analysis-selected' : '';
+            selectedClassNameN2Id = analysis.node2Id ? 'analysis-selected' : '';
+            selectedClassNameN1Rel = analysis.node1Relation ? 'analysis-selected' : '';
+            selectedClassNameN2Rel = analysis.node2Relation ? 'analysis-selected' : '';
+
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${token.displayId}</td>
                 <td>${token.text}</td>
                 <td>
-                    <select id="node1-${token.tokenId}" 
-                            onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value)">
+                    <select id="node1-${token.tokenId}"
+                            class="${selectedClassNameN1Id}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value, this)">
                         <option value="">Select...</option>
                         <option value="root" ${analysis.node1Id === "root" || analysis.node1Id === "root" ? 'selected' : ''}>
                             0: ROOT
@@ -650,7 +660,8 @@ function updateAnalysisTable() {
                 </td>
                 <td>
                     <select id="node1-relation-${token.tokenId}" 
-                            onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value)">
+                            class="${selectedClassNameN1Rel}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value, this)">
                         <option value="">Select…</option>
                         ${RELATION_OPTIONS.map(rel => {
                             if (rel == "-") {
@@ -663,7 +674,8 @@ function updateAnalysisTable() {
                 </td>
                 <td>
                     <select id="node2-${token.tokenId}" 
-                            onchange="updateAnalysis('${token.tokenId}', 'node2Id', this.value)">
+                            class="${selectedClassNameN2Id}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node2Id', this.value, this)">
                         <option value="">Select...</option>
                         <option value="root" ${analysis.node2Id === "root" || analysis.node2Id === "root" ? 'selected' : ''}>
                             0: ROOT
@@ -681,7 +693,8 @@ function updateAnalysisTable() {
                 </td>
                 <td>
                     <select id="node2-relation-${token.tokenId}" 
-                            onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value)">
+                            class="${selectedClassNameN2Rel}" 
+                            onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value, this)">
                         <option value="">-- Select relation --</option>
                          ${RELATION_OPTIONS.map(rel => {
                             if (rel == "-") {
@@ -708,7 +721,9 @@ function updateAnalysisTable() {
     // cite2UrnDisplay... (keep your existing line)
 }
 
-function updateAnalysis(tokenId, field, value) {
+function updateAnalysis(tokenId, field, value, selectElement) {
+    console.log(selectElement);
+    selectElement.classList.add("analysis-selected");
     let analysis = tokenAnalyses.find(a => a.tokenId === tokenId);
     if (!analysis) {
         analysis = { tokenId };
@@ -1122,6 +1137,8 @@ function importCex(fileContent) {
 
     updateAssignmentDisplay();
     updateAnalysisTable();
+    stage1Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
 }
 
 // Button listeners
