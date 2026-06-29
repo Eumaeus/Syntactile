@@ -113,7 +113,8 @@ select#sentence-select, select#collection-select  {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     font-size: 1em;
     line-height: 1.6;
-    display: none;
+    display: block;
+
 }
 .token-lexical {
     display: inline-block;

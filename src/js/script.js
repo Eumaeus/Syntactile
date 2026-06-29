@@ -351,6 +351,7 @@ if (doneStage0 && stage1Section) {
     doneStage0.addEventListener('click', () => {
         stage1Section.style.display = 'block';
         stage1Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        recenterGraph();
         //Optional: collapse/hide stage0 after proceeding
         //stage0Section.style.display = 'none';
     });
@@ -362,6 +363,7 @@ if (doneStage1 && stage2Section) {
     doneStage1.addEventListener('click', () => {
         stage2Section.style.display = 'block';
         stage2Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        recenterGraph();
         //Optional: collapse/hide stage1 after proceeding
         //stage1Section.style.display = 'none';
     });
