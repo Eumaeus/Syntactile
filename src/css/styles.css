@@ -125,6 +125,29 @@ select#sentence-select, select#collection-select  {
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
 }
+
+#ellipsisBtn {
+    display: block;
+    padding: 7px 8px 5px 8px;
+    margin: 4px;
+    background: #eee;
+    color: navy;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+#ellipsisBtn:active {
+    padding: 7px 8px 5px 8px;
+    color: #eee;
+    background: navy;
+    border: 1px solid #black;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
 .token-lexical:hover {
     background: #cce4f7;
 }
@@ -214,6 +237,16 @@ input#editor-name2, input#editor-name1 {
     background: #003e73;
     color: #bed7e8;
 }
+
+#verbal-unit-select {
+    background: #005ea2;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 10px;
+
+}
+
 #import-cex {
     display: none;
 }

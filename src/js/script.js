@@ -83,7 +83,7 @@ async function loadTokensFromCex(cexPath, fromUrn, toUrn) {
 
     const tokenLines = ctsDataLines.slice(startIdx, endIdx + 1);
 
-    const loadedTokens = [createTokenObject(null, "Sentence Root", 0, true)];
+    const loadedTokens = [createTokenObject(null, "ROOT", 0, true)];
 
     let displayEnum = 1;
 
@@ -140,6 +140,10 @@ const importCexInput = document.getElementById('import-cex');
 
 // Punctuation list (shared)
 const PUNCTUATION = [',', '.', ';', ':', '·', '—', '–'];
+
+// URN and text to represent ellipsis
+const ellipsisUrnBase = "urn:cite2:fuTeaching:syntax.ellipsis:"
+const ellipsisTokenText = "【⋯】"
 
 // List of all sentence TSV files (add new ones here when you add more .tsv files)
 const sentenceTsvFiles = [
@@ -208,7 +212,7 @@ input.value = defaultSentence;
 
 // Tokenize the input sentence, adding Token 0 (Sentence Root)
 function tokenize(sentence) {
-    const result = [createTokenObject(null, "Sentence Root", 0, true)];
+    const result = [createTokenObject(null, "ROOT", 0, true)];
 
     let displayEnum = 1;
     let currentToken = '';
@@ -482,6 +486,22 @@ function toggleTokenAssignment(tokenId) {
     updateAssignmentDisplay();
 }
 
+// Create a token representing ellipsis
+function createEllipsisToken() {
+    const numberOfTokens = tokens.length;
+    const newTokenId = numberOfTokens + 1;
+    const newEllipsisTokenUrn = ellipsisUrnBase + newTokenId;
+    tokens.push({
+        text: ellipsisTokenText,
+        type: 'lexical',
+        tokenId: newEllipsisTokenUrn,           // preserves numeric IDs or full CTS URNs
+        displayId: newTokenId
+    })
+    updateAssignmentDisplay();
+    updateAnalysisTable();
+    console.log(`Ellipsis-token would be created with URN = ${newEllipsisTokenUrn} and text of '${ellipsisTokenText}'.`)
+}
+
 // Update token assignment display (with unassigned tokens)
 function updateAssignmentDisplay() {
     assignmentDisplay.innerHTML = '';
@@ -559,7 +579,7 @@ function updateAssignmentDisplay() {
             unassignedDiv.id = 'unassigned-tokens';
             unassignedDiv.innerHTML = `
                 <div class="unit-info">Unassigned Tokens (click to assign):</div>
-                <div class="tokens"></div>
+                <div class="tokens"></div><button id="ellipsisBtn" onclick="createEllipsisToken()">Create Ellipsis Token</button>
             `;
             const container = unassignedDiv.querySelector('.tokens');
 
@@ -594,7 +614,7 @@ function updateAnalysisTable() {
     const rootRow = document.createElement('tr');
     rootRow.innerHTML = `
         <td>0</td>
-        <td>Sentence Root</td>
+        <td>ROOT</td>
         <td><select disabled><option value="">N/A</option></select></td>
         <td><select disabled><option value="">N/A</option></select></td>
         <td><select disabled><option value="">N/A</option></select></td>
@@ -616,7 +636,7 @@ function updateAnalysisTable() {
                             onchange="updateAnalysis('${token.tokenId}', 'node1Id', this.value)">
                         <option value="">Select...</option>
                         <option value="root" ${analysis.node1Id === "root" || analysis.node1Id === "root" ? 'selected' : ''}>
-                            0: Sentence Root
+                            0: ROOT
                         </option>
                         ${tokens
                             .filter(u => u.type === 'lexical' && 
@@ -647,7 +667,7 @@ function updateAnalysisTable() {
                             onchange="updateAnalysis('${token.tokenId}', 'node2Id', this.value)">
                         <option value="">Select...</option>
                         <option value="root" ${analysis.node2Id === "root" || analysis.node2Id === "root" ? 'selected' : ''}>
-                            0: Sentence Root
+                            0: ROOT
                         </option>
                         ${tokens
                             .filter(u => u.type === 'lexical' && 
@@ -733,7 +753,7 @@ function updateGraph() {
 
     const nodes = [{
         id: 'root',
-        label: '0: Sentence Root',
+        label: '0: ROOT',
         color: '#fff9c4',
         font: { size: 14, bold: true }
     }].concat(
@@ -1025,7 +1045,7 @@ function importCex(fileContent) {
         seenTokenIds.add(t.id);
 
         if (t.id === "root") {
-            tokens.unshift(createTokenObject(null, "Sentence Root", 0, true)); // ensure root is first
+            tokens.unshift(createTokenObject(null, "ROOT", 0, true)); // ensure root is first
         } else {
             const cleanText = (t.text || "").trim();
             if (!cleanText) return;
@@ -1051,7 +1071,7 @@ function importCex(fileContent) {
 
     // If root wasn't in the CEX for some reason, add it at the beginning
     if (!tokens.some(t => t.tokenId === "root")) {
-        tokens.unshift(createTokenObject(null, "Sentence Root", 0, true));
+        tokens.unshift(createTokenObject(null, "ROOT", 0, true));
     }
 
     verbalUnits = unitData;
