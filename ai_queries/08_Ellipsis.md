@@ -56,16 +56,25 @@ unassignedDiv.innerHTML = `
 
 ~~~
 
-I have added the following, skeleton function (just so that button doesn't throw an error):
+I have added the following function that creates a new ellipsis-token, adds it to the token list, and updates everything:
 
 ~~~javascript
-
 // Create a token representing ellipsis
 function createEllipsisToken() {
     const numberOfTokens = tokens.length;
     const newTokenId = numberOfTokens + 1;
     const newEllipsisTokenUrn = ellipsisUrnBase + newTokenId;
+    tokens.push({
+        text: ellipsisTokenText,
+        type: 'lexical',
+        tokenId: newEllipsisTokenUrn,           // preserves numeric IDs or full CTS URNs
+        displayId: newTokenId
+    })
+    updateAssignmentDisplay();
+    updateAnalysisTable();
     console.log(`Ellipsis-token would be created with URN = ${newEllipsisTokenUrn} and text of '${ellipsisTokenText}'.`)
 }
 
 ~~~
+
+So… I would like your help making `createEllipsisToken()` create a new token with `newEllipsisTokenUrn` as its URN, `ellipsisTokenText` as its text-content, and adding it to the list of tokens
