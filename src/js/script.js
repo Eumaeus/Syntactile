@@ -160,6 +160,8 @@ let currentSentencesData = []; // populated when a collection is chosen
 
 const date = new Date().toISOString().split("T")[0];
 
+// input-area
+
 
 // State management
 let tokens = [];
@@ -1271,6 +1273,18 @@ updateVerbalUnitTable();
 updateVerbalUnitSelect();
 updateAssignmentDisplay();
 updateAnalysisTable();
+
+function textAreaChange() {
+    tokens = tokenize(input.value);
+    resetAnalysisState();
+    updateTokenDisplay();
+    updateVerbalUnitForm();
+    updateVerbalUnitTable();
+    updateVerbalUnitSelect();
+    updateAssignmentDisplay();
+    updateAnalysisTable();
+
+}
 
 // Synchronize both editor-name-fields
 function editor1Changed(val) {

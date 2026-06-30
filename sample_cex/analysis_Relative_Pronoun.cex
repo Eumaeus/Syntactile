@@ -1,0 +1,31 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-aa3aac6e-f304-402e-accb-5372f1eea727
+text#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.1-1.7.token.13
+editor#Christopher_Blackwell
+date#2026-06-30
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-aa3aac6e-f304-402e-accb-5372f1eea727#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.1-1.7.token.13#ὁρῶ ὃς ἔδραμον.
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+1#ὁρῶ#VU1
+2#ὃς#VU2
+3#ἔδραμον#VU2
+urn:cite2:fuTeaching:syntax.ellipsis:8#【⋯】#VU1
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+VU2#Independent Clause#Intransitive#2
+
+#!citerelations
+source#target#relation
+1#root#Unit Verb
+urn:cite2:fuTeaching:syntax.ellipsis:8#1#Direct Object
+2#urn:cite2:fuTeaching:syntax.ellipsis:8#Relative Pronoun
+2#3#Subject
+3#2#Unit Verb
