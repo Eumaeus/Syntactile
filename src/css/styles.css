@@ -72,7 +72,7 @@ select#sentence-select, select#collection-select  {
 }
 
 
-#input-section, #stage0-section, #stage1-section, #stage2-section, #stage3-section {
+#input-section, #stage1-section, #stage2-section, #stage3-section, #stage4-section {
     width: 90%;
     max-width: 800px;
     background-color: white;

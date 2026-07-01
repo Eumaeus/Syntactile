@@ -20,8 +20,8 @@
     <p id="app-credits">Document the syntax of Ancient Greek sentences.</p>
 
 
-    <div id="stage0-section">
-        <h2>Stage 0: Get a Sentence</h2>
+    <div id="stage1-section">
+        <h2>Stage 1: Get a Sentence</h2>
         <!-- Load Sentence from source texts (CTS-URN aligned) -->
         <div class="loadpanel"  id="load-sentence-controls" >
             <h3 style="margin-top:0; font-size:1.1em;">Load Sentence from Source Text (recommended for aligned work)</h3>
@@ -46,7 +46,6 @@
             </div>
             <p style="font-size: 0.85em; color: #555; margin: 0.5em 0 0;">Tokens will use their original CTS-URN identifiers from the tokenized source text.</p>
         </div>
-
         
         <div class="loadpanel" id="load-cex-controls" >
             <h3 style="margin-top:0; font-size:1.1em;">Load Syntax from CEX</h3>
@@ -63,26 +62,32 @@
             <div id="urn-display">Placeholder URN: <span id="cts-urn"></span></div>
         </div>
 
-
-
         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
-            <button id="done-stage0" class="action-btn" style="background-color: #2e7d32; color: white;">
-                ✓ Done with Stage 0 — Show Verbal Units (Stage 1)
+            <button id="done-stage1" class="action-btn" style="background-color: #2e7d32; color: white;">
+                ✓ Done with Stage 1 — Show Verbal Units (Stage 2)
             </button>
         </div>
 
+    </div> <!--  id="stage1-section" -->
 
-    </div>
-    <div id="stage1-section">
-        <h2>Stage 1: Define Verbal Units</h2>
-        <p class="instructions">Define a verbal unit by selecting Syntactic Type, Semantic Type, and Nesting Level (1–5). Then click Confirm. Select the new verbal unit from the menu “Assign to Verbal Unit:”. Assign tokens to this unit; tokens can belong to multiple units for nested structures. Edit or delete units as needed. Define a second unit if appropriate; select it from the menu; and assign tokens to it. Repeat until all tokens have been assigned to one or more units. Token 0 (Sentence Root) is reserved for Stage 2.</p>
-
-        
+    <div id="stage2-section">
+        <h2>Stage 2: Define Verbal Units</h2>
+        <p class="instructions">Define a verbal unit by selecting Syntactic Type, Semantic Type, and Nesting Level (1–5). Then click Confirm. </p>
 
         <div id="token-output"></div>
         <div id="verbal-unit-form">
             <label for="verbal-unit-id">Verbal Unit ID:</label>
             <span id="verbal-unit-id"></span>
+            <label for="level">Level (1–5):
+                <span class="info-icon" data-tooltip="How deeply nested. An independent clause = 1; a subordinate clause = 2; a participle clause inside a subordinate clause = 3. Etc.">ℹ️</span>
+            </label>
+            <select id="level">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
             <label for="syntactic-type">
                 Syntactic Type:
                 <span class="info-icon" data-tooltip="Independent Clause: main verb of the sentence&#10;Subordinate Clause: introduced by a subordinating conjunction&#10;Circumstantial Participle: adverbial participle (time, cause, condition, etc.)&#10;Attributive Participle: modifies a noun like an adjective&#10;Indirect Statement with Infinitive / Participle: reported speech or thought">ℹ️</span>
@@ -95,20 +100,15 @@
                 <option value="Indirect Statement with Infinitive">Indirect Statement with Infinitive</option>
                 <option value="Indirect Statement with Participle">Indirect Statement with Participle</option>
             </select>
-            <label for="semantic-type">Semantic Type:</label>
+            <label for="semantic-type">Semantic Type: Syntactic Type:
+                <span class="info-icon" data-tooltip="Transitive: The verb/participle/infinitive has a direct object&#10;Intranstive: It does not have a direct object">ℹ️</span>
+            </label>
             <select id="semantic-type">
                 <option value="Transitive">Transitive</option>
                 <option value="Intransitive">Intransitive</option>
                 <option value="Linking">Linking</option>
             </select>
-            <label for="level">Level (1–5):</label>
-            <select id="level">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
+            
             <button id="confirm-btn">Confirm Verbal Unit</button>
         </div>
         <table id="verbal-unit-table">
@@ -123,6 +123,17 @@
             </thead>
             <tbody id="verbal-unit-table-body"></tbody>
         </table>
+         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
+                <button id="done-stage2" class="action-btn" style="background-color: #2e7d32; color: white;">
+                    ✓ Done with Stage 2 — Show Assigment of Tokens to Verbal Units (Stage 3)
+                </button>
+            </div>
+    </div> <!--  id="stage2-section" -->
+
+    <div id="stage3-section">
+        <h2>Stage 3: Assign Tokens to Verbal Units</h2>
+        <p class="instructions">Select a verbal unit from the menu “Assign to Verbal Unit:”. Click on tokens to add them to that verbal unit. A second click will remove them from the verbal unit. Use the “Assign to Verbal Unit” to change which verbal unit you are assigning tokens to. Repeat until all tokens have been assigned to one or more units.</p>
+
         <div id="assignment-form">
             <label for="verbal-unit-select">Assign Tokens to Verbal Unit ➟</label>
             <select id="verbal-unit-select"></select>
@@ -136,27 +147,15 @@
         </div>
 
         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
-            <button id="done-stage1" class="action-btn" style="background-color: #2e7d32; color: white;">
-                ✓ Done with Stage 1 — Show Syntactic Relationship Analysis (Stage 2)
+            <button id="done-stage3" class="action-btn" style="background-color: #2e7d32; color: white;">
+                ✓ Done with Stage 3 — Show Syntactic Relationship Analysis (Stage 4)
             </button>
         </div>
 
-    </div>
-    <!--
-    <div id="stage2-section">
-        <h2>Stage 2: Morphological Analysis</h2>
-        <p>TBD</p>
-
-        <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
-            <button id="done-stage2" class="action-btn" style="background-color: #2e7d32; color: white;">
-                ✓ Done with Stage 2 — Show Syntactic Relationship Analysis (Stage 3)
-            </button>
-        </div>
-
-    </div>
-    -->
-    <div id="stage2-section">
-        <h2>Stage 2: Syntactic Relationship Analysis</h2>
+    </div>  <!--  id="stage3-section" -->
+    
+    <div id="stage4-section">
+        <h2>Stage 4: Syntactic Relationship Analysis</h2>
         <div id="urn-display">CITE2-URN: <span id="cite2-urn"></span></div>
         <p class="instructions">Define syntactic relationships to build a top-down graph rooted at '0: Sentence Root'. For each token, select linked tokens (Node 1, Node 2, including '0: Sentence Root') and enter relations (e.g., 'sentence adverbial' for γὰρ, 'Unit Verb' for the main verb). A main verb linking to '0: Sentence Root' indicates asyndeton; a linking word (e.g., γὰρ) indicates none. Export as CEX to save.</p>
 
@@ -178,8 +177,6 @@
 
         <button onclick="resetSyntacticStage()" class="btn btn-warning">Reset All Syntactic Analyses</button>
 
-
-
         <table id="analysis-table">
             <thead>
                 <tr>
@@ -195,8 +192,7 @@
             <tbody id="analysis-table-body"></tbody>
         </table>
 
-
-    </div>
+    </div> <!-- id="stage4-section" -->
 
     <script src="js/script.js"></script>
 </body>

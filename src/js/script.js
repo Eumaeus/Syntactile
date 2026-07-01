@@ -130,9 +130,10 @@ const editor_field2 = document.getElementById("editor-name2");
 const ctsUrnDisplay = document.getElementById('cts-urn');
 const cite2UrnDisplay = document.getElementById('cite2-urn');
 const tokenOutput = document.getElementById('token-output');
-const stage0Section = document.getElementById('stage0-section');
 const stage1Section = document.getElementById('stage1-section');
 const stage2Section = document.getElementById('stage2-section');
+const stage3Section = document.getElementById('stage3-section');
+const stage4Section = document.getElementById('stage4-section');
 const verbalUnitForm = document.getElementById('verbal-unit-form');
 const verbalUnitIdDisplay = document.getElementById('verbal-unit-id');
 const syntacticType = document.getElementById('syntactic-type');
@@ -347,18 +348,6 @@ confirmBtn.addEventListener('click', () => {
     updateAssignmentDisplay();
 });
 
-// Staged reveal handlers 0
-const doneStage0 = document.getElementById('done-stage0');
-if (doneStage0 && stage1Section) {
-    doneStage0.addEventListener('click', () => {
-        stage1Section.style.display = 'block';
-        stage1Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        recenterGraph();
-        //Optional: collapse/hide stage0 after proceeding
-        //stage0Section.style.display = 'none';
-    });
-}
-
 // Staged reveal handlers 1
 const doneStage1 = document.getElementById('done-stage1');
 if (doneStage1 && stage2Section) {
@@ -372,18 +361,30 @@ if (doneStage1 && stage2Section) {
 }
 
 // Staged reveal handlers 2
-/*
 const doneStage2 = document.getElementById('done-stage2');
 if (doneStage2 && stage3Section) {
-    console.log("click stage 2");
     doneStage2.addEventListener('click', () => {
         stage3Section.style.display = 'block';
         stage3Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Optional: collapse/hide stage1 after proceeding
-        // stage1Section.style.display = 'none';
+        recenterGraph();
+        //Optional: collapse/hide stage2 after proceeding
+        //stage2Section.style.display = 'none';
     });
 }
-*/
+
+
+// Staged reveal handlers 3
+const doneStage3 = document.getElementById('done-stage3');
+if (doneStage3 && stage4Section) {
+    doneStage3.addEventListener('click', () => {
+        stage4Section.style.display = 'block';
+        stage4Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        recenterGraph();
+        //Optional: collapse/hide stage2 after proceeding
+        //stage2Section.style.display = 'none';
+    });
+}
+
 
 
 
@@ -1125,10 +1126,11 @@ function importCex(fileContent) {
     });
 
     // === Refresh the entire UI ===
-    if (stage0Section) stage0Section.style.display = 'block';
     if (stage1Section) stage1Section.style.display = 'block';
     if (stage2Section) stage2Section.style.display = 'block';
-    // if (stage3Section) stage2Section.style.display = 'block';
+    if (stage3Section) stage3Section.style.display = 'block';
+    if (stage4Section) stage4Section.style.display = 'block';
+    // if (stage3Section) stage4Section.style.display = 'block';
 
 
     justImported = true;
@@ -1136,7 +1138,7 @@ function importCex(fileContent) {
     updateVerbalUnitTable();
     updateVerbalUnitSelect();
     // Staged reveal: hide later stages initially
-    if (stage2Section) stage2Section.style.display = 'block';
+    if (stage4Section) stage4Section.style.display = 'block';
     // if (stage3Section) stage3Section.style.display = 'none';
 
     if (verbalUnits.length > 0 && !verbalUnitSelect.value) {
@@ -1145,7 +1147,7 @@ function importCex(fileContent) {
 
     updateAssignmentDisplay();
     updateAnalysisTable();
-    stage1Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    stage2Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
 }
 
@@ -1249,10 +1251,11 @@ loadBtn.addEventListener('click', async () => {
         updateAssignmentDisplay();
         updateAnalysisTable();
 
-        // Show stage 1, hide stage 2 until user clicks Done
+        // Show stage 2, hide stage 2 until user clicks Done
         if (stage1Section) stage1Section.style.display = 'block';
-        if (stage0Section) stage0Section.style.display = 'block';
-        if (stage2Section) stage2Section.style.display = 'none';
+        if (stage2Section) stage2Section.style.display = 'block';
+        if (stage3Section) stage3Section.style.display = 'block';
+        if (stage4Section) stage4Section.style.display = 'block';
 
         // Scroll to tokens
         document.getElementById('token-output').scrollIntoView({ behavior: 'smooth' });
@@ -1315,8 +1318,9 @@ function resetSyntacticStage() {
 }
 
 // Staged reveal: hide later stages initially
-if (stage1Section) stage1Section.style.display = 'none';
 if (stage2Section) stage2Section.style.display = 'none';
+if (stage3Section) stage3Section.style.display = 'none';
+if (stage4Section) stage4Section.style.display = 'none';
 
 //Let's start the graph centered!
 recenterGraph();
