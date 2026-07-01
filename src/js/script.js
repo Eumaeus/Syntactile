@@ -154,7 +154,7 @@ const PUNCTUATION = [',', '.', ';', ':', '·', '—', '–'];
 
 // URN and text to represent ellipsis
 const ellipsisUrnBase = "urn:cite2:fuTeaching:syntax.ellipsis:"
-const ellipsisTokenText = "【⋯】"
+const ellipsisTokenText = "{ … }"
 
 let currentSentencesData = []; // populated when a collection is chosen
 
