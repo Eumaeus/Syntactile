@@ -834,7 +834,7 @@ function updateGraph() {
             physics: true,
             font: { size: 10 },
             arrows: { to: { enabled: true, scaleFactor: 0.5 } },
-            smooth: { type: "continuous", roundness: 0.18 },
+            smooth: { type: "curvedCCW", roundness: 0.3 },
             scaling: {
                 label: { enabled: true, min: 10, max: 18 }
             }
