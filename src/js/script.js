@@ -180,37 +180,43 @@ let cite2Urn = `urn:cite2:analyzer:analysis:${date}-${sentenceId}`;
 // Allowed syntactic relations (used for dropdowns)
 const RELATION_OPTIONS = [
     "Unit Verb",
-    "Unit Infinitive",
-    "Unit Participle",
+    "Unit Inf.",
+    "Unit Part.",
+    "Rel. Pronoun",
     "-",
     "Subject",
-    "Relative Pronoun",
-    "Apostrophe",
-    "-",
-    "Direct Object",
-    "Predicative",
+    "Obj. of Verb",
     "-",
     "Article",
-    "Attribute",
-    "Adverbial",
-    "Appositive",
+    "Adj.",
     "-",
-    "Correlated",
-    "-",
-    "Auxiliary Infinitive",
+    "Adv.",
+    "Appos.",
     "-",
     "Preposition",
-    "Object of Prep.",
+    "Obj. of Prep.",
     "-",
-    "Sentence Adverbial",
-    "Unit Adverbial",
-    "Conjunction",
+    "Apostrophe",
+    "Predicative",
     "-",
-    "Dative",
-    "Genitive",
-    "Accusative",
-    "Punctuation"
+    "Sentence Adv.",
+    "Unit Adv.",
+    "-",
+    "Conj.",
+    "Corr.",
+    "-",
+    "Auxiliary Inf.",
 ];
+
+var relation_option_to_use = RELATION_OPTIONS;
+
+var relation_options_string = relation_option_to_use.join(",");
+
+function string_to_relation_options(rs) {
+    return rs.split(",").map( s => s.trim() );
+}
+
+
 
 // Default sentence from Homer
 const defaultSentence = "μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος οὐλομένην, ἣ μυρί' Ἀχαιοῖς ἄλγε' ἔθηκε.";
@@ -668,7 +674,7 @@ function updateAnalysisTable() {
                             class="${selectedClassNameN1Rel}" 
                             onchange="updateAnalysis('${token.tokenId}', 'node1Relation', this.value, this)">
                         <option value="">Select…</option>
-                        ${RELATION_OPTIONS.map(rel => {
+                        ${relation_option_to_use.map(rel => {
                             if (rel == "-") {
                                 return `<hr>`
                             } else {
@@ -701,7 +707,7 @@ function updateAnalysisTable() {
                             class="${selectedClassNameN2Rel}" 
                             onchange="updateAnalysis('${token.tokenId}', 'node2Relation', this.value, this)">
                         <option value="">-- Select relation --</option>
-                         ${RELATION_OPTIONS.map(rel => {
+                         ${relation_option_to_use.map(rel => {
                             if (rel == "-") {
                                 return `<hr>`
                             } else {
@@ -1296,6 +1302,7 @@ function editor1Changed(val) {
     if (e2value != e1value) {
         editor_field2.value = e1value;
     }
+    saveEditorName(e1value);
 }
 
 function editor2Changed(val) {
@@ -1304,6 +1311,7 @@ function editor2Changed(val) {
     if (e2value != e1value) {
         editor_field1.value = e2value;
     }
+    saveEditorName(e1value);
 }
 
 function resetTokenAnalysis(tokenId) {
@@ -1317,10 +1325,23 @@ function resetSyntacticStage() {
     updateAnalysisTable();   // this also calls updateGraph()
 }
 
+function saveEditorName(editorName) {
+    console.log(`Saving ${editorName}`);
+    localStorage.setItem("editorName", editorName);
+}
+
+function getEditorName() {
+    var newEditorName = localStorage.getItem("editorName");
+    editor_field1.value = newEditorName;
+    editor_field2.value = newEditorName;
+}
+
 // Staged reveal: hide later stages initially
 if (stage2Section) stage2Section.style.display = 'none';
 if (stage3Section) stage3Section.style.display = 'none';
 if (stage4Section) stage4Section.style.display = 'none';
+
+getEditorName();
 
 //Let's start the graph centered!
 recenterGraph();
