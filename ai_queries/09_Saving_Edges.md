@@ -65,3 +65,11 @@ This is easily done in the Javascript, of course.
 The problem is that any analyses captured under one set of categories will be incompatible with the tool if its list of categories changes.
 
 The answer seems to me to save, in the CEX, the list of categories used when generating the analysis captured in the CEX.
+
+## Problem Solved
+
+Without bothering Grok, in the process of describing the problem, with specific references to JS code, I implemented, tested, and checked in the solution.
+
+Now, every exported CEX file includes the syntactic-categories used to create the analysis. These categories are loaded into the app with the CEX file.
+
+It remains to confirm that this addition to the CEX does not break the visualizations and comparasions from the SyntactileViz project.
