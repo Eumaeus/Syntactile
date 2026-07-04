@@ -982,6 +982,7 @@ function exportCex() {
 
     if ( !cex.includes("#!citerelations\nsource#target#relation\n")) {
         console.log("…already there…");
+        cex += '#!citerelations\n'
     } else {
         cex += '#!citerelations\nsource#target#relation\n';
     }
