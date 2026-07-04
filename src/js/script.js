@@ -188,10 +188,10 @@ const RELATION_OPTIONS = [
     "Obj. of Verb",
     "-",
     "Article",
-    "Adj.",
+    "Adjectival",
     "-",
-    "Adv.",
-    "Appos.",
+    "Adverbial",
+    "Appositive",
     "-",
     "Preposition",
     "Obj. of Prep.",
@@ -205,16 +205,21 @@ const RELATION_OPTIONS = [
     "Conj.",
     "Corr.",
     "-",
-    "Auxiliary Inf.",
+    "Aux. Infinitive",
 ];
 
 var relation_option_to_use = RELATION_OPTIONS;
 
-var relation_options_string = relation_option_to_use.join(",");
+// var relation_options_string = relation_option_to_use.join(",");
 
 function string_to_relation_options(rs) {
     return rs.split(",").map( s => s.trim() );
 }
+
+function relation_options_to_string(ro) {
+   return ro.join(",");
+}
+
 
 
 
@@ -967,7 +972,20 @@ function exportCex() {
     });
     cex += '\n';
 
-    cex += '#!citerelations\nsource#target#relation\n';
+    console.log("Exporting…");
+    console.log(relation_options_to_string(relation_option_to_use));
+
+    // Add current list of possible syntactic relations
+    cex += '#!citedata\nrelationCategories\n';
+    cex += relation_options_to_string(relation_option_to_use)
+ + '\n\n';
+
+    if ( !cex.includes("#!citerelations\nsource#target#relation\n")) {
+        console.log("…already there…");
+    } else {
+        cex += '#!citerelations\nsource#target#relation\n';
+    }
+
     tokenAnalyses.forEach(a => {
         if (a.node1Id !== null && a.node1Relation) {
             cex += `${a.tokenId}#${a.node1Id}#${a.node1Relation.replace(/#/g, '\\#')}\n`;
@@ -1015,6 +1033,9 @@ function importCex(fileContent) {
         else if (line === 'unitId#syntacticType#semanticType#level') {
             currentBlock = 'units';
         } 
+        else if (line === 'relationCategories') {
+            currentBlock = 'syntacticRelations';
+        } 
         else if (line.startsWith('#!citerelations')) {
             currentBlock = 'relations';
         } 
@@ -1026,6 +1047,25 @@ function importCex(fileContent) {
                 if (parts[0] === 'urn') cite2Urn = parts[1];
                 if (parts[0] === 'text') ctsUrn = parts[1];
             } 
+
+/*
+
+var relation_option_to_use = RELATION_OPTIONS;
+
+var relation_options_string = relation_option_to_use.join(",");
+
+function string_to_relation_options(rs) {
+    return rs.split(",").map( s => s.trim() );
+}
+
+*/
+
+
+            else if (currentBlock === 'syntacticRelations' && parts.length == 1) {
+                console.log("Loading categories…");
+                relation_option_to_use = string_to_relation_options(parts[0]);
+            }
+
             else if (currentBlock === 'sentence' && parts.length >= 2) {
                 sentenceData = { id: parts[0], ctsurn: parts[1], text: parts[2] };
             } 
