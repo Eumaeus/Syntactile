@@ -1,3 +1,48 @@
+
+// Allowed syntactic relations (used for dropdowns)
+const RELATION_OPTIONS = [
+    "Unit Verb",
+    "Unit Part.",
+    "Unit Inf.",
+    "Aux. Inf.",
+    "Rel. Pronoun",
+    "-",
+    "Subject",
+    "Obj. of Verb",
+    "-",
+    "Article",
+    "Adjectival",
+    "-",
+    "Adverbial",
+    "Appositive",
+    "-",
+    "Preposition",
+    "Obj. of Prep.",
+    "-",
+    "Apostrophe",
+    "Predicative",
+    "-",
+    "Sentence Adv.",
+    "Unit Adv.",
+    "Interjection",
+    "Onomatopoeia",
+    "-",
+    "Conj.",
+    "Correlated",
+    "-",
+];
+
+var relation_option_to_use = RELATION_OPTIONS;
+
+function string_to_relation_options(rs) {
+    return rs.split(",").map( s => s.trim() );
+}
+
+function relation_options_to_string(ro) {
+   return ro.join(",");
+}
+
+
 // Generate a simple UUID for sentence ID
 function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
@@ -177,48 +222,6 @@ let graphNetwork = null;
 let ctsUrn = 'urn:cts:greekLit:demos.ad_hoc.default:0';
 let cite2Urn = `urn:cite2:analyzer:analysis:${date}-${sentenceId}`;
 
-// Allowed syntactic relations (used for dropdowns)
-const RELATION_OPTIONS = [
-    "Unit Verb",
-    "Unit Inf.",
-    "Unit Part.",
-    "Rel. Pronoun",
-    "-",
-    "Subject",
-    "Obj. of Verb",
-    "-",
-    "Article",
-    "Adjectival",
-    "-",
-    "Adverbial",
-    "Appositive",
-    "-",
-    "Preposition",
-    "Obj. of Prep.",
-    "-",
-    "Apostrophe",
-    "Predicative",
-    "-",
-    "Sentence Adv.",
-    "Unit Adv.",
-    "-",
-    "Conj.",
-    "Corr.",
-    "-",
-    "Aux. Infinitive",
-];
-
-var relation_option_to_use = RELATION_OPTIONS;
-
-// var relation_options_string = relation_option_to_use.join(",");
-
-function string_to_relation_options(rs) {
-    return rs.split(",").map( s => s.trim() );
-}
-
-function relation_options_to_string(ro) {
-   return ro.join(",");
-}
 
 
 
@@ -428,8 +431,6 @@ function deleteVerbalUnit(id) {
 
 // Update verbal unit table
 function updateVerbalUnitTable() {
-
-    console.log('%c[updateVerbalUnitTable] called with', 'color: green', verbalUnits.length, 'units');
 
     verbalUnitTableBody.innerHTML = '';
     verbalUnits.forEach(unit => {
@@ -972,16 +973,12 @@ function exportCex() {
     });
     cex += '\n';
 
-    console.log("Exporting…");
-    console.log(relation_options_to_string(relation_option_to_use));
-
     // Add current list of possible syntactic relations
     cex += '#!citedata\nrelationCategories\n';
     cex += relation_options_to_string(relation_option_to_use)
  + '\n\n';
 
     if ( !cex.includes("#!citerelations\nsource#target#relation\n")) {
-        console.log("…already there…");
         cex += '#!citerelations\n'
     } else {
         cex += '#!citerelations\nsource#target#relation\n';
@@ -1063,7 +1060,6 @@ function string_to_relation_options(rs) {
 
 
             else if (currentBlock === 'syntacticRelations' && parts.length == 1) {
-                console.log("Loading categories…");
                 relation_option_to_use = string_to_relation_options(parts[0]);
             }
 
@@ -1367,7 +1363,6 @@ function resetSyntacticStage() {
 }
 
 function saveEditorName(editorName) {
-    console.log(`Saving ${editorName}`);
     localStorage.setItem("editorName", editorName);
 }
 

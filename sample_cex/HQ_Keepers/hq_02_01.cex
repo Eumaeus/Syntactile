@@ -1,0 +1,38 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-43f05ab6-1280-4fcf-b56c-61a1413d192f
+text#urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.1-2.1.token.8
+editor#Christopher_Blackwell
+date#2026-07-04
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-43f05ab6-1280-4fcf-b56c-61a1413d192f#urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.1-2.1.token.8#οἱ θεοὶ δῶρα ἔπεμπον εἰς τὴν χώραν .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.1#οἱ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.2#θεοὶ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.3#δῶρα#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.4#ἔπεμπον#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.5#εἰς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.6#τὴν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.7#χώραν#VU1
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+
+#!citedata
+relationCategories
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conj.,Correlated,-
+
+#!citerelations
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.4#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.2#urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.4#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.1#urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.2#Article
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.3#urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.4#Obj. of Verb
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.5#urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.4#Preposition
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.7#urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.5#Obj. of Prep.
+urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.6#urn:cts:fuTeaching:blackwell.hq.2026:2.1.token.7#Article
