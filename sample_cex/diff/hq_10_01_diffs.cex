@@ -1,0 +1,94 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-b4e026be-d0f7-45ca-9c04-e9c4460d691e
+text#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.1-10.1.token.34
+editor#Able_Student
+date#2026-07-07
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-b4e026be-d0f7-45ca-9c04-e9c4460d691e#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.1-10.1.token.34#ἐν ταῖς πόλεσι ταῖς τῇ ἀληθείᾳ εὖ πολιτευομέναις οὐχ ὁ δῆμος ἀλλ’ ὁ νόμος βασιλεύς· πᾶς γὰρ πολίτης τοῖς νόμοις πειθόμενος δίκαια πράττει ὥστε σῷζεσθαι τήν γε πόλιν ἐκ κινδύνων τε καὶ φόβων .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.1#ἐν#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.2#ταῖς#VU1,VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.3#πόλεσι#VU1,VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.4#ταῖς#VU1,VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.5#τῇ#VU1,VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.6#ἀληθείᾳ#VU1,VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.7#εὖ#VU1,VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.8#πολιτευομέναις#VU1,VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.9#οὐχ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.10#ὁ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.11#δῆμος#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.12#ἀλλ’#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.13#ὁ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.14#νόμος#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.15#βασιλεύς·#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.16#πᾶς#VU3,VU4
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.17#γὰρ#VU4
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.18#πολίτης#VU3,VU4
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.19#τοῖς#VU3,VU4
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.20#νόμοις#VU3,VU4
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.21#πειθόμενος#VU3,VU4
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.22#δίκαια#VU4
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.23#πράττει#VU4
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.24#ὥστε#VU5
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.25#σῷζεσθαι#VU5
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.26#τήν#VU5
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.27#γε#VU5
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.28#πόλιν#VU5
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.29#ἐκ#VU5
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.30#κινδύνων#VU5
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.31#τε#VU5
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.32#καὶ#VU5
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.33#φόβων#VU5
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Attributive Participle#Intransitive#2
+VU2#Independent Clause#Linking#1
+VU3#Circumstantial Participle#Transitive#2
+VU4#Independent Clause#Transitive#1
+VU5#Subordinate Clause#Intransitive#2
+
+#!citedata
+relationCategories
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conj.,Correlated,-
+
+#!citerelations
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.15#root#Predicative
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.9#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.15#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.11#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.9#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.10#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.11#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.12#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.15#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.13#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.14#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.14#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.12#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.1#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.14#Preposition
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.3#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.1#Obj. of Prep.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.8#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.3#Unit Part.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.4#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.8#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.6#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.8#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.5#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.6#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.7#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.8#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.2#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.3#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.23#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.17#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.23#Unit Adv.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.18#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.23#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.16#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.18#Adjectival
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.21#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.18#Unit Part.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.20#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.21#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.19#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.20#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.22#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.23#Obj. of Verb
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.24#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.25#Unit Adv.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.25#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.23#Unit Inf.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.26#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.28#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.28#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.25#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.27#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.28#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.29#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.25#Preposition
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.30#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.29#Obj. of Prep.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.33#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.29#Obj. of Prep.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.31#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.30#Conj.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.32#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.33#Conj.
