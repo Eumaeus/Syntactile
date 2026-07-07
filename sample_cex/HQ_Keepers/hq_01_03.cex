@@ -1,0 +1,34 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-49939968-56c4-459f-b2e6-12686d6dd988
+text#urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.1-1.3.token.6
+editor#Christopher_Blackwell
+date#2026-07-07
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-49939968-56c4-459f-b2e6-12686d6dd988#urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.1-1.3.token.6#τὸν Ὅμηρον παιδεύει ὁ ἄνθρωπος .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.1#τὸν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.2#Ὅμηρον#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.3#παιδεύει#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.4#ὁ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.5#ἄνθρωπος#VU1
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+
+#!citedata
+relationCategories
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conj.,Correlated,-
+
+#!citerelations
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.3#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.5#urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.3#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.4#urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.5#Article
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.2#urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.3#Obj. of Verb
+urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.1#urn:cts:fuTeaching:blackwell.hq.2026:1.3.token.2#Article
