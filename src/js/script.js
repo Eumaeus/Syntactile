@@ -27,8 +27,8 @@ const RELATION_OPTIONS = [
     "Interjection",
     "Onomatopoeia",
     "-",
-    "Conj.",
-    "Correlated",
+    "Conjunction",
+    "Correlative",
     "-",
 ];
 
@@ -1294,11 +1294,11 @@ loadBtn.addEventListener('click', async () => {
         updateAssignmentDisplay();
         updateAnalysisTable();
 
-        // Show stage 2, hide stage 2 until user clicks Done
+        // Show stage 2, hide other stages until user clicks "done"
         if (stage1Section) stage1Section.style.display = 'block';
         if (stage2Section) stage2Section.style.display = 'block';
-        if (stage3Section) stage3Section.style.display = 'block';
-        if (stage4Section) stage4Section.style.display = 'block';
+        if (stage3Section) stage3Section.style.display = 'none';
+        if (stage4Section) stage4Section.style.display = 'none';
 
         // Scroll to tokens
         document.getElementById('token-output').scrollIntoView({ behavior: 'smooth' });

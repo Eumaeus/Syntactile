@@ -56,7 +56,7 @@ VU5#Subordinate Clause#Intransitive#2
 
 #!citedata
 relationCategories
-Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conj.,Correlated,-
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conjunction,Correlative,-
 
 #!citerelations
 urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.15#root#Predicative
@@ -90,5 +90,5 @@ urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.27#urn:cts:fuTeaching:blackwell.
 urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.29#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.25#Preposition
 urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.30#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.29#Obj. of Prep.
 urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.33#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.29#Obj. of Prep.
-urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.31#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.30#Conj.
-urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.32#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.33#Conj.
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.31#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.30#Conjunction
+urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.32#urn:cts:fuTeaching:blackwell.hq.2026:10.1.token.33#Conjunction
