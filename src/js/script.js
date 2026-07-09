@@ -1267,6 +1267,7 @@ sentenceSelect.addEventListener('change', () => {
 });
 
 loadBtn.addEventListener('click', async () => {
+    console.log("Click.");
     if (!sentenceSelect.value) return;
     const idx = parseInt(sentenceSelect.value);
     const sentenceInfo = currentSentencesData[idx];
@@ -1300,8 +1301,8 @@ loadBtn.addEventListener('click', async () => {
         if (stage3Section) stage3Section.style.display = 'none';
         if (stage4Section) stage4Section.style.display = 'none';
 
-        // Scroll to tokens
-        document.getElementById('token-output').scrollIntoView({ behavior: 'smooth' });
+        // Scroll…
+        stage2Section.scrollIntoView({ behavior: 'smooth' });
     } catch (e) {
         console.error(e);
         alert('Failed to load sentence tokens: ' + e.message);

@@ -64,14 +64,60 @@
 
         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
             <button id="done-stage1" class="action-btn" style="background-color: #2e7d32; color: white;">
-                ✓ Done with Stage 1 — Show Verbal Units (Stage 2)
+                ✓ Move on from Stage 1 — Now Define Syntactic Relationships (Stage 2)
             </button>
         </div>
 
     </div> <!--  id="stage1-section" -->
 
+    
+    
     <div id="stage2-section">
-        <h2>Stage 2: Define Verbal Units</h2>
+        <h2>Stage 2: Syntactic Relationship Analysis</h2>
+        <div id="urn-display">CITE2-URN: <span id="cite2-urn"></span></div>
+        <p class="instructions">Define syntactic relationships to build a top-down graph rooted at '0: Sentence Root'. For each token, select linked tokens (Node 1, Node 2, including '0: Sentence Root') and enter relations (e.g., 'sentence adverbial' for γὰρ, 'Unit Verb' for the main verb). A main verb linking to '0: Sentence Root' indicates asyndeton; a linking word (e.g., γὰρ) indicates none. Export as CEX to save.</p>
+
+        <div id="export-cex2-div">
+            <button id="export-cex2">Export CEX</button>
+            <label class="editor_name_button_label">Editor’s Name:</label>
+            <input id="editor-name2" type="text" value="Your Name" class="editor_name_button" onchange="editor2Changed(this.value)"> 
+        </div>
+
+        <div id="graph-container"></div>
+
+        <button id="recenter_graph_button" onclick="recenterGraph()" class="btn">Recenter / Fit Graph</button>
+        <button id="fullscreen-btn" 
+            onclick="toggleGraphFullscreen()"
+            class="btn"
+            title="Toggle fullscreen view of the graph">
+            ⛶ Fullscreen
+        </button>
+
+        <button onclick="resetSyntacticStage()" class="btn btn-warning">Reset All Syntactic Analyses</button>
+
+        <table id="analysis-table">
+            <thead>
+                <tr>
+                    <th>Token ID</th>
+                    <th>Text</th>
+                    <th>Node 1</th>
+                    <th>Node 1 Relation</th>
+                    <th>Node 2</th>
+                    <th>Node 2 Relation</th>
+                    <th>Reset</th>
+                </tr>
+            </thead>
+            <tbody id="analysis-table-body"></tbody>
+        </table>
+        <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
+                <button id="done-stage2" class="action-btn" style="background-color: #2e7d32; color: white;">
+                    ✓ Move on from Stage 2 — Now Define Verbal Units (Stage 3)
+                </button>
+            </div>
+    </div> <!-- id="stage2-section" -->
+
+    <div id="stage3-section">
+        <h2>Stage 3: Define Verbal Units</h2>
         <p class="instructions">Define a verbal unit by selecting Syntactic Type, Semantic Type, and Nesting Level (1–5). Then click Confirm. </p>
 
         <div id="token-output"></div>
@@ -124,14 +170,14 @@
             <tbody id="verbal-unit-table-body"></tbody>
         </table>
          <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
-                <button id="done-stage2" class="action-btn" style="background-color: #2e7d32; color: white;">
-                    ✓ Done with Stage 2 — Show Assigment of Tokens to Verbal Units (Stage 3)
+                <button id="done-stage3" class="action-btn" style="background-color: #2e7d32; color: white;">
+                    ✓ Move on from Stage 3 — Now Assign Tokens to Verbal Units (Stage 4)
                 </button>
             </div>
-    </div> <!--  id="stage2-section" -->
+    </div> <!--  id="stage3-section" -->
 
-    <div id="stage3-section">
-        <h2>Stage 3: Assign Tokens to Verbal Units</h2>
+    <div id="stage4-section">
+        <h2>Stage 4: Assign Tokens to Verbal Units</h2>
         <p class="instructions">Select a verbal unit from the menu “Assign to Verbal Unit:”. Click on tokens to add them to that verbal unit. A second click will remove them from the verbal unit. Use the “Assign to Verbal Unit” to change which verbal unit you are assigning tokens to. Repeat until all tokens have been assigned to one or more units.</p>
 
         <div id="assignment-form">
@@ -146,53 +192,15 @@
             <input id="editor-name1" type="text" value="Your Name" class="editor_name_button"  onchange="editor1Changed(this.value)">
         </div>
 
+        <!--
         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
-            <button id="done-stage3" class="action-btn" style="background-color: #2e7d32; color: white;">
-                ✓ Done with Stage 3 — Show Syntactic Relationship Analysis (Stage 4)
+            <button id="done-stage4" class="action-btn" style="background-color: #2e7d32; color: white;">
+                ✓ Move on from Stage 4 — Now Assign Part-of-Speech Tags to Tokens (Stage 5)
             </button>
         </div>
+        -->
 
-    </div>  <!--  id="stage3-section" -->
-    
-    <div id="stage4-section">
-        <h2>Stage 4: Syntactic Relationship Analysis</h2>
-        <div id="urn-display">CITE2-URN: <span id="cite2-urn"></span></div>
-        <p class="instructions">Define syntactic relationships to build a top-down graph rooted at '0: Sentence Root'. For each token, select linked tokens (Node 1, Node 2, including '0: Sentence Root') and enter relations (e.g., 'sentence adverbial' for γὰρ, 'Unit Verb' for the main verb). A main verb linking to '0: Sentence Root' indicates asyndeton; a linking word (e.g., γὰρ) indicates none. Export as CEX to save.</p>
-
-        <div id="export-cex2-div">
-            <button id="export-cex2">Export CEX</button>
-            <label class="editor_name_button_label">Editor’s Name:</label>
-            <input id="editor-name2" type="text" value="Your Name" class="editor_name_button" onchange="editor2Changed(this.value)"> 
-        </div>
-
-        <div id="graph-container"></div>
-
-        <button id="recenter_graph_button" onclick="recenterGraph()" class="btn">Recenter / Fit Graph</button>
-        <button id="fullscreen-btn" 
-            onclick="toggleGraphFullscreen()"
-            class="btn"
-            title="Toggle fullscreen view of the graph">
-            ⛶ Fullscreen
-        </button>
-
-        <button onclick="resetSyntacticStage()" class="btn btn-warning">Reset All Syntactic Analyses</button>
-
-        <table id="analysis-table">
-            <thead>
-                <tr>
-                    <th>Token ID</th>
-                    <th>Text</th>
-                    <th>Node 1</th>
-                    <th>Node 1 Relation</th>
-                    <th>Node 2</th>
-                    <th>Node 2 Relation</th>
-                    <th>Reset</th>
-                </tr>
-            </thead>
-            <tbody id="analysis-table-body"></tbody>
-        </table>
-
-    </div> <!-- id="stage4-section" -->
+    </div>  <!--  id="stage4-section" -->
 
     <script src="js/script.js"></script>
 </body>
