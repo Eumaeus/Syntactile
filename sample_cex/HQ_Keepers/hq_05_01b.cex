@@ -1,0 +1,40 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-b00c51d2-2fcf-40f9-9cf8-e942d3c95334
+text#urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.1-5.1b.token.9
+editor#Christopher_Blackwell
+date#2026-07-09
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-b00c51d2-2fcf-40f9-9cf8-e942d3c95334#urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.1-5.1b.token.9#ὁ γὰρ πόλεμος ὁ φοβερὸς ταῖς θεοῖς ἐπέπαυτο .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.1#ὁ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.2#γὰρ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.3#πόλεμος#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.4#ὁ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.5#φοβερὸς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.6#ταῖς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.7#θεοῖς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.8#ἐπέπαυτο#VU1
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Intransitive#1
+
+#!citedata
+relationCategories
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conjunction,Correlative,-
+
+#!citerelations
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.8#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.2#root#Sentence Adv.
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.3#urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.8#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.1#urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.3#Article
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.4#urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.3#Article
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.5#urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.4#Adjectival
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.7#urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.8#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.6#urn:cts:fuTeaching:blackwell.hq.2026:5.1b.token.7#Article

@@ -1,0 +1,38 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-6ff7d119-00c5-4e74-a673-f2aeb73536bd
+text#urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.1-1.5.token.8
+editor#Christopher_Blackwell
+date#2026-07-09
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-6ff7d119-00c5-4e74-a673-f2aeb73536bd#urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.1-1.5.token.8#Ὅμηρος τοὺς ἀνθρώπους ἐν τῇ ἀγορᾷ παιδεύει .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.1#Ὅμηρος#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.2#τοὺς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.3#ἀνθρώπους#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.4#ἐν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.5#τῇ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.6#ἀγορᾷ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.7#παιδεύει#VU1
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+
+#!citedata
+relationCategories
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conjunction,Correlative,-
+
+#!citerelations
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.7#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.1#urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.7#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.3#urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.7#Obj. of Verb
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.2#urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.3#Article
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.4#urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.7#Preposition
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.6#urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.4#Obj. of Prep.
+urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.5#urn:cts:fuTeaching:blackwell.hq.2026:1.5.token.6#Article

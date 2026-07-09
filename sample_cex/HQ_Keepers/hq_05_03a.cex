@@ -1,0 +1,59 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-b3136606-2f32-4203-ae32-c04a4158db9a
+text#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.1-10.3a.token.19
+editor#Christopher_Blackwell
+date#2026-07-09
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-b3136606-2f32-4203-ae32-c04a4158db9a#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.1-10.3a.token.19#ὦ πάτερ , ἐξενικήθησάν τε σύμπαντες οἱ πολέμιοι ὑπὸ τῶν στρατιωτῶν τῶν εὐγενῶν καὶ ἡ εὐδαίμων πόλις ἐσώθη .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.1#ὦ#VU1,VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.2#πάτερ#VU1,VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.4#ἐξενικήθησάν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.5#τε#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.6#σύμπαντες#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.7#οἱ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.8#πολέμιοι#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.9#ὑπὸ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.10#τῶν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.11#στρατιωτῶν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.12#τῶν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.13#εὐγενῶν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.14#καὶ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.15#ἡ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.16#εὐδαίμων#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.17#πόλις#VU2
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.18#ἐσώθη#VU2
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Intransitive#1
+VU2#Independent Clause#Intransitive#1
+
+#!citedata
+relationCategories
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conjunction,Correlative,-
+
+#!citerelations
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.2#root#Apostrophe
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.1#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.2#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.5#root#Correlative
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.4#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.5#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.14#root#Correlative
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.18#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.14#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.8#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.4#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.17#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.18#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.7#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.8#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.6#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.8#Adjectival
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.15#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.17#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.16#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.17#Adjectival
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.9#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.4#Preposition
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.11#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.9#Obj. of Prep.
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.10#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.11#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.12#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.11#Article
+urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.13#urn:cts:fuTeaching:blackwell.hq.2026:10.3a.token.12#Adjectival
