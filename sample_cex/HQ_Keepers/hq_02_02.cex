@@ -1,0 +1,38 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-6e05f99f-279c-4913-88e0-d5e10f29d820
+text#urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.1-2.2.token.8
+editor#Christopher_Blackwell
+date#2026-07-10
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-6e05f99f-279c-4913-88e0-d5e10f29d820#urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.1-2.2.token.8#πέντε βιβλία τοῖς ξένοις ἐπεμψεν ὁ Ὅμηρος .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.1#πέντε#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.2#βιβλία#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.3#τοῖς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.4#ξένοις#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.5#ἐπεμψεν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.6#ὁ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.7#Ὅμηρος#VU1
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+
+#!citedata
+relationCategories
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conjunction,Correlative,-
+
+#!citerelations
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.5#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.7#urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.5#Subject
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.6#urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.7#Article
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.2#urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.5#Obj. of Verb
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.1#urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.2#Adjectival
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.4#urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.5#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.3#urn:cts:fuTeaching:blackwell.hq.2026:2.2.token.4#Article
