@@ -950,6 +950,11 @@ function exportCex() {
 
     let editorName = editor_field1.value.replace(" ", "_")
 
+    if (editorName.length < 8) {
+        alert("Please enter an editor’s name of at least 8 characters.");
+        return;
+    }
+
     let cex = '#!citelibrary\n';
     cex += `name#Ancient Greek Syntax Analysis\n`;
     cex += `urn#${cite2Urn}\n`;
