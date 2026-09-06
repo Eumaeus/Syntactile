@@ -12,23 +12,29 @@ Analyses can be exported as a `.cex` file, which can be re-imported for further 
   - Tokenize into white-space, punctuation, and lexical tokens (IDs 1, 2, …).
   - Select a sentence adverbial (yellow highlight) or asyndeton (`ROOT⁰` token).
   - Sets the root for a syntax graph.
-- **Stage 2: Clause/Phrase Analysis**:
-  - Define verbal units with IDs (e.g., `VU1`), Syntactic Type, Semantic Type, Level (1–5).
-  - Form displays ID; table allows Edit/Delete.
-- **Stage 3: Token Assignment**:
-  - Assign tokens to verbal units via “Unassigned Tokens” list (pre-populated).
-  - Tokens can belong to multiple units (e.g., for nested clauses and participles).
-  - Tokens display in sentence order.
-  - Unassign by clicking assigned tokens per unit. Adverbial/`ROOT⁰` ineligible.
-  - Displays units with tokens, indented by level (1em/level).
-- **Stage 4: Morphological Descripton of Tokens
-- **Stage 5: Syntactic Relationship Analysis**:
+- **Stage 2: Syntactic Relationship Analysis**:
   - Define relationships between tokens (Node 1, Node 1 Relation, Node 2, Node 2 Relation).
   - Inline table editing with dropdowns for token IDs and text inputs for relations.
   - Visualizes a directed graph (vis.js) rooted at adverbial/`ROOT⁰`.
   - Analysis identified by CITE2-URN.
 - Modern, minimalist UI with clear instructions.
 - Prepares for CSV/TSV export with `sentenceId`.
+- **Stage 3: Clause/Phrase Analysis**:
+  - Define verbal units with IDs (e.g., `VU1`), Syntactic Type, Semantic Type, Level (1–5).
+  - Form displays ID; table allows Edit/Delete.
+- **Stage 4: Token Assignment**:
+  - Assign tokens to verbal units via “Unassigned Tokens” list (pre-populated).
+  - Tokens can belong to multiple units (e.g., for nested clauses and participles).
+  - Tokens display in sentence order.
+  - Unassign by clicking assigned tokens per unit. Adverbial/`ROOT⁰` ineligible.
+  - Displays units with tokens, indented by level (1em/level).
+
+## Notes
+
+The app is intended to be flexible, to allow syntactic analysis without being dogmatic about it. Here are some recommendations:
+
+- The relative pronoun will depend on its antecedent as a `relative pronoun`.
+- The relative pronoun will serve as the "root" of its Verbal Unit, and the verb of the relative clause will depend on the pronoun.
 
 ## Installation
 
