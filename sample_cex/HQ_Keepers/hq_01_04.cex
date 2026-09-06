@@ -1,21 +1,21 @@
 #!citelibrary
 name#Ancient Greek Syntax Analysis
 urn#urn:cite2:analyzer:analysis:2025-06-13-a5e80bb9-3a87-4dd4-87c9-c8ef62d21a9f
-text#urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.1-1.4.token.5
+text#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token1-1.4.token5
 editor#Christopher_Blackwell
 date#2026-07-07
 
 #!citedata
 sentence#ctsurn#text
-urn:cite2:analyzer:analysis:2025-06-13-a5e80bb9-3a87-4dd4-87c9-c8ef62d21a9f#urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.1-1.4.token.5#Ὅμηρος τοὺς ἀνθρώπους παιδεύει .
+urn:cite2:analyzer:analysis:2025-06-13-a5e80bb9-3a87-4dd4-87c9-c8ef62d21a9f#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token1-1.4.token5#Ὅμηρος τοὺς ἀνθρώπους παιδεύει .
 
 #!citedata
 tokenId#text#verbalUnitIds
 root#ROOT#
-urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.1#Ὅμηρος#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.2#τοὺς#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.3#ἀνθρώπους#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.4#παιδεύει#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token1#Ὅμηρος#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token2#τοὺς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token3#ἀνθρώπους#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token4#παιδεύει#VU1
 
 #!citedata
 unitId#syntacticType#semanticType#level
@@ -26,7 +26,7 @@ relationCategories
 Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conjunction,Correlative,-
 
 #!citerelations
-urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.4#root#Unit Verb
-urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.1#urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.4#Subject
-urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.3#urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.4#Obj. of Verb
-urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.2#urn:cts:fuTeaching:blackwell.hq.2026:1.4.token.3#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token4#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token1#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token4#Subject
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token3#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token4#Obj. of Verb
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token2#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.4.token3#Article

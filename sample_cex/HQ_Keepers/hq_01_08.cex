@@ -1,27 +1,27 @@
 #!citelibrary
 name#Ancient Greek Syntax Analysis
 urn#urn:cite2:analyzer:analysis:2025-06-13-fc0f9be7-86ba-4b0f-934d-a6f6bef127c1
-text#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.1-1.8.token.11
+text#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token1-1.8.token11
 editor#Christopher_Blackwell
 date#2026-07-10
 
 #!citedata
 sentence#ctsurn#text
-urn:cite2:analyzer:analysis:2025-06-13-fc0f9be7-86ba-4b0f-934d-a6f6bef127c1#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.1-1.8.token.11#ὁ θεὸς δῶρον τῷ Ὁμήρου ἀδελφῷ πέμπει εἰς τὴν χώραν .
+urn:cite2:analyzer:analysis:2025-06-13-fc0f9be7-86ba-4b0f-934d-a6f6bef127c1#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token1-1.8.token11#ὁ θεὸς δῶρον τῷ Ὁμήρου ἀδελφῷ πέμπει εἰς τὴν χώραν .
 
 #!citedata
 tokenId#text#verbalUnitIds
 root#ROOT#
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.1#ὁ#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.2#θεὸς#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.3#δῶρον#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.4#τῷ#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.5#Ὁμήρου#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.6#ἀδελφῷ#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.7#πέμπει#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.8#εἰς#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.9#τὴν#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.10#χώραν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token1#ὁ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token2#θεὸς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token3#δῶρον#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token4#τῷ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token5#Ὁμήρου#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token6#ἀδελφῷ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token7#πέμπει#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token8#εἰς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token9#τὴν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token10#χώραν#VU1
 
 #!citedata
 unitId#syntacticType#semanticType#level
@@ -32,13 +32,13 @@ relationCategories
 Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conjunction,Correlative,-
 
 #!citerelations
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.7#root#Unit Verb
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.2#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.7#Subject
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.1#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.2#Article
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.3#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.7#Obj. of Verb
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.6#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.7#Adverbial
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.4#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.6#Article
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.5#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.6#Adjectival
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.8#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.7#Preposition
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.10#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.8#Obj. of Prep.
-urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.9#urn:cts:fuTeaching:blackwell.hq.2026:1.8.token.10#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token7#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token2#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token7#Subject
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token1#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token2#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token3#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token7#Obj. of Verb
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token6#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token7#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token4#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token6#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token5#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token6#Adjectival
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token8#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token7#Preposition
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token10#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token8#Obj. of Prep.
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token9#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.8.token10#Article
