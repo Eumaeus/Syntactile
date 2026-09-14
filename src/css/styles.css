@@ -210,7 +210,7 @@ select#sentence-select, select#collection-select  {
     border-radius: 4px;
 }
 
-input#editor-name2, input#editor-name1 {
+input#editor-name2, input#editor-name1, input#filename1, input#filename2 {
     padding: 10px;
     font-size: 0.95em;
     background: #eee;

@@ -172,6 +172,9 @@ const input = document.getElementById('sentence-input');
 const editor_field1 =  document.getElementById("editor-name1");
 const editor_field2 = document.getElementById("editor-name2");
 
+const filename_field1 =  document.getElementById("filename1");
+const filename_field2 =  document.getElementById("filename2");
+
 const ctsUrnDisplay = document.getElementById('cts-urn');
 const cite2UrnDisplay = document.getElementById('cite2-urn');
 const tokenOutput = document.getElementById('token-output');
@@ -949,10 +952,16 @@ document.addEventListener('fullscreenchange', () => {
 function exportCex() {
 
     let editorName = editor_field1.value.replace(" ", "_")
+    let fileName = filename_field1.value.replace(" ", "_")
 
     if (editorName.length < 8) {
         alert("Please enter an editor’s name of at least 8 characters.");
         return;
+    }
+
+    if (fileName.length < 4) {
+        alert(`Given filename is too short (${fileName.length} chars). Using default "Syntax-".`);
+            fileName = "Syntax-";
     }
 
     let cex = '#!citelibrary\n';
@@ -1002,7 +1011,7 @@ function exportCex() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `analysis_${editorName}_${sentenceId}.cex`;
+    a.download = `${fileName}-${editorName}_${sentenceId}.cex`;
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -1345,6 +1354,8 @@ function editor1Changed(val) {
     if (e2value != e1value) {
         editor_field2.value = e1value;
     }
+    //console.log("Saving editor name: " + e1value);
+
     saveEditorName(e1value);
 }
 
@@ -1354,7 +1365,28 @@ function editor2Changed(val) {
     if (e2value != e1value) {
         editor_field1.value = e2value;
     }
-    saveEditorName(e1value);
+    //console.log("Saving editor name: " + e2value);
+    saveEditorName(e2value);
+}
+
+function filename1Changed(val) {
+    const fn1value = filename_field1.value;
+    const fn2value = filename_field2.value;
+    if (fn2value != fn1value) {
+        filename_field2.value = fn1value;
+    }
+    //console.log("Saving file name: " + fn1value);
+    saveFileName(fn1value);
+}
+
+function filename2Changed(val) {
+    const fn1value = filename_field1.value;
+    const fn2value = filename_field2.value;
+    if (fn1value != fn2value) {
+        filename_field1.value = fn2value;
+    }
+    //console.log("Saving file name: " + fn2value);
+    saveFileName(fn2value);
 }
 
 function resetTokenAnalysis(tokenId) {
@@ -1372,10 +1404,20 @@ function saveEditorName(editorName) {
     localStorage.setItem("editorName", editorName);
 }
 
+function saveFileName(fileName) {
+    localStorage.setItem("fileName", fileName);
+}
+
 function getEditorName() {
     var newEditorName = localStorage.getItem("editorName");
     editor_field1.value = newEditorName;
     editor_field2.value = newEditorName;
+}
+
+function getFileName() {
+    var newFileName = localStorage.getItem("fileName");
+    filename_field1.value = newFileName;
+    filename_field2.value = newFileName;
 }
 
 // Staged reveal: hide later stages initially
@@ -1384,6 +1426,7 @@ if (stage3Section) stage3Section.style.display = 'none';
 if (stage4Section) stage4Section.style.display = 'none';
 
 getEditorName();
+getFileName();
 
 //Let's start the graph centered!
 recenterGraph();
