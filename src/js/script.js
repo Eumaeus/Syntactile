@@ -177,7 +177,8 @@ const filename_field2 =  document.getElementById("filename2");
 
 const ctsUrnDisplay = document.getElementById('cts-urn');
 const cite2UrnDisplay = document.getElementById('cite2-urn');
-const tokenOutput = document.getElementById('token-output');
+const tokenOutput1 = document.getElementById('token-output1');
+const tokenOutput2 = document.getElementById('token-output2');
 const stage1Section = document.getElementById('stage1-section');
 const stage2Section = document.getElementById('stage2-section');
 const stage3Section = document.getElementById('stage3-section');
@@ -287,8 +288,16 @@ function createTokenObjectForPlainText(text, displayNum) {
 }
 
 // Update inline token display + apply assignment classes
-function updateTokenDisplay() {
-    tokenOutput.innerHTML = '';
+function updateTokenDisplay(){
+    console.log(tokenOutput1);
+    console.log(tokenOutput2);
+    
+    updateTokenDisplay2(tokenOutput1);
+    updateTokenDisplay2(tokenOutput2);
+}
+function updateTokenDisplay2(thisElement) {
+
+    thisElement.innerHTML = '';
     tokens.forEach((token, index) => {
         if (token.tokenId === "root" || token.displayId === 0) return;
 
@@ -321,7 +330,7 @@ function updateTokenDisplay() {
             span.textContent = token.text;
         }
 
-        tokenOutput.appendChild(span);
+        thisElement.appendChild(span);
     });
     ctsUrnDisplay.textContent = ctsUrn;
 }
