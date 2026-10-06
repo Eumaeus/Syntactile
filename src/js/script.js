@@ -1088,6 +1088,9 @@ function string_to_relation_options(rs) {
 
             else if (currentBlock === 'sentence' && parts.length >= 2) {
                 sentenceData = { id: parts[0], ctsurn: parts[1], text: parts[2] };
+                // Set defaultFileNameBase for this sentence!
+                defaultFileNameBase = "Analysis_" + parts[1].replace(/urn:cts:[^:]+:[^:]+:/, "").replace(/\.token[0-9]+.+/,"");
+                filename_field1.value = defaultFileNameBase;
             } 
             else if (currentBlock === 'tokens' && parts.length >= 3) {
                 const tokenEntry = {
@@ -1227,6 +1230,7 @@ importCexInput.addEventListener('change', (e) => {
         const reader = new FileReader();
         reader.onload = (event) => importCex(event.target.result);
         reader.readAsText(file);
+
         e.target.value = '';
     }
 });
@@ -1448,9 +1452,13 @@ recenterGraph();
 
 // containerId = "graph-container"
 
-function exportNetworkToPNG(networkInstance, containerId) {
+function doPngDownload() {
+    console.log(defaultFileNameBase);
+    exportNetworkToPNG(graphNetwork, 'graph-container', defaultFileNameBase);
+}
+
+function exportNetworkToPNG(networkInstance, containerId, pngFileName) {
     const canvas = document.getElementById(containerId).getElementsByTagName("canvas")[0];
-    
     // Create a temporary canvas to draw the background
     const tempCanvas = document.createElement("canvas");
     tempCanvas.width = canvas.width;
@@ -1467,6 +1475,6 @@ function exportNetworkToPNG(networkInstance, containerId) {
     // Download the final image
     const link = document.createElement("a");
     link.href = tempCanvas.toDataURL("image/png");
-    link.download = "network-graph.png";
+    link.download = `${pngFileName}.png`;
     link.click();
 }
