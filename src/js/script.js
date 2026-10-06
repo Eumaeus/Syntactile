@@ -1441,3 +1441,32 @@ getFileName();
 
 //Let's start the graph centered!
 recenterGraph();
+
+// **********
+// Export PNG
+// **********
+
+// containerId = "graph-container"
+
+function exportNetworkToPNG(networkInstance, containerId) {
+    const canvas = document.getElementById(containerId).getElementsByTagName("canvas")[0];
+    
+    // Create a temporary canvas to draw the background
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    const tempCtx = tempCanvas.getContext("2d");
+    
+    // Fill the background (change #ffffff to your preferred background color)
+    tempCtx.fillStyle = "#ffffff";
+    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+    
+    // Draw the original network canvas on top of the solid background
+    tempCtx.drawImage(canvas, 0, 0);
+    
+    // Download the final image
+    const link = document.createElement("a");
+    link.href = tempCanvas.toDataURL("image/png");
+    link.download = "network-graph.png";
+    link.click();
+}
