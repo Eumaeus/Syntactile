@@ -225,7 +225,7 @@ let justImported = false;   // ← new flag
 let graphNetwork = null;
 let ctsUrn = 'urn:cts:greekLit:demos.ad_hoc.default:0';
 let cite2Urn = `urn:cite2:analyzer:analysis:${date}-${sentenceId}`;
-
+let defaultFileNameBase = "default";
 
 
 
@@ -289,8 +289,8 @@ function createTokenObjectForPlainText(text, displayNum) {
 
 // Update inline token display + apply assignment classes
 function updateTokenDisplay(){
-    console.log(tokenOutput1);
-    console.log(tokenOutput2);
+    //console.log(tokenOutput1);
+    //console.log(tokenOutput2);
     
     updateTokenDisplay2(tokenOutput1);
     updateTokenDisplay2(tokenOutput2);
@@ -1290,10 +1290,12 @@ sentenceSelect.addEventListener('change', () => {
 });
 
 loadBtn.addEventListener('click', async () => {
-    console.log("Click.");
     if (!sentenceSelect.value) return;
     const idx = parseInt(sentenceSelect.value);
     const sentenceInfo = currentSentencesData[idx];
+    defaultFileNameBase = "Analysis_" + sentenceInfo.sentenceUrn.replace(/urn:cts:[^:]+:[^:]+:/, "").replace(/\.token[0-9]+.+/,"");
+    filename_field1.value = defaultFileNameBase;
+    filename1Changed(defaultFileNameBase); 
     if (!sentenceInfo) return;
 
     try {
