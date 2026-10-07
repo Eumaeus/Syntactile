@@ -1453,8 +1453,12 @@ recenterGraph();
 // containerId = "graph-container"
 
 function doPngDownload() {
-    console.log(defaultFileNameBase);
-    exportNetworkToPNG(graphNetwork, 'graph-container', defaultFileNameBase);
+    let  pngFileName = defaultFileNameBase + "-" + editor_field1.value.replace(" ", "_");
+    recenterGraph();
+    setTimeout(() => {
+        // This executes after a 2-second delay
+        exportNetworkToPNG(graphNetwork, 'graph-container', pngFileName );
+    }, 1000);
 }
 
 function exportNetworkToPNG(networkInstance, containerId, pngFileName) {
