@@ -1,13 +1,13 @@
 #!citelibrary
 name#Ancient Greek Syntax Analysis
-urn#urn:cite2:analyzer:analysis:2025-06-13-6ff7d119-00c5-4e74-a673-f2aeb73536bd
+urn#urn:cite2:analyzer:analysis:2025-06-13-1f6daf27-7e2f-49f2-ae17-e8ad1bf72738
 text#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.5.token1-1.5.token8
-editor#Christopher_Blackwell
-date#2026-07-09
+editor#CBlackwell
+date#2026-10-07
 
 #!citedata
 sentence#ctsurn#text
-urn:cite2:analyzer:analysis:2025-06-13-6ff7d119-00c5-4e74-a673-f2aeb73536bd#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.5.token1-1.5.token8#Ὅμηρος τοὺς ἀνθρώπους ἐν τῇ ἀγορᾷ παιδεύει .
+urn:cite2:analyzer:analysis:2025-06-13-1f6daf27-7e2f-49f2-ae17-e8ad1bf72738#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.5.token1-1.5.token8#Ὅμηρος τοὺς ἀνθρώπους ἐν τῇ ἀγορᾷ παιδεύει .
 
 #!citedata
 tokenId#text#verbalUnitIds

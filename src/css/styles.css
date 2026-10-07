@@ -74,7 +74,7 @@ select#sentence-select, select#collection-select  {
 
 #input-section, #stage1-section, #stage2-section, #stage3-section, #stage4-section {
     width: 90%;
-    max-width: 800px;
+    max-width: 900px;
     background-color: white;
     margin-bottom: 120px;
     border: 1px solid black;
@@ -363,7 +363,7 @@ div#export-cex1-div, div#export-cex2-div {
 }
 #graph-container {
     width: 100%;
-    height: 400px;
+    height: 800px;
     border: 1px solid #d1d1d1;
     border-radius: 6px;
     background: #fff;

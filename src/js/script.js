@@ -1091,6 +1091,7 @@ function string_to_relation_options(rs) {
                 // Set defaultFileNameBase for this sentence!
                 defaultFileNameBase = "Analysis_" + parts[1].replace(/urn:cts:[^:]+:[^:]+:/, "").replace(/\.token[0-9]+.+/,"");
                 filename_field1.value = defaultFileNameBase;
+                filename_field2.value = defaultFileNameBase;
             } 
             else if (currentBlock === 'tokens' && parts.length >= 3) {
                 const tokenEntry = {
@@ -1391,6 +1392,7 @@ function filename1Changed(val) {
         filename_field2.value = fn1value;
     }
     //console.log("Saving file name: " + fn1value);
+    defaultFileNameBase = fn1value;
     saveFileName(fn1value);
 }
 
@@ -1401,6 +1403,7 @@ function filename2Changed(val) {
         filename_field1.value = fn2value;
     }
     //console.log("Saving file name: " + fn2value);
+    defaultFileNameBase = fn2value;
     saveFileName(fn2value);
 }
 

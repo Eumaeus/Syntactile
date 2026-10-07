@@ -2,8 +2,8 @@
 name#Ancient Greek Syntax Analysis
 urn#urn:cite2:analyzer:analysis:2025-06-13-3e31135e-2a3e-4c5b-b152-e10dfe9037f5
 text#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token1-1.7.token8
-editor#Christopher_Blackwell
-date#2026-07-12
+editor#CBlackwell
+date#2026-10-07
 
 #!citedata
 sentence#ctsurn#text
@@ -78,15 +78,15 @@ urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token3#urn:cts:greekLit:tlg0012.tl
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token5#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token1#Adjectival
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token4#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token5#Adjectival
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token1#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token1#Adjectival
-urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token3#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token1#Rel. Pronoun
+urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token3#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.5.token6#Rel. Pronoun
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token3#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.3.token2#Subject
-urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.5.token6#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.5.token7#Conjunction
-urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token7#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token3#Unit Verb
+urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.5.token6#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token1#Conjunction
+urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token7#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.3.token2#Unit Verb
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.3.token2#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token3#Conjunction
-urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.4.token4#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.3.token2#Correlative
+urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.4.token4#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.4.token6#Sentence Adv.
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.3.token6#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.3.token2#Unit Verb
-urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.4.token6#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.4.token4#Unit Verb
-urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.5.token7#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.1.token2#Unit Verb
+urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.4.token6#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.3.token2#Unit Verb
+urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.5.token7#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.5.token6#Unit Verb
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token6#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token7#Obj. of Verb
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token4#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token6#Adjectival
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token5#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.2.token7#Adverbial
@@ -109,11 +109,11 @@ urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token3#urn:cts:greekLit:tlg0012.tl
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token6#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token2#Unit Verb
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token5#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token6#Adverbial
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token4#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token5#Article
-urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token2#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token1#Conjunction
-urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token1#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token6#Subject
+urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token2#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token7#Conjunction
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token7#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token6#Unit Part.
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token3#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token1#Appositive
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token4#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token3#Adjectival
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token5#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token7#Conjunction
-urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token7#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.6.token6#Subject
+urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token7#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token2#Subject
 urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token6#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token7#Adjectival
+urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token1#urn:cts:greekLit:tlg0012.tlg001.allen.tok:1.7.token2#Subject

@@ -1,13 +1,13 @@
 #!citelibrary
 name#Ancient Greek Syntax Analysis
-urn#urn:cite2:analyzer:analysis:2025-06-13-4aa4dada-31e3-4e7b-86b2-2b4a1900916f
+urn#urn:cite2:analyzer:analysis:2025-06-13-f3fdbad5-9d11-41e8-9f06-9a365291a804
 text#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token1-1.2.token7
-editor#Christopher_Blackwell
-date#2026-07-07
+editor#CBlackwell
+date#2026-10-06
 
 #!citedata
 sentence#ctsurn#text
-urn:cite2:analyzer:analysis:2025-06-13-4aa4dada-31e3-4e7b-86b2-2b4a1900916f#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token1-1.2.token7#ὁ Ὁμήρου ἀδελφὸς παιδεύει τὸν ἄνθρωπον .
+urn:cite2:analyzer:analysis:2025-06-13-f3fdbad5-9d11-41e8-9f06-9a365291a804#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token1-1.2.token7#ὁ Ὁμήρου ἀδελφὸς παιδεύει τὸν ἄνθρωπον .
 
 #!citedata
 tokenId#text#verbalUnitIds
@@ -30,7 +30,7 @@ Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,A
 #!citerelations
 urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token4#root#Unit Verb
 urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token3#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token4#Subject
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token6#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token4#Obj. of Verb
 urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token1#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token3#Article
 urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token2#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token3#Adjectival
-urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token6#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token4#Obj. of Verb
 urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token5#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.2.token6#Article
