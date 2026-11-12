@@ -172,9 +172,13 @@ const input = document.getElementById('sentence-input');
 const editor_field1 =  document.getElementById("editor-name1");
 const editor_field2 = document.getElementById("editor-name2");
 
+const filename_field1 =  document.getElementById("filename1");
+const filename_field2 =  document.getElementById("filename2");
+
 const ctsUrnDisplay = document.getElementById('cts-urn');
 const cite2UrnDisplay = document.getElementById('cite2-urn');
-const tokenOutput = document.getElementById('token-output');
+const tokenOutput1 = document.getElementById('token-output1');
+const tokenOutput2 = document.getElementById('token-output2');
 const stage1Section = document.getElementById('stage1-section');
 const stage2Section = document.getElementById('stage2-section');
 const stage3Section = document.getElementById('stage3-section');
@@ -221,7 +225,7 @@ let justImported = false;   // ← new flag
 let graphNetwork = null;
 let ctsUrn = 'urn:cts:greekLit:demos.ad_hoc.default:0';
 let cite2Urn = `urn:cite2:analyzer:analysis:${date}-${sentenceId}`;
-
+let defaultFileNameBase = "default";
 
 
 
@@ -284,8 +288,16 @@ function createTokenObjectForPlainText(text, displayNum) {
 }
 
 // Update inline token display + apply assignment classes
-function updateTokenDisplay() {
-    tokenOutput.innerHTML = '';
+function updateTokenDisplay(){
+    //console.log(tokenOutput1);
+    //console.log(tokenOutput2);
+    
+    updateTokenDisplay2(tokenOutput1);
+    updateTokenDisplay2(tokenOutput2);
+}
+function updateTokenDisplay2(thisElement) {
+
+    thisElement.innerHTML = '';
     tokens.forEach((token, index) => {
         if (token.tokenId === "root" || token.displayId === 0) return;
 
@@ -318,7 +330,7 @@ function updateTokenDisplay() {
             span.textContent = token.text;
         }
 
-        tokenOutput.appendChild(span);
+        thisElement.appendChild(span);
     });
     ctsUrnDisplay.textContent = ctsUrn;
 }
@@ -949,6 +961,17 @@ document.addEventListener('fullscreenchange', () => {
 function exportCex() {
 
     let editorName = editor_field1.value.replace(" ", "_")
+    let fileName = filename_field1.value.replace(" ", "_")
+
+    if (editorName.length < 8) {
+        alert("Please enter an editor’s name of at least 8 characters.");
+        return;
+    }
+
+    if (fileName.length < 4) {
+        alert(`Given filename is too short (${fileName.length} chars). Using default "Syntax-".`);
+            fileName = "Syntax-";
+    }
 
     let cex = '#!citelibrary\n';
     cex += `name#Ancient Greek Syntax Analysis\n`;
@@ -997,7 +1020,7 @@ function exportCex() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `analysis_${editorName}_${sentenceId}.cex`;
+    a.download = `${fileName}-${editorName}_${sentenceId}.cex`;
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -1065,6 +1088,10 @@ function string_to_relation_options(rs) {
 
             else if (currentBlock === 'sentence' && parts.length >= 2) {
                 sentenceData = { id: parts[0], ctsurn: parts[1], text: parts[2] };
+                // Set defaultFileNameBase for this sentence!
+                defaultFileNameBase = "Analysis_" + parts[1].replace(/urn:cts:[^:]+:[^:]+:/, "").replace(/\.token[0-9]+.+/,"");
+                filename_field1.value = defaultFileNameBase;
+                filename_field2.value = defaultFileNameBase;
             } 
             else if (currentBlock === 'tokens' && parts.length >= 3) {
                 const tokenEntry = {
@@ -1204,6 +1231,7 @@ importCexInput.addEventListener('change', (e) => {
         const reader = new FileReader();
         reader.onload = (event) => importCex(event.target.result);
         reader.readAsText(file);
+
         e.target.value = '';
     }
 });
@@ -1270,6 +1298,9 @@ loadBtn.addEventListener('click', async () => {
     if (!sentenceSelect.value) return;
     const idx = parseInt(sentenceSelect.value);
     const sentenceInfo = currentSentencesData[idx];
+    defaultFileNameBase = "Analysis_" + sentenceInfo.sentenceUrn.replace(/urn:cts:[^:]+:[^:]+:/, "").replace(/\.token[0-9]+.+/,"");
+    filename_field1.value = defaultFileNameBase;
+    filename1Changed(defaultFileNameBase); 
     if (!sentenceInfo) return;
 
     try {
@@ -1300,8 +1331,8 @@ loadBtn.addEventListener('click', async () => {
         if (stage3Section) stage3Section.style.display = 'none';
         if (stage4Section) stage4Section.style.display = 'none';
 
-        // Scroll to tokens
-        document.getElementById('token-output').scrollIntoView({ behavior: 'smooth' });
+        // Scroll…
+        stage2Section.scrollIntoView({ behavior: 'smooth' });
     } catch (e) {
         console.error(e);
         alert('Failed to load sentence tokens: ' + e.message);
@@ -1339,6 +1370,8 @@ function editor1Changed(val) {
     if (e2value != e1value) {
         editor_field2.value = e1value;
     }
+    //console.log("Saving editor name: " + e1value);
+
     saveEditorName(e1value);
 }
 
@@ -1348,7 +1381,30 @@ function editor2Changed(val) {
     if (e2value != e1value) {
         editor_field1.value = e2value;
     }
-    saveEditorName(e1value);
+    //console.log("Saving editor name: " + e2value);
+    saveEditorName(e2value);
+}
+
+function filename1Changed(val) {
+    const fn1value = filename_field1.value;
+    const fn2value = filename_field2.value;
+    if (fn2value != fn1value) {
+        filename_field2.value = fn1value;
+    }
+    //console.log("Saving file name: " + fn1value);
+    defaultFileNameBase = fn1value;
+    saveFileName(fn1value);
+}
+
+function filename2Changed(val) {
+    const fn1value = filename_field1.value;
+    const fn2value = filename_field2.value;
+    if (fn1value != fn2value) {
+        filename_field1.value = fn2value;
+    }
+    //console.log("Saving file name: " + fn2value);
+    defaultFileNameBase = fn2value;
+    saveFileName(fn2value);
 }
 
 function resetTokenAnalysis(tokenId) {
@@ -1366,10 +1422,20 @@ function saveEditorName(editorName) {
     localStorage.setItem("editorName", editorName);
 }
 
+function saveFileName(fileName) {
+    localStorage.setItem("fileName", fileName);
+}
+
 function getEditorName() {
     var newEditorName = localStorage.getItem("editorName");
     editor_field1.value = newEditorName;
     editor_field2.value = newEditorName;
+}
+
+function getFileName() {
+    var newFileName = localStorage.getItem("fileName");
+    filename_field1.value = newFileName;
+    filename_field2.value = newFileName;
 }
 
 // Staged reveal: hide later stages initially
@@ -1378,6 +1444,44 @@ if (stage3Section) stage3Section.style.display = 'none';
 if (stage4Section) stage4Section.style.display = 'none';
 
 getEditorName();
+getFileName();
 
 //Let's start the graph centered!
 recenterGraph();
+
+// **********
+// Export PNG
+// **********
+
+// containerId = "graph-container"
+
+function doPngDownload() {
+    let  pngFileName = defaultFileNameBase + "-" + editor_field1.value.replace(" ", "_");
+    recenterGraph();
+    setTimeout(() => {
+        // This executes after a 2-second delay
+        exportNetworkToPNG(graphNetwork, 'graph-container', pngFileName );
+    }, 1000);
+}
+
+function exportNetworkToPNG(networkInstance, containerId, pngFileName) {
+    const canvas = document.getElementById(containerId).getElementsByTagName("canvas")[0];
+    // Create a temporary canvas to draw the background
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    const tempCtx = tempCanvas.getContext("2d");
+    
+    // Fill the background (change #ffffff to your preferred background color)
+    tempCtx.fillStyle = "#ffffff";
+    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+    
+    // Draw the original network canvas on top of the solid background
+    tempCtx.drawImage(canvas, 0, 0);
+    
+    // Download the final image
+    const link = document.createElement("a");
+    link.href = tempCanvas.toDataURL("image/png");
+    link.download = `${pngFileName}.png`;
+    link.click();
+}

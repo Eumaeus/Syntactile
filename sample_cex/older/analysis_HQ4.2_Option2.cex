@@ -1,26 +1,26 @@
 #!citelibrary
 name#Ancient Greek Syntax Analysis
 urn#urn:cite2:analyzer:analysis:2025-06-13-7b52de7e-a1d1-42a6-b14a-dc416b952f51
-text#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1-4.2.token.11
+text#urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token1-4.2.token11
 editor#Editor 2
 date#2026-06-29
 
 #!citedata
 sentence#ctsurn#text
-urn:cite2:analyzer:analysis:2025-06-13-7b52de7e-a1d1-42a6-b14a-dc416b952f51#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1-4.2.token.11#ἡ μὲν μάχη στρατιώταις κακή , ἀγαθὴ δὲ ἡ νίκη .
+urn:cite2:analyzer:analysis:2025-06-13-7b52de7e-a1d1-42a6-b14a-dc416b952f51#urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token1-4.2.token11#ἡ μὲν μάχη στρατιώταις κακή , ἀγαθὴ δὲ ἡ νίκη .
 
 #!citedata
 tokenId#text#verbalUnitIds
 root#ROOT#
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1#ἡ#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.2#μὲν#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#μάχη#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.4#στρατιώταις#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#κακή#VU1
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.7#ἀγαθὴ#VU2
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.8#δὲ#VU2
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.9#ἡ#VU2
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#νίκη#VU2
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token1#ἡ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token2#μὲν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token3#μάχη#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token4#στρατιώταις#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token5#κακή#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token7#ἀγαθὴ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token8#δὲ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token9#ἡ#VU2
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token10#νίκη#VU2
 
 #!citedata
 unitId#syntacticType#semanticType#level
@@ -29,12 +29,12 @@ VU2#Independent Clause#Transitive#1
 
 #!citerelations
 source#target#relation
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.2#root#Unit Adverbial
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.8#root#Unit Adverbial
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.2#Subject
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#Predicative
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.8#Subject
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.9#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#Article
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.1#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.3#Article
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.4#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.5#Adverbial
-urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.7#urn:cts:fuTeaching:blackwell.hq.2026:4.2.token.10#Predicative
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token2#root#Unit Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token8#root#Unit Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token3#urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token2#Subject
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token5#urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token3#Predicative
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token10#urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token8#Subject
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token9#urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token10#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token1#urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token3#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token4#urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token5#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token7#urn:cts:fuTeaching:blackwell.hq.2026.tok:4.2.token10#Predicative

@@ -1,0 +1,46 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-d935ad58-0ede-443d-a0db-b23566d7554a
+text#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token1-1.14.token12
+editor#CBlackwell
+date#2026-10-22
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-d935ad58-0ede-443d-a0db-b23566d7554a#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token1-1.14.token12#ἐν τῇ οἰκίᾳ ὁ ἄνθρωπος τὸν ἀδελφὸν λόγῳ καὶ ἔργῳ παιδεύει .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token1#ἐν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token2#τῇ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token3#οἰκίᾳ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token4#ὁ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token5#ἄνθρωπος#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token6#τὸν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token7#ἀδελφὸν#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token8#λόγῳ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token9#καὶ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token10#ἔργῳ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token11#παιδεύει#VU1
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+
+#!citedata
+relationCategories
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conjunction,Correlative,-
+
+#!citerelations
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token11#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token5#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token11#Subject
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token4#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token5#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token1#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token11#Preposition
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token3#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token1#Obj. of Prep.
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token2#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token3#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token7#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token11#Obj. of Verb
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token6#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token7#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token9#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token11#Conjunction
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token8#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token9#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token10#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.14.token9#Adverbial

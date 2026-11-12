@@ -1,13 +1,13 @@
 #!citelibrary
 name#Ancient Greek Syntax Analysis
 urn#urn:cite2:analyzer:analysis:2025-06-13-aa3aac6e-f304-402e-accb-5372f1eea727
-text#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.1-1.7.token.13
+text#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.7.token1-1.7.token13
 editor#Christopher_Blackwell
 date#2026-06-30
 
 #!citedata
 sentence#ctsurn#text
-urn:cite2:analyzer:analysis:2025-06-13-aa3aac6e-f304-402e-accb-5372f1eea727#urn:cts:fuTeaching:blackwell.hq.2026:1.7.token.1-1.7.token.13#ὁρῶ ὃς ἔδραμον.
+urn:cite2:analyzer:analysis:2025-06-13-aa3aac6e-f304-402e-accb-5372f1eea727#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.7.token1-1.7.token13#ὁρῶ ὃς ἔδραμον.
 
 #!citedata
 tokenId#text#verbalUnitIds
