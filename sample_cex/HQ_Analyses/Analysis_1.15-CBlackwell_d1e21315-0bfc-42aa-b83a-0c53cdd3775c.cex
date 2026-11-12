@@ -1,0 +1,42 @@
+#!citelibrary
+name#Ancient Greek Syntax Analysis
+urn#urn:cite2:analyzer:analysis:2025-06-13-d1e21315-0bfc-42aa-b83a-0c53cdd3775c
+text#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token1-1.15.token10
+editor#CBlackwell
+date#2026-10-22
+
+#!citedata
+sentence#ctsurn#text
+urn:cite2:analyzer:analysis:2025-06-13-d1e21315-0bfc-42aa-b83a-0c53cdd3775c#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token1-1.15.token10#ὁ ἄνθρωπος τοὺς ἀδελφοὺς καὶ λόγῳ καὶ ἔργῳ παιδεύει .
+
+#!citedata
+tokenId#text#verbalUnitIds
+root#ROOT#
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token1#ὁ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token2#ἄνθρωπος#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token3#τοὺς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token4#ἀδελφοὺς#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token5#καὶ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token6#λόγῳ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token7#καὶ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token8#ἔργῳ#VU1
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token9#παιδεύει#VU1
+
+#!citedata
+unitId#syntacticType#semanticType#level
+VU1#Independent Clause#Transitive#1
+
+#!citedata
+relationCategories
+Unit Verb,Unit Part.,Unit Inf.,Aux. Inf.,Rel. Pronoun,-,Subject,Obj. of Verb,-,Article,Adjectival,-,Adverbial,Appositive,-,Preposition,Obj. of Prep.,-,Apostrophe,Predicative,-,Sentence Adv.,Unit Adv.,Interjection,Onomatopoeia,-,Conjunction,Correlative,-
+
+#!citerelations
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token9#root#Unit Verb
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token2#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token9#Subject
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token1#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token2#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token4#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token9#Obj. of Verb
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token3#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token4#Article
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token5#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token9#Correlative
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token7#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token9#Correlative
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token6#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token5#Adverbial
+urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token8#urn:cts:fuTeaching:blackwell.hq.2026.tok:1.15.token7#Adverbial
