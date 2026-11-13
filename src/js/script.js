@@ -179,6 +179,7 @@ const ctsUrnDisplay = document.getElementById('cts-urn');
 const cite2UrnDisplay = document.getElementById('cite2-urn');
 const tokenOutput1 = document.getElementById('token-output1');
 const tokenOutput2 = document.getElementById('token-output2');
+const tokenOutput3 = document.getElementById('token-output3');
 const stage1Section = document.getElementById('stage1-section');
 const stage2Section = document.getElementById('stage2-section');
 const stage3Section = document.getElementById('stage3-section');
@@ -294,6 +295,7 @@ function updateTokenDisplay(){
     
     updateTokenDisplay2(tokenOutput1);
     updateTokenDisplay2(tokenOutput2);
+    updateTokenDisplay2(tokenOutput3);
 }
 function updateTokenDisplay2(thisElement) {
 

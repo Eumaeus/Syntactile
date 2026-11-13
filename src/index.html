@@ -66,26 +66,117 @@
 
         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
             <button id="done-stage1" class="action-btn" style="background-color: #2e7d32; color: white;">
-                ✓ Move on from Stage 1 — Now Define Syntactic Relationships (Stage 2)
+                ✓ Move on from Stage 1 — Now Define Verbal Units (Stage 2)
             </button>
         </div>
     </div> <!--  id="stage1-section" -->
 
-    
-    
+
     <div id="stage2-section">
-        <h2>Stage 2: Syntactic Relationship Analysis</h2>
+        <h2>Stage 2: Define Verbal Units</h2>
+        <div id="token-output3"></div>
+        <p class="instructions">Define a verbal unit by selecting Syntactic Type, Semantic Type, and Nesting Level (1–5). Then click Confirm. </p>
+
+        
+        <div id="verbal-unit-form">
+            <label for="verbal-unit-id">Verbal Unit ID:</label>
+            <span id="verbal-unit-id"></span>
+            <label for="level">Level (1–5):
+                <span class="info-icon" data-tooltip="How deeply nested. An independent clause = 1; a subordinate clause = 2; a participle clause inside a subordinate clause = 3. Etc.">ℹ️</span>
+            </label>
+            <select id="level">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label for="syntactic-type">
+                Syntactic Type:
+                <span class="info-icon" data-tooltip="Independent Clause: main verb of the sentence&#10;Subordinate Clause: introduced by a subordinating conjunction&#10;Circumstantial Participle: adverbial participle (time, cause, condition, etc.)&#10;Attributive Participle: modifies a noun like an adjective&#10;Indirect Statement with Infinitive / Participle: reported speech or thought">ℹ️</span>
+            </label>
+            <select id="syntactic-type">
+                <option value="Independent Clause">Independent Clause</option>
+                <option value="Purpose Clause">Purpose Clause</option>
+                <option value="Result Clause">Result Clause</option>
+                <option value="Temporal Clause">Temporal Clause</option>
+                <option value="Conditional Protasis">Conditional Protasis</option>
+                <option value="Relative Clause">Relative Clause</option>
+                <option value="Relative Protasis">Relative Protasis</option>
+                <option value="Circumstantial Participle">Circumstantial Participle</option>
+                <option value="Attributive Participle">Attributive Participle</option>
+                <option value="Indirect Statement with Infinitive">Indirect Statement with Infinitive</option>
+                <option value="Indirect Statement with Participle">Indirect Statement with Participle</option>
+                <option value="Subordinate Clause">Generic Subordinate Clause</option>
+            </select>
+            <label for="semantic-type">Semantic Type: Syntactic Type:
+                <span class="info-icon" data-tooltip="Transitive: The verb/participle/infinitive has a direct object&#10;Intranstive: It does not have a direct object">ℹ️</span>
+            </label>
+            <select id="semantic-type">
+                <option value="Transitive">Transitive</option>
+                <option value="Intransitive">Intransitive</option>
+                <option value="Linking">Linking</option>
+            </select>
+            
+            <button id="confirm-btn">Confirm Verbal Unit</button>
+        </div>
+        <table id="verbal-unit-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Syntactic Type</th>
+                    <th>Semantic Type</th>
+                    <th>Level</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="verbal-unit-table-body"></tbody>
+        </table>
+         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
+                <button id="done-stage2" class="action-btn" style="background-color: #2e7d32; color: white;">
+                    ✓ Move on from Stage 2 — Now Assign Tokens to Verbal Units (Stage 3)
+                </button>
+            </div>
+    </div> <!--  id="stage2-section" -->
+
+
+
+    <div id="stage3-section">
+        <h2>Stage 3: Assign Tokens to Verbal Units</h2>
+        <p class="instructions">Select a verbal unit from the menu “Assign to Verbal Unit:”. Click on tokens to add them to that verbal unit. A second click will remove them from the verbal unit. Use the “Assign to Verbal Unit” to change which verbal unit you are assigning tokens to. Repeat until all tokens have been assigned to one or more units.</p>
+
+        <div id="assignment-form">
+            <label for="verbal-unit-select">Assign Tokens to Verbal Unit ➟</label>
+            <select id="verbal-unit-select"></select>
+        </div>
+        <div id="assignment-display"></div>
+
+        <div id="export-cex1-div">
+            <button id="export-cex1">Export CEX</button>
+            <label class="editor_name_button_label">Editor’s Name:</label>
+            <input id="editor-name1" type="text" value="Your Name" class="editor_name_button"  onchange="editor1Changed(this.value)">
+            <label class="file_name_button_label">Filename Base:</label>
+            <input id="filename1" type="text" value="Syntax-Analysis" class="file_name_button" onchange="filename1Changed(this.value)"> 
+        </div>
+
+        
+        <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
+            <button id="done-stage3" class="action-btn" style="background-color: #2e7d32; color: white;">
+                ✓ Move on from Stage 3 — Now Define Syntactic Relations (Stage 3)
+            </button>
+        </div>
+        
+
+    </div>  <!--  id="stage3-section" -->
+    
+    
+    <div id="stage4-section">
+        <h2>Stage 4: Syntactic Relationship Analysis</h2>
         <div id="urn-display">CITE2-URN: <span id="cite2-urn"></span></div>
         <div id="token-output2"></div>
         <p class="instructions">Define syntactic relationships to build a top-down graph rooted at '0: Sentence Root'. For each token, select linked tokens (Node 1, Node 2, including '0: Sentence Root') and enter relations (e.g., 'sentence adverbial' for γὰρ, 'Unit Verb' for the main verb). A main verb linking to '0: Sentence Root' indicates asyndeton; a linking word (e.g., γὰρ) indicates none. Export as CEX to save.</p>
 
-        <div id="export-cex2-div">
-            <button id="export-cex2">Export CEX</button>
-            <label class="editor_name_button_label">Editor’s Name:</label>
-            <input id="editor-name2" type="text" value="Your Name" class="editor_name_button" onchange="editor2Changed(this.value)"> 
-            <label class="file_name_button_label">Filename Base:</label>
-            <input id="filename2" type="text" value="Syntax-Analysis" class="file_name_button" onchange="filename2Changed(this.value)"> 
-        </div>
+        
 
         <div id="graph-container"></div>
 
@@ -120,100 +211,23 @@
             </thead>
             <tbody id="analysis-table-body"></tbody>
         </table>
-        <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
+
+        <div id="export-cex2-div">
+            <button id="export-cex2">Export CEX</button>
+            <label class="editor_name_button_label">Editor’s Name:</label>
+            <input id="editor-name2" type="text" value="Your Name" class="editor_name_button" onchange="editor2Changed(this.value)"> 
+            <label class="file_name_button_label">Filename Base:</label>
+            <input id="filename2" type="text" value="Syntax-Analysis" class="file_name_button" onchange="filename2Changed(this.value)"> 
+        </div>
+
+        <!-- <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
                 <button id="done-stage2" class="action-btn" style="background-color: #2e7d32; color: white;">
                     ✓ Move on from Stage 2 — Now Define Verbal Units (Stage 3)
                 </button>
             </div>
-    </div> <!-- id="stage2-section" -->
-
-    <div id="stage3-section">
-        <h2>Stage 3: Define Verbal Units</h2>
-        <p class="instructions">Define a verbal unit by selecting Syntactic Type, Semantic Type, and Nesting Level (1–5). Then click Confirm. </p>
-
-        
-        <div id="verbal-unit-form">
-            <label for="verbal-unit-id">Verbal Unit ID:</label>
-            <span id="verbal-unit-id"></span>
-            <label for="level">Level (1–5):
-                <span class="info-icon" data-tooltip="How deeply nested. An independent clause = 1; a subordinate clause = 2; a participle clause inside a subordinate clause = 3. Etc.">ℹ️</span>
-            </label>
-            <select id="level">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <label for="syntactic-type">
-                Syntactic Type:
-                <span class="info-icon" data-tooltip="Independent Clause: main verb of the sentence&#10;Subordinate Clause: introduced by a subordinating conjunction&#10;Circumstantial Participle: adverbial participle (time, cause, condition, etc.)&#10;Attributive Participle: modifies a noun like an adjective&#10;Indirect Statement with Infinitive / Participle: reported speech or thought">ℹ️</span>
-            </label>
-            <select id="syntactic-type">
-                <option value="Independent Clause">Independent Clause</option>
-                <option value="Subordinate Clause">Subordinate Clause</option>
-                <option value="Circumstantial Participle">Circumstantial Participle</option>
-                <option value="Attributive Participle">Attributive Participle</option>
-                <option value="Indirect Statement with Infinitive">Indirect Statement with Infinitive</option>
-                <option value="Indirect Statement with Participle">Indirect Statement with Participle</option>
-            </select>
-            <label for="semantic-type">Semantic Type: Syntactic Type:
-                <span class="info-icon" data-tooltip="Transitive: The verb/participle/infinitive has a direct object&#10;Intranstive: It does not have a direct object">ℹ️</span>
-            </label>
-            <select id="semantic-type">
-                <option value="Transitive">Transitive</option>
-                <option value="Intransitive">Intransitive</option>
-                <option value="Linking">Linking</option>
-            </select>
-            
-            <button id="confirm-btn">Confirm Verbal Unit</button>
-        </div>
-        <table id="verbal-unit-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Syntactic Type</th>
-                    <th>Semantic Type</th>
-                    <th>Level</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="verbal-unit-table-body"></tbody>
-        </table>
-         <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
-                <button id="done-stage3" class="action-btn" style="background-color: #2e7d32; color: white;">
-                    ✓ Move on from Stage 3 — Now Assign Tokens to Verbal Units (Stage 4)
-                </button>
-            </div>
-    </div> <!--  id="stage3-section" -->
-
-    <div id="stage4-section">
-        <h2>Stage 4: Assign Tokens to Verbal Units</h2>
-        <p class="instructions">Select a verbal unit from the menu “Assign to Verbal Unit:”. Click on tokens to add them to that verbal unit. A second click will remove them from the verbal unit. Use the “Assign to Verbal Unit” to change which verbal unit you are assigning tokens to. Repeat until all tokens have been assigned to one or more units.</p>
-
-        <div id="assignment-form">
-            <label for="verbal-unit-select">Assign Tokens to Verbal Unit ➟</label>
-            <select id="verbal-unit-select"></select>
-        </div>
-        <div id="assignment-display"></div>
-
-        <div id="export-cex1-div">
-            <button id="export-cex1">Export CEX</button>
-            <label class="editor_name_button_label">Editor’s Name:</label>
-            <input id="editor-name1" type="text" value="Your Name" class="editor_name_button"  onchange="editor1Changed(this.value)">
-            <label class="file_name_button_label">Filename Base:</label>
-            <input id="filename1" type="text" value="Syntax-Analysis" class="file_name_button" onchange="filename1Changed(this.value)"> 
-        </div>
-
-        <!--
-        <div class="stage-controls" style="margin-top: 1.5em; text-align: right;">
-            <button id="done-stage4" class="action-btn" style="background-color: #2e7d32; color: white;">
-                ✓ Move on from Stage 4 — Now Assign Part-of-Speech Tags to Tokens (Stage 5)
-            </button>
-        </div>
         -->
+    </div> <!-- id="stage4-section" -->
 
-    </div>  <!--  id="stage4-section" -->
 
     <script src="js/script.js"></script>
 </body>
